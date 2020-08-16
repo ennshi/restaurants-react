@@ -7,11 +7,12 @@ import Login from './Login';
 import Restaurant from './Restaurant';
 import RestaurantList from './RestaurantList';
 import SignUp from "./SignUp";
+import Navbar from "../../components/Navbar";
 
 export default () => {
     return (
         <>
-            <h1>UserPanel</h1>
+            <Navbar/>
             <Switch>
                 <Route path='/' exact component={Home} />
                 <Route path='/profile' component={Profile} />
