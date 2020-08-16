@@ -1,0 +1,45 @@
+.navbar {
+    display: flex;
+    background-color: #ffffff;
+}
+
+.navbar__spacer {
+    flex: 1;
+}
+
+.navbar__logo {
+    margin: 1rem;
+    padding: 0.5rem;
+    font-size: 1.6rem;
+    letter-spacing: 0.1rem;
+    font-weight: bold;
+}
+
+.navbar__item-list {
+    display: flex;
+    padding: 0 1rem;
+}
+
+.navbar__item {
+    margin: 0.8rem 1.3rem;
+    font-size: 1rem;
+    letter-spacing: 0.1rem;
+    color: var(--main-color);
+}
+
+a {
+    text-decoration: none;
+    color: var(--main-color);
+    transition: color 0.4s ease-in-out;
+}
+
+a:hover, .navbar__item--active a {
+    color: var(--main-color--lighter);
+}
+
+.navbar__item--active {
+    margin: 0.8rem 1.3rem;
+    font-size: 1rem;
+    letter-spacing: 0.1rem;
+}
+
