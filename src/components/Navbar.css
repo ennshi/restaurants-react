@@ -1,6 +1,7 @@
 .navbar {
     display: flex;
     background-color: #ffffff;
+    width: 100%;
 }
 
 .navbar__spacer {
@@ -16,7 +17,7 @@
 }
 
 .navbar__item-list {
-    display: flex;
+    display: none;
     padding: 0 1rem;
 }
 
@@ -30,7 +31,7 @@
 a {
     text-decoration: none;
     color: var(--main-color);
-    transition: color 0.4s ease-in-out;
+    transition: color 0.4s ease-in;
 }
 
 a:hover, .navbar__item--active a {
@@ -43,3 +44,19 @@ a:hover, .navbar__item--active a {
     letter-spacing: 0.1rem;
 }
 
+.navbar__menu-btn {
+    background-color: #ffffff;
+    font-size: 1.5rem;
+    color: var(--main-color);
+    width: 44px;
+    margin: 1rem;
+}
+
+@media only screen and (min-width: 400px) {
+    .navbar__menu-btn {
+        display: none;
+    }
+    .navbar__item-list {
+        display: flex;
+    }
+}
