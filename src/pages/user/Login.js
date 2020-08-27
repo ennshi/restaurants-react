@@ -8,20 +8,27 @@ export default () => {
         await console.log(JSON.stringify(values));
     };
     return (
+        <>
+        <div className="form__container form__container--dark">
         <Form
             onSubmit={onSubmit}
             render={({ handleSubmit, form, submitting, pristine, values }) => (
                 <form onSubmit={handleSubmit}>
-                    <FormInput name="email" type="email" label="Email" placeholder=""/>
-                    <FormInput name="password" type="password" label="Password" placeholder=""/>
-                    <div className="buttons">
-                        <button type="submit" disabled={submitting || pristine}>
-                            Submit
+                    <FormInput name="email" type="email" label="Email" placeholder="" class="input--basic"/>
+                    <FormInput name="password" type="password" label="Password" placeholder="" class="input--basic"/>
+                    <div className="btn__container">
+                        <button type="submit" disabled={submitting || pristine} className="btn btn--inactive">
+                            Log in
                         </button>
                     </div>
-                    No account yet? <Link to="/sign-up">Sign Up</Link>
+                    <div className="option__container">
+                        <span className="option__text">No account yet? </span>
+                        <Link to="/sign-up" className="option__link">Sign up</Link>
+                    </div>
                     <pre>{JSON.stringify(values, 0, 2)}</pre>
                 </form>
             )}/>
+        </div>
+        </>
     );
 };
