@@ -2,22 +2,38 @@ import React from 'react';
 import {Form} from 'react-final-form';
 import FormInput from "../../components/FormInput";
 import {Link} from "react-router-dom";
+import {required} from "../../helpers/formValidation";
 
 export default () => {
     const onSubmit = async values => {
         await console.log(JSON.stringify(values));
     };
     return (
-        <>
         <div className="form__container form__container--dark">
         <Form
             onSubmit={onSubmit}
-            render={({ handleSubmit, form, submitting, pristine, values }) => (
-                <form onSubmit={handleSubmit}>
-                    <FormInput name="email" type="email" label="Email" placeholder="" class="input--basic"/>
-                    <FormInput name="password" type="password" label="Password" placeholder="" class="input--basic"/>
+            render={(props) => {
+                const {handleSubmit, pristine, submitting, hasValidationErrors} = props;
+                const isDisabled = submitting || pristine || hasValidationErrors;
+                return (<form onSubmit={handleSubmit}>
+                    <FormInput
+                        name="email"
+                        type="email"
+                        label="Email"
+                        placeholder=""
+                        class="input--basic"
+                        validate={required}
+                    />
+                    <FormInput
+                        name="password"
+                        type="password"
+                        label="Password"
+                        placeholder=""
+                        class="input--basic"
+                        validate={required}
+                    />
                     <div className="btn__container">
-                        <button type="submit" disabled={submitting || pristine} className="btn btn--inactive">
+                        <button type="submit" disabled={isDisabled} className={isDisabled ? "btn btn--inactive" : "btn btn--red"}>
                             Log in
                         </button>
                     </div>
@@ -25,10 +41,8 @@ export default () => {
                         <span className="option__text">No account yet? </span>
                         <Link to="/sign-up" className="option__link">Sign up</Link>
                     </div>
-                    <pre>{JSON.stringify(values, 0, 2)}</pre>
-                </form>
-            )}/>
+                </form>);
+            }}/>
         </div>
-        </>
     );
 };
