@@ -28,13 +28,14 @@
     color: var(--main-color);
 }
 
-a {
+.navbar__item a, .navbar__logo a {
     text-decoration: none;
     color: var(--main-color);
     transition: color 0.4s ease-in;
 }
 
-a:hover, .navbar__item--active a {
+.navbar__item a:hover, .navbar__item--active a {
+    text-decoration: none;
     color: var(--main-color--lighter);
 }
 

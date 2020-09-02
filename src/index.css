@@ -3,6 +3,9 @@
 :root {
     --main-color: #223843;
     --main-color--lighter: #3796a1;
+    --accent-color: #f65f55;
+    --secondary-color: #7a7a7a;
+    --secondary-color--lighter: #bfbfbf;
 }
 
 body, html {
@@ -10,6 +13,7 @@ body, html {
     padding: 0;
     margin: 0;
     font-family: 'Solway', serif;
+    background-color: var(--main-color);
 }
 
 ul {
@@ -19,4 +23,8 @@ ul {
 button, button:focus, button:hover {
     border: none;
     outline: none;
+}
+
+input {
+    border: none;
 }
