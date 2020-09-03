@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import {Form} from "react-final-form";
 import FormInput from "../../components/FormInput";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {
     composeValidators,
     maxLength,
@@ -10,10 +10,22 @@ import {
     validEmail,
     validPassword
 } from "../../helpers/formValidation";
+import fetchData from "../../helpers/fetchData";
 
 export default () => {
+    const [errors, setErrors] = useState(null);
+    const history = useHistory();
     const onSubmit = async values => {
-        await console.log(JSON.stringify(values));
+        const fetchedData = await fetchData('http://localhost:8080/profile', {
+            crossDomain: true,
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(values)
+        });
+        if(!fetchedData.error && !fetchedData.response.errors) {
+            return history.push('/login');
+        }
+        fetchedData.error ? setErrors(['Server error. Please try again later.']) : setErrors(Object.values(fetchedData.response.errors));
     };
     return (
             <div className="form__container form__container--dark">
@@ -21,8 +33,8 @@ export default () => {
                     onSubmit={onSubmit}
                     validate={(values) => {
                         const errors = {};
-                        if(values['repeated-password'] !== values.password) {
-                            errors['repeated-password'] = 'Passwords must match';
+                        if(values.repeatedPassword !== values.password) {
+                            errors.repeatedPassword = 'Passwords must match';
                         }
                         return errors;
                     }}
@@ -30,6 +42,9 @@ export default () => {
                         const {handleSubmit, pristine, submitting, hasValidationErrors} = props;
                         const isDisabled = submitting || pristine || hasValidationErrors;
                         return (<form onSubmit={handleSubmit}>
+                            {errors ? <div className="form__error-block">
+                                {errors.map(error => <p className="form__error">{error}</p>)}
+                            </div> : ''}
                             <FormInput
                                 name="username"
                                 type="text"
@@ -55,7 +70,7 @@ export default () => {
                                 validate={composeValidators(required, validPassword)}
                             />
                             <FormInput
-                                name="repeated-password"
+                                name="repeatedPassword"
                                 type="password"
                                 label="Repeat Password"
                                 placeholder=""
