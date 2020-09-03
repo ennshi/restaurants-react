@@ -55,3 +55,8 @@
 .option__link:hover {
     color: var(--secondary-color--lighter);
 }
+
+.form__error {
+    color: var(--accent-color);
+    font-size: 0.7rem;
+}
