@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Form} from 'react-final-form';
 import FormInput from "../../components/FormInput";
 import {Link, useHistory} from "react-router-dom";
 import {required} from "../../helpers/formValidation";
 import fetchData from "../../helpers/fetchData";
+import {UserAuthContext} from "../../contexts/UserAuth";
 
 export default () => {
     const [errors, setErrors] = useState(null);
+    const { handleLogin } = useContext(UserAuthContext);
     const history = useHistory();
     const onSubmit = async values => {
         const fetchedData = await fetchData('http://localhost:8080/auth/login', {
@@ -16,10 +18,8 @@ export default () => {
             body: JSON.stringify(values)
         });
         if(!fetchedData.error && !fetchedData.response.errors) {
-            localStorage.clear();
-            localStorage.setItem('token', fetchedData.response.token);
-            localStorage.setItem('user', fetchedData.response.userId);
-            localStorage.setItem('expiration', `${Date.now() + 3600*1000}`);
+            const {token, userId} = fetchedData.response;
+            handleLogin({token, userId});
             return history.push('/');
         }
         fetchedData.error ? setErrors(['Server error. Please try again later.']) : setErrors(Object.values(fetchedData.response.errors));
