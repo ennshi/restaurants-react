@@ -1,9 +1,19 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import './Navbar.css';
+import {UserAuthContext} from "../contexts/UserAuth";
 
 export default (props) => {
-    const currentRoute = useHistory().location.pathname.toLowerCase();
+    const {isLoggedIn, checkLogin, handleLogout} = useContext(UserAuthContext);
+    useEffect(() => {
+        checkLogin();
+    }, []);
+    const history = useHistory();
+    const currentRoute = history.location.pathname.toLowerCase();
+    const onLogout = () => {
+        handleLogout();
+        history.push('/');
+    };
     return (
         <nav className="navbar">
             <div className="navbar__logo">
@@ -17,11 +27,12 @@ export default (props) => {
                 <li className={currentRoute === '/' ? "navbar__item--active" : "navbar__item"}>
                     <Link to={'/'}>Find Restaurant</Link>
                 </li>
-                <li className={currentRoute === '/profile' ? "navbar__item--active" : "navbar__item"}>
-                    <Link to={'/profile'}>Profile</Link>
-                </li>
+                {isLoggedIn ?
+                    <li className={currentRoute === '/profile' ? "navbar__item--active" : "navbar__item"}>
+                        <Link to={'/profile'}>Profile</Link>
+                    </li> : ''}
                 <li className={currentRoute === '/login' ? "navbar__item--active" : "navbar__item"}>
-                    <Link to={'/login'}>Login</Link>
+                    { isLoggedIn ? <a href="/" onClick={onLogout}>Logout</a> : <Link to={'/login'}>Login</Link>}
                 </li>
             </ul>
         </nav>
