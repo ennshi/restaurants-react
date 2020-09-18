@@ -1,0 +1,7 @@
+.profile-photo__container {
+    width: 35vw;
+}
+
+input[type="file"] {
+    display: none;
+}
