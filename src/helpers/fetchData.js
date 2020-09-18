@@ -8,7 +8,7 @@ export default async (url, options) => {
         errors.push('Server error. Please try again later.');
     }
     if(!errors.length && response.errors) {
-        errors.push([...Object.values(response.errors)]);
+        errors.push(...Object.values(response.errors));
     }
     return {response, errors};
 };
