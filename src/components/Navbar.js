@@ -1,13 +1,10 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import './Navbar.css';
 import {UserAuthContext} from "../contexts/UserAuth";
 
 export default (props) => {
-    const {isLoggedIn, checkLogin, handleLogout} = useContext(UserAuthContext);
-    useEffect(() => {
-        checkLogin();
-    }, []);
+    const {isLoggedIn, handleLogout} = useContext(UserAuthContext);
     const history = useHistory();
     const currentRoute = history.location.pathname.toLowerCase();
     const onLogout = () => {
