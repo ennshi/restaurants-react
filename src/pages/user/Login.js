@@ -17,12 +17,12 @@ export default () => {
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify(values)
         });
-        if(!fetchedData.error && !fetchedData.response.errors) {
+        if(!fetchedData.errors.length) {
             const {token, userId} = fetchedData.response;
             handleLogin({token, userId});
             return history.push('/');
         }
-        fetchedData.error ? setErrors(['Server error. Please try again later.']) : setErrors(Object.values(fetchedData.response.errors));
+        setErrors(fetchedData.errors);
     };
     return (
         <div className="form__container form__container--dark">
