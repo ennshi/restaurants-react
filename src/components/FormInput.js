@@ -5,7 +5,7 @@ import './FormInput.css';
 export default (props) => {
     return (
         <div className="input__container">
-           <label className="input__label">{props.label}</label>
+           <label className={props.classLabel || "input__label"}>{props.label}</label>
            <Field
                name={props.name}
                validate={props.validate}

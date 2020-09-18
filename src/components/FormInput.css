@@ -11,6 +11,10 @@
     font-size: 0.8rem;
 }
 
+.input__label--dark {
+    color: var(--main-color);
+}
+
 .input__error {
     width: 200px;
     color: var(--accent-color);
@@ -23,6 +27,13 @@
     border-radius: 0.2rem;
     height: 1.8rem;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.input--dark {
+    border-radius: 0.2rem;
+    height: 1.8rem;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background-color: var(--additional-light);
 }
 
 .input--basic:focus {
