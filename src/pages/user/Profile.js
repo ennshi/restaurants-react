@@ -23,7 +23,6 @@ const Profile = (props) => {
                 }
             });
             if (!fetchedData.errors.length) {
-                console.log(fetchedData.response);
                 return setUserData(fetchedData.response);
             }
             if(fetchedData.errors[0] === 'Authorization failed') {
@@ -34,16 +33,33 @@ const Profile = (props) => {
         };
         fetchingData();
     }, []);
-    const onSubmit = () => {
-
+    const onSubmit = async (values) => {
+        const result = await fetchData('http://localhost:8080/profile', {
+            crossDomain: true,
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${credentials.token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(values)
+        });
+        if (result.errors.length) {
+            if(result.errors[0] === 'Authorization failed') {
+                handleLogout();
+                return history.push('/login', {errors: [result.errors[0]]});
+            }
+            setErrors(result.errors);
+        }
     };
     return (
         <>
         <header>Profile Info</header>
         <div className="form__container form__container--profile">
             <ProfilePhoto />
+            {userData ?
             <Form
                 onSubmit={onSubmit}
+                initialValues={{username: userData.user.username, email: userData.user.email}}
                 render={(props) => {
                     const {handleSubmit, pristine, submitting, hasValidationErrors} = props;
                     const isDisabled = submitting || pristine || hasValidationErrors;
@@ -89,7 +105,7 @@ const Profile = (props) => {
                                 </button>
                             </div>
                     </form>);
-                }}/>
+                }}/> : ''}
         </div>
         </>
     );
