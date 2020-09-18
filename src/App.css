@@ -11,6 +11,18 @@
     align-items: center;
 }
 
+.form__container--profile {
+    width: 100%;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    margin: 0 auto;
+}
+
+.form__body--light {
+    width: 60vw;
+}
+
 .btn {
     width: 100%;
     border-radius: 0.2rem;
@@ -21,6 +33,7 @@
     margin: 0.3rem 0;
     line-height: 1.8rem;
     font-weight: bolder;
+    padding: 0.3rem;
 }
 
 .btn--inactive {
@@ -59,4 +72,11 @@
 .form__error {
     color: var(--accent-color);
     font-size: 0.7rem;
+}
+
+@media only screen and (min-width: 400px) {
+    .form__container--profile {
+        width: 70vw;
+        border-radius: 10px;
+    }
 }
