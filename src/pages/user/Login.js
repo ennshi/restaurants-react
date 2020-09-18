@@ -6,8 +6,9 @@ import {required} from "../../helpers/formValidation";
 import fetchData from "../../helpers/fetchData";
 import {UserAuthContext} from "../../contexts/UserAuth";
 
-export default () => {
-    const [errors, setErrors] = useState(null);
+export default props => {
+    console.log(props);
+    const [errors, setErrors] = useState(() => (props.location.state.errors ? props.location.state.errors : null));
     const { handleLogin } = useContext(UserAuthContext);
     const history = useHistory();
     const onSubmit = async values => {
