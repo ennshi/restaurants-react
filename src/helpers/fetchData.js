@@ -1,11 +1,14 @@
 export default async (url, options) => {
     let response;
-    let error;
+    const errors = [];
     try {
         const res = await fetch(url, options);
         response = await res.json();
     } catch(e) {
-        error = e;
+        errors.push('Server error. Please try again later.');
     }
-    return {response, error};
+    if(!errors.length && response.errors) {
+        errors.push([...Object.values(response.errors)]);
+    }
+    return {response, errors};
 };
