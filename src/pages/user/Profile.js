@@ -48,8 +48,9 @@ const Profile = (props) => {
                 handleLogout();
                 return history.push('/login', {errors: [result.errors[0]]});
             }
-            setErrors(result.errors);
+            return setErrors(result.errors);
         }
+        setUserData({...userData, user: result.response});
     };
     return (
         <>
