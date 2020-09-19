@@ -51,6 +51,19 @@
     cursor: pointer;
 }
 
+.btn--link {
+    color: var(--main-color);
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+    max-width: 200px;
+}
+
+.btn--link:hover {
+    text-decoration: underline;
+}
+
 .btn__container {
     margin: 0.5rem 0;
 }

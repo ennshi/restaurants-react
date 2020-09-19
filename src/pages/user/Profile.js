@@ -52,6 +52,26 @@ const Profile = (props) => {
         }
         setUserData({...userData, user: result.response});
     };
+    const onDeleteProfile = async () => {
+        if(window.confirm('Are you sure, you want to delete your profile?')) {
+            const result = await fetchData('http://localhost:8080/profile', {
+                crossDomain: true,
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${credentials.token}`
+                }
+            });
+            if (result.errors.length) {
+                if(result.errors[0] === 'Authorization failed') {
+                    handleLogout();
+                    return history.push('/login', {errors: [result.errors[0]]});
+                }
+                return setErrors(result.errors);
+            }
+            handleLogout();
+            history.push('/');
+        }
+    };
     return (
         <>
         <header>Profile Info</header>
@@ -109,6 +129,7 @@ const Profile = (props) => {
                                         </button>
                                     </div>
                                 </form>
+                                <button type="button" className="btn--link" onClick={onDeleteProfile}>Delete the profile and related data</button>
                             </div>);
                     }}/>
                     </>: ''}
