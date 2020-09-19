@@ -52,6 +52,7 @@ export default () => {
                                 placeholder=""
                                 class="input--basic"
                                 validate={composeValidators(required, minLength(5), maxLength(100))}
+                                classLabel="input__label input__label--light"
                             />
                             <FormInput
                                 name="email"
@@ -60,6 +61,7 @@ export default () => {
                                 placeholder=""
                                 class="input--basic"
                                 validate={composeValidators(required, validEmail)}
+                                classLabel="input__label input__label--light"
                             />
                             <FormInput
                                 name="password"
@@ -68,6 +70,7 @@ export default () => {
                                 placeholder=""
                                 class="input--basic"
                                 validate={composeValidators(required, validPassword)}
+                                classLabel="input__label input__label--light"
                             />
                             <FormInput
                                 name="repeatedPassword"
@@ -75,6 +78,7 @@ export default () => {
                                 label="Repeat Password"
                                 placeholder=""
                                 class="input--basic"
+                                classLabel="input__label input__label--light"
                             />
                             <div className="btn__container">
                                 <button type="submit" disabled={isDisabled} className={isDisabled ? "btn btn--inactive" : "btn btn--red"}>

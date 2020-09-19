@@ -64,48 +64,51 @@ const Profile = (props) => {
                     render={(props) => {
                         const {handleSubmit, pristine, submitting, hasValidationErrors} = props;
                         const isDisabled = submitting || pristine || hasValidationErrors;
-                        return (<form onSubmit={handleSubmit} className="form__body--light">
-                                {errors ? <div className="form__error-block">
-                                    {errors.map(error => <p className="form__error">{error}</p>)}
-                                </div> : ''}
-                                <FormInput
-                                    name="username"
-                                    type="username"
-                                    label="Username"
-                                    placeholder=""
-                                    class="input--dark"
-                                    classLabel="input__label--dark"
-                                />
-                                <FormInput
-                                    name="email"
-                                    type="email"
-                                    label="Email"
-                                    placeholder=""
-                                    class="input--dark"
-                                    classLabel="input__label--dark"
-                                />
-                                <FormInput
-                                    name="password"
-                                    type="password"
-                                    label="Password"
-                                    placeholder=""
-                                    class="input--dark"
-                                    classLabel="input__label--dark"
-                                />
-                                <FormInput
-                                    name="repeatedPassword"
-                                    type="password"
-                                    label="Repeat Password"
-                                    placeholder=""
-                                    class="input--dark"
-                                    classLabel="input__label--dark"
-                                />
-                                <div className="btn__container">
-                                    <button type="submit" disabled={isDisabled} className={isDisabled ? "btn btn--inactive" : "btn btn--red"}>
-                                        Save Changes
-                                    </button>
-                                </div>
-                        </form>);
+                        return (
+                            <div className="form__body--light">
+                                <form onSubmit={handleSubmit}>
+                                    {errors ? <div className="form__error-block">
+                                        {errors.map(error => <p className="form__error">{error}</p>)}
+                                    </div> : ''}
+                                    <FormInput
+                                        name="username"
+                                        type="username"
+                                        label="Username"
+                                        placeholder=""
+                                        class="input--dark"
+                                        classLabel="input__label input__label--dark"
+                                    />
+                                    <FormInput
+                                        name="email"
+                                        type="email"
+                                        label="Email"
+                                        placeholder=""
+                                        class="input--dark"
+                                        classLabel="input__label input__label--dark"
+                                    />
+                                    <FormInput
+                                        name="password"
+                                        type="password"
+                                        label="Password"
+                                        placeholder=""
+                                        class="input--dark"
+                                        classLabel="input__label input__label--dark"
+                                    />
+                                    <FormInput
+                                        name="repeatedPassword"
+                                        type="password"
+                                        label="Repeat Password"
+                                        placeholder=""
+                                        class="input--dark"
+                                        classLabel="input__label input__label--dark"
+                                    />
+                                    <div className="btn__container">
+                                        <button type="submit" disabled={isDisabled} className={isDisabled ? "btn btn--inactive" : "btn btn--red"}>
+                                            Save Changes
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>);
                     }}/>
                     </>: ''}
         </div>

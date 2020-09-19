@@ -5,10 +5,13 @@
 }
 
 .input__label {
-    color: #ffffff;
     margin-bottom: 0.2rem;
     letter-spacing: 0.1rem;
     font-size: 0.8rem;
+}
+
+.input__label--light {
+    color: #ffffff;
 }
 
 .input__label--dark {
@@ -38,4 +41,10 @@
 
 .input--basic:focus {
     outline: none;
+}
+
+@media only screen and (min-width: 900px) {
+    .input--basic, .input--dark {
+        width: 13rem;
+    }
 }

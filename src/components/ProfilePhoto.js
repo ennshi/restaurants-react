@@ -14,7 +14,7 @@ export default props => {
     };
     return (
         <div className="profile-photo__container">
-            <img src={photoUrl} alt="profile-photo"/>
+            <img src={photoUrl} alt="profile-photo" className="profile-photo__image"/>
             <Form onSubmit={onSubmit}
                   render={(props) => {
                       const {handleSubmit} = props;
