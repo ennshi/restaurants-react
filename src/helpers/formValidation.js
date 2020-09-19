@@ -12,4 +12,9 @@ const maxLength = num => value => (value.trim().length < num ? undefined : `Must
 const composeValidators = (...validators) => value =>
     validators.reduce((error, validator) => error || validator(value), undefined);
 
-module.exports = {composeValidators, required, validEmail, validPassword, maxLength, minLength};
+const invalidImage = img => {
+    const types = ['image/png', 'image/jpg', 'image/jpeg'];
+    return types.includes(img.type) ? undefined : 'Image must have jpg/png/jpeg format';
+};
+
+module.exports = {composeValidators, required, validEmail, validPassword, maxLength, minLength, invalidImage};
