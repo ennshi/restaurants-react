@@ -1,34 +1,59 @@
-import React from 'react';
-import {Form, Field} from 'react-final-form';
-import {OnChange} from 'react-final-form-listeners';
+import React, {useContext, useEffect, useState} from 'react';
+import {useHistory} from 'react-router-dom';
 import './ProfilePhoto.css';
+import {invalidImage} from "../helpers/formValidation";
+import fetchData from "../helpers/fetchData";
+import {UserAuthContext} from "../contexts/UserAuth";
+import {convertUrl} from "../helpers/pathConverters";
 
 export default props => {
-    let photoUrl;
-    if(props.url) {
-        const partUrl = props.url.split('/').slice(3, 5).join('/');
-        photoUrl = `http://localhost:8080/${partUrl}`;
-    }
-    const onSubmit = (val) => {
-
+    const { credentials, handleLogout } = useContext(UserAuthContext);
+    const [errors, setErrors] = useState(null);
+    const [photoUrl, setPhotoUrl] = useState('');
+    const history = useHistory();
+    useEffect(() => {
+        if(props.url) {
+            setPhotoUrl(convertUrl(props.url));
+        }
+    }, []);
+    const onSubmit = async (ev) => {
+        const img = ev.target.files[0];
+        const error = invalidImage(img);
+        if (error) {
+            return setErrors([error]);
+        }
+        setErrors(null);
+        const fData = new FormData();
+        fData.append('avatar', img);
+        const result = await fetchData('http://localhost:8080/profile/avatar', {
+            crossDomain: true,
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${credentials.token}`
+            },
+            body: fData
+        });
+        if (result.errors.length) {
+            if(result.errors[0] === 'Authorization failed') {
+                handleLogout();
+                return history.push('/login', {errors: [result.errors[0]]});
+            }
+            return setErrors(result.errors);
+        }
+        setPhotoUrl(convertUrl(result.response.photoUrl));
     };
     return (
         <div className="profile-photo__container">
             <img src={photoUrl} alt="profile-photo" className="profile-photo__image"/>
-            <Form onSubmit={onSubmit}
-                  render={(props) => {
-                      const {handleSubmit} = props;
-                      return (
-                          <form>
-                              <label className="btn btn--red">
-                                  <Field  name="avatar" component="input" type="file" />
-                                  Change Photo
-                              </label>
-                              <OnChange name="avatar">{(val) => onSubmit(val)}</OnChange>
-                          </form>
-                      );
-                  }}
-            />
+            <form>
+                {errors ? <div className="form__error-block">
+                    {errors.map((error, i) => <p className="form__error" key={i}>{error}</p>)}
+                </div> : ''}
+              <label className="btn btn--red">
+                  <input  name="avatar" type="file" onChange={(ev) => onSubmit(ev)}/>
+                  Change Photo
+              </label>
+            </form>
         </div>
     );
 };
