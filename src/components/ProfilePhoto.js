@@ -43,17 +43,17 @@ export default props => {
         setPhotoUrl(convertUrl(result.response.photoUrl));
     };
     return (
-        <div className="profile-photo__container">
+        <>
             <img src={photoUrl} alt="profile-photo" className="profile-photo__image"/>
             <form>
                 {errors ? <div className="form__error-block">
                     {errors.map((error, i) => <p className="form__error" key={i}>{error}</p>)}
                 </div> : ''}
-              <label className="btn btn--red">
+              <label className="btn--link">
                   <input  name="avatar" type="file" onChange={(ev) => onSubmit(ev)}/>
                   Change Photo
               </label>
             </form>
-        </div>
+        </>
     );
 };

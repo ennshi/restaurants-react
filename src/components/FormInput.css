@@ -19,7 +19,7 @@
 }
 
 .input__error {
-    width: 200px;
+    max-width: 200px;
     color: var(--accent-color);
     letter-spacing: 0.1rem;
     font-size: 0.6rem;
