@@ -39,7 +39,7 @@ export default () => {
             }
             { reviews ?
                 <> { reviews.length ?
-                    <div>
+                    <div className="user-review-list">
                         {reviews.map((review, i) => <Review type={'user'} review={review} key={i}/>)}
                     </div> :
                     <div>No Reviews</div>

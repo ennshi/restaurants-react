@@ -9,8 +9,7 @@ export default (props) => {
         setDisplayActions(!displayActions);
     };
     return (
-        <div className="review__container">
-            <div className="review__inner-container">
+            <div className="review__container">
                 {type === 'user' ? '' :
                     <img src="" className="review__photo"/>
                 }
@@ -23,17 +22,16 @@ export default (props) => {
                         </div>
                         <button onClick={toggleActions} className="btn--arrow">{displayActions ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}</button>
                     </div>
-                    <textarea className="review__text">{review.text}</textarea>
+                    <div className="review__text">{review.text}</div>
+                    {displayActions ?
+                        <div className="review__action-block">
+                            <ul>
+                                <li className="review__action-item">Change</li>
+                                <li className="review__action-item">Delete</li>
+                            </ul>
+                        </div> : ''
+                    }
                 </div>
             </div>
-            {displayActions ?
-                <div className="review__action-block">
-                    <ul>
-                        <li className="review__action-item">Change</li>
-                        <li className="review__action-item">Delete</li>
-                    </ul>
-                </div> : ''
-            }
-        </div>
     );
 };

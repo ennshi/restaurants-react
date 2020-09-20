@@ -1,17 +1,15 @@
 .review__container {
-    position: relative;
-    width: 100%;
     color: var(--main-color);
-    height: 8rem;
-}
-
-.review__inner-container {
     width: 100%;
-    position: absolute;
-    top: 0;
-    right: 0;
     display: flex;
     justify-content: space-around;
+    margin-bottom: 1rem;
+}
+
+.review__body {
+    position: relative;
+    width: 100%;
+    margin-right: 5vw;
 }
 
 .review__header {
@@ -36,10 +34,14 @@
     letter-spacing: 0.05rem;
 }
 
+.review__text {
+    width: 100%;
+}
+
 .review__action-block {
     position: absolute;
     top: 1.2rem;
-    left: 0;
+    right: 0;
     width: 5rem;
     z-index: 100;
 }
