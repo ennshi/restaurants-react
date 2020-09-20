@@ -1,0 +1,5 @@
+.user-review-list__container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
