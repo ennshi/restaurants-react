@@ -9,7 +9,7 @@
 .review__body {
     position: relative;
     width: 100%;
-    margin-right: 5vw;
+    margin: 0 3vw;
 }
 
 .review__header {
@@ -58,5 +58,7 @@
 
 .review__action-item {
     text-align: center;
-    padding: 0.3rem;
+    padding: 1rem;
+    cursor: pointer;
+    border-bottom: var(--secondary-color--lighter) solid 1px;
 }
