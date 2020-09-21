@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './Review.css';
 import {dateConverter} from "../helpers/dateConverters";
+import ReadMore from "./ReadMore";
 
 export default (props) => {
     const {type, review} = props;
@@ -22,7 +23,7 @@ export default (props) => {
                         </div>
                         <button onClick={toggleActions} className="btn--arrow">{displayActions ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}</button>
                     </div>
-                    <div className="review__text">{review.text}</div>
+                    <div className="review__text"><ReadMore text={review.text} numChar={100} readMoreText={'Read More'} /></div>
                     {displayActions ?
                         <div className="review__action-block">
                             <ul>
