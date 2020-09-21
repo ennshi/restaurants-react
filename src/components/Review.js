@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './Review.css';
-import {dateConverter} from "../helpers/dateConverters";
+import {strToDate, strToDDMMYYYY} from "../helpers/dateConverters";
 import ReadMore from "./ReadMore";
 
 export default (props) => {
@@ -9,6 +9,7 @@ export default (props) => {
     const toggleActions = () => {
         setDisplayActions(!displayActions);
     };
+    const isModifiable = type === 'admin' || (Date.now() - strToDate(review.createdAt) <= 24 * 60 * 60 * 1000);
     return (
             <div className="review__container">
                 {type === 'user' ? '' :
@@ -19,12 +20,19 @@ export default (props) => {
                         <div className="review__subheader">
                             <span className="review__name">{type === 'user' ? review.restaurant.name : review.creator.username}</span>
                             <span>{review.rating}/5</span>
-                            <span className="review__date">{dateConverter(review.updatedAt)}</span>
+                            <span className="review__date">{strToDDMMYYYY(review.updatedAt)}</span>
                         </div>
-                        <button onClick={toggleActions} className="btn--arrow">{displayActions ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}</button>
+                        { isModifiable ?
+                            <button onClick={toggleActions} className="btn--arrow">
+                                { displayActions ?
+                                    <i className="fas fa-angle-up"></i> :
+                                    <i className="fas fa-angle-down"></i>
+                                }
+                            </button> : ''
+                        }
                     </div>
                     <div className="review__text"><ReadMore text={review.text} numChar={100} readMoreText={'Read More'} /></div>
-                    {displayActions ?
+                    {(displayActions && isModifiable) ?
                         <div className="review__action-block">
                             <ul>
                                 <li className="review__action-item">Change</li>
