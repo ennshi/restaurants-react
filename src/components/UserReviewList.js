@@ -31,6 +31,9 @@ export default () => {
         };
         fetchingReviews();
     }, []);
+    const onDeleteReview = (id) => {
+        setReviews(reviews.filter(review => review._id !== id));
+    };
     return (
         <div className="user-review-list__container">
             {errors ? <div className="form__error-block">
@@ -40,7 +43,7 @@ export default () => {
             { reviews ?
                 <> { reviews.length ?
                     <div className="user-review-list">
-                        {reviews.map((review, i) => <Review type={'user'} review={review} key={i}/>)}
+                        {reviews.map((review, i) => <Review type={'user'} reviewData={review} key={i} onDeleteReview={onDeleteReview}/>)}
                     </div> :
                     <div>No Reviews</div>
                 }
