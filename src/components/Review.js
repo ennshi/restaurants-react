@@ -2,14 +2,27 @@ import React, {useState} from 'react';
 import './Review.css';
 import {strToDate, strToDDMMYYYY} from "../helpers/dateConverters";
 import ReadMore from "./ReadMore";
+import ReviewForm from "./ReviewForm";
 
-export default (props) => {
-    const {type, review} = props;
+export default ({type, reviewData}) => {
+    const [review, setReview] = useState(reviewData);
     const [displayActions, setDisplayActions] = useState(false);
+    const [editingMode, setEditingMode] = useState(false);
     const toggleActions = () => {
         setDisplayActions(!displayActions);
     };
-    const isModifiable = type === 'admin' || (Date.now() - strToDate(review.createdAt) <= 24 * 60 * 60 * 1000);
+    const isModifiable = type === 'admin' || (Date.now() - strToDate(review.createdAt) <= 48 * 60 * 60 * 1000);
+    const openEditingMode = () => {
+        setDisplayActions(false);
+        setEditingMode(!editingMode);
+    };
+    const resetChanges = () => {
+        setEditingMode(false);
+    };
+    const onUpdate = (review) => {
+        setEditingMode(false);
+        setReview(review);
+    };
     return (
             <div className="review__container">
                 {type === 'user' ? '' :
@@ -19,7 +32,7 @@ export default (props) => {
                     <div className="review__header">
                         <div className="review__subheader">
                             <span className="review__name">{type === 'user' ? review.restaurant.name : review.creator.username}</span>
-                            <span>{review.rating}/5</span>
+                            { editingMode ? '' : <span>{review.rating}/5</span> }
                             <span className="review__date">{strToDDMMYYYY(review.updatedAt)}</span>
                         </div>
                         { isModifiable ?
@@ -31,11 +44,14 @@ export default (props) => {
                             </button> : ''
                         }
                     </div>
-                    <div className="review__text"><ReadMore text={review.text} numChar={100} readMoreText={'Read More'} /></div>
+                    {editingMode ?
+                        <ReviewForm updateReview={onUpdate} onReset={resetChanges} review={review} /> :
+                        <div className="review__text"><ReadMore text={review.text} numChar={100} readMoreText={'Read More'} /></div>
+                    }
                     {(displayActions && isModifiable) ?
                         <div className="review__action-block">
                             <ul>
-                                <li className="review__action-item">Change</li>
+                                <li className="review__action-item" onClick={openEditingMode}>Change</li>
                                 <li className="review__action-item">Delete</li>
                             </ul>
                         </div> : ''
