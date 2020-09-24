@@ -47,6 +47,7 @@ export default props => {
                         placeholder=""
                         class="input--basic"
                         validate={required}
+                        classLabel="input__label input__label--light"
                     />
                     <FormInput
                         name="password"
@@ -55,6 +56,7 @@ export default props => {
                         placeholder=""
                         class="input--basic"
                         validate={required}
+                        classLabel="input__label input__label--light"
                     />
                     <div className="btn__container">
                         <button type="submit" disabled={isDisabled} className={isDisabled ? "btn btn--100 btn--inactive" : "btn btn--100 btn--red"}>
