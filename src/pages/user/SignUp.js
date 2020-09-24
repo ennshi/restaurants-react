@@ -81,7 +81,7 @@ export default () => {
                                 classLabel="input__label input__label--light"
                             />
                             <div className="btn__container">
-                                <button type="submit" disabled={isDisabled} className={isDisabled ? "btn btn--inactive" : "btn btn--red"}>
+                                <button type="submit" disabled={isDisabled} className={isDisabled ? "btn btn--100 btn--inactive" : "btn btn--100 btn--red"}>
                                     Sign up
                                 </button>
                             </div>

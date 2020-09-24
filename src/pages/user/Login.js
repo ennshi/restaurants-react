@@ -53,7 +53,7 @@ export default props => {
                         validate={required}
                     />
                     <div className="btn__container">
-                        <button type="submit" disabled={isDisabled} className={isDisabled ? "btn btn--inactive" : "btn btn--red"}>
+                        <button type="submit" disabled={isDisabled} className={isDisabled ? "btn btn--100 btn--inactive" : "btn btn--100 btn--red"}>
                             Log in
                         </button>
                     </div>

@@ -85,7 +85,7 @@ const Profile = (props) => {
                 <>
                 <div className="profile-photo__container">
                     <ProfilePhoto url={userData.user.photoUrl}/>
-                    <button className="btn btn--red" onClick={toggleReviews}>{displayReviews ? 'My Info' : `My Reviews (${userData.reviews.length})`}</button>
+                    <button className="btn btn--100 btn--red" onClick={toggleReviews}>{displayReviews ? 'My Info' : `My Reviews (${userData.reviews.length})`}</button>
                 </div>
                     { displayReviews ? <UserReviewList /> :
                         <Form
@@ -134,7 +134,7 @@ const Profile = (props) => {
                                             />
                                             <div className="btn__container">
                                                 <button type="submit" disabled={isDisabled}
-                                                        className={isDisabled ? "btn btn--inactive" : "btn btn--red"}>
+                                                        className={isDisabled ? "btn btn--100 btn--inactive" : "btn btn--100 btn--red"}>
                                                     Save Changes
                                                 </button>
                                             </div>
