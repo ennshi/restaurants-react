@@ -7,8 +7,12 @@ import fetchData from "../../helpers/fetchData";
 import {UserAuthContext} from "../../contexts/UserAuth";
 
 export default props => {
-    console.log(props);
-    const [errors, setErrors] = useState(() => (props.location.state.errors ? props.location.state.errors : null));
+    const [errors, setErrors] = useState(() => {
+        if(props.location.state) {
+            return props.location.state.errors ? props.location.state.errors : null;
+        }
+        return null;
+    });
     const { handleLogin } = useContext(UserAuthContext);
     const history = useHistory();
     const onSubmit = async values => {
