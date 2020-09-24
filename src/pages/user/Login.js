@@ -38,7 +38,7 @@ export default props => {
                 const isDisabled = submitting || pristine || hasValidationErrors;
                 return (<form onSubmit={handleSubmit}>
                     {errors ? <div className="form__error-block">
-                        {errors.map(error => <p className="form__error">{error}</p>)}
+                        {errors.map((error, i) => <p className="form__error" key={i}>{error}</p>)}
                     </div> : ''}
                     <FormInput
                         name="email"
