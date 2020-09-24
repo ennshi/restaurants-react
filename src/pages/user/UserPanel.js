@@ -9,6 +9,7 @@ import RestaurantList from './RestaurantList';
 import SignUp from "./SignUp";
 import Navbar from "../../components/Navbar";
 import MobileNav from "../../components/MobileNav";
+import {UserAuthProvider} from "../../contexts/UserAuth";
 
 
 export default () => {
@@ -16,9 +17,9 @@ export default () => {
     const toggleMenu = () => {
         setMenuDisplay(!menuDisplayed);
     };
-    const mobileNavigation = menuDisplayed? <MobileNav toggleMenu={toggleMenu}/> : '';
+    const mobileNavigation = menuDisplayed ? <MobileNav toggleMenu={toggleMenu}/> : '';
     return (
-        <>
+        <UserAuthProvider>
             <Navbar toggleMenu={toggleMenu} menuDisplayed={menuDisplayed}/>
             {mobileNavigation}
             <Switch>
@@ -29,6 +30,6 @@ export default () => {
                 <Route path='/restaurants/:restaurantId' component={Restaurant} />
                 <Route path='/restaurants' component={RestaurantList} />
             </Switch>
-        </>
+        </UserAuthProvider>
     );
 };
