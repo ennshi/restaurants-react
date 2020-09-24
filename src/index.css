@@ -33,3 +33,14 @@ input {
 label {
     display: block;
 }
+
+textarea {
+    resize: none;
+    border: none;
+    font-family: 'Solway', serif;
+}
+
+ul, li {
+    margin: 0;
+    padding: 0;
+}

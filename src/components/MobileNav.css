@@ -6,6 +6,7 @@
     position: fixed;
     display: flex;
     flex-direction: column;
+    z-index: 200;
 }
 
 .side-drawer__item-list {
