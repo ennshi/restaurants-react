@@ -44,7 +44,7 @@ export default props => {
     };
     return (
         <>
-            <img src={photoUrl} alt="profile-photo" className="profile-photo__image"/>
+            <img src={photoUrl} alt="user" className="profile-photo__image"/>
             <form>
                 {errors ? <div className="form__error-block">
                     {errors.map((error, i) => <p className="form__error" key={i}>{error}</p>)}

@@ -52,7 +52,7 @@ export default ({type, reviewData, onDeleteReview}) => {
     return (
             <div className="review__container">
                 {type === 'user' ? '' :
-                    <img src="" className="review__photo"/>
+                    <img src="" className="review__photo" alt="user"/>
                 }
                 <div className="review__body">
                     <div className="review__header">
