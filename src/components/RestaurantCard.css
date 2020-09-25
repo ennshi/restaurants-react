@@ -1,0 +1,10 @@
+.restaurant-card__container {
+    margin-top: 0.5rem;
+    min-width: 10rem;
+    text-align: center;
+}
+
+.restaurant-card__photo {
+    min-width: 10rem;
+    max-width: 15rem;
+}
