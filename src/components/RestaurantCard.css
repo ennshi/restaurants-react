@@ -1,10 +1,37 @@
 .restaurant-card__container {
-    margin-top: 0.5rem;
+    max-width: 15rem;
+    margin: 1rem;
     min-width: 10rem;
     text-align: center;
+}
+
+.restaurant-card__container a {
+    text-decoration: none;
+    color: var(--main-color);
 }
 
 .restaurant-card__photo {
     min-width: 10rem;
     max-width: 15rem;
+}
+
+.restaurant-card__header {
+    margin: 0.2rem;
+}
+
+.restaurant-card__text {
+    margin: 0.2rem;
+    font-size: 0.8rem;
+}
+
+.restaurant-card__rating-block {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 0.3rem;
+}
+
+.restaurant-card__rating i {
+    color: var(--accent-color);
 }
