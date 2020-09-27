@@ -4,10 +4,9 @@ import {convertUrl} from "../helpers/pathConverters";
 import {Link} from 'react-router-dom';
 
 export default ({restaurant}) => {
-    console.log(restaurant);
     return (
         <div className="restaurant-card__container">
-            <Link to={`http://localhost:8080/restaurant/${restaurant._id}`}>
+            <Link to={`restaurant/${restaurant._id}`}>
                 <img src={convertUrl(restaurant.photoUrl)} className="restaurant-card__photo" />
                 <h4 className="restaurant-card__header">{restaurant.name}</h4>
                 <p className="restaurant-card__text">{restaurant.location.formattedAddress}</p>
