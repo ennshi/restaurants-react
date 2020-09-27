@@ -28,6 +28,8 @@ button, button:focus, button:hover {
 
 input {
     border: none;
+    font-family: 'Solway', serif;
+    font-size: 1.1rem;
 }
 
 label {
