@@ -1,0 +1,25 @@
+.sorting__container--100 {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sorting__container--light {
+    background-color: #ffffff;
+}
+
+.sorting__select {
+    border-radius: 5px;
+    border: none;
+    background-color: var(--additional-light);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 0.2rem;
+    margin: 1rem 5vw;
+    font-family: 'Solway', serif;
+    letter-spacing: 0.05rem;
+    color: var(--main-color);
+}
+
+.sorting__select:focus {
+    outline: none;
+}
