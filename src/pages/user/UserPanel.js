@@ -26,7 +26,7 @@ export default () => {
                 <Route path='/profile' component={Profile} />
                 <Route path='/login' component={Login} />
                 <Route path='/sign-up' component={SignUp} />
-                <Route path='/restaurants/:restaurantId' component={Restaurant} />
+                <Route path='/restaurant/:restaurantId' component={Restaurant} />
             </Switch>
         </UserAuthProvider>
     );
