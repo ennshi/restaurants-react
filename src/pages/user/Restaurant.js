@@ -3,6 +3,7 @@ import {useParams} from 'react-router-dom';
 import fetchData from "../../helpers/fetchData";
 import {convertUrl} from "../../helpers/pathConverters";
 import './Restaurant.css';
+import Map from "../../components/Map";
 
 export default () => {
     const {restaurantId} = useParams();
@@ -41,7 +42,8 @@ export default () => {
                             <span className="restaurant__reviews">{restaurant.numReviews} reviews</span>
                         </div>
                         <div className="restaurant__map-block">
-                            <span>{restaurant.location.formattedAddress}</span>
+                            <Map lat={restaurant.location.coordinates[1]} lng={restaurant.location.coordinates[0]}/>
+                            <a href={`http://maps.google.com/maps/place/${restaurant.location.coordinates[1]},${restaurant.location.coordinates[0]}`} target="_blank">{restaurant.location.formattedAddress}</a>
                         </div>
                     </div>
                 </div>
