@@ -6,6 +6,7 @@ import ReviewForm from "./ReviewForm";
 import fetchData from "../helpers/fetchData";
 import {useHistory} from "react-router-dom";
 import {UserAuthContext} from "../contexts/UserAuth";
+import {convertUrl} from "../helpers/pathConverters";
 
 export default ({type, reviewData, onDeleteReview}) => {
     const [review, setReview] = useState(reviewData);
@@ -17,7 +18,10 @@ export default ({type, reviewData, onDeleteReview}) => {
     const toggleActions = () => {
         setDisplayActions(!displayActions);
     };
-    const isModifiable = type === 'admin' || (Date.now() - strToDate(review.createdAt) <= 48 * 60 * 60 * 1000);
+    const isModifiable = type === 'admin' ||
+        (credentials.userId &&
+            (Date.now() - strToDate(review.createdAt) <= 48 * 60 * 60 * 1000) &&
+            review.creator._id === credentials.userId);
     const openEditingMode = () => {
         setDisplayActions(false);
         setEditingMode(!editingMode);
@@ -52,7 +56,7 @@ export default ({type, reviewData, onDeleteReview}) => {
     return (
             <div className="review__container">
                 {type === 'user' ? '' :
-                    <img src="" className="review__photo" alt="user"/>
+                    <img src={convertUrl(review.creator.photoUrl)} className="review__photo" alt="user"/>
                 }
                 <div className="review__body">
                     <div className="review__header">
