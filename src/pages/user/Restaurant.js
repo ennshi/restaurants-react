@@ -4,6 +4,7 @@ import fetchData from "../../helpers/fetchData";
 import {convertUrl} from "../../helpers/pathConverters";
 import './Restaurant.css';
 import Map from "../../components/Map";
+import ReviewList from "../../components/ReviewList";
 
 export default () => {
     const {restaurantId} = useParams();
@@ -19,7 +20,6 @@ export default () => {
                 }
             });
             if (!fetchedData.errors.length) {
-                console.log(fetchedData.response);
                 return setRestaurant({...fetchedData.response.restaurant, ...fetchedData.response.reviewsStat});
             }
             setErrors(fetchedData.errors);
@@ -38,13 +38,20 @@ export default () => {
                     </div>
                     <div className="restaurant__additional-info">
                         <div className="restaurant__stat">
-                            <span className="restaurant__rating"><i className="fas fa-asterisk"></i>{restaurant.numReviews ? restaurant.rating : '-'}/5</span>
+                            <span className="restaurant__rating"><i className="fas fa-asterisk"></i> {restaurant.numReviews ? restaurant.rating : '-'}/5</span>
                             <span className="restaurant__reviews">{restaurant.numReviews} reviews</span>
+                            <button className="btn btn--red">Add Review</button>
                         </div>
                         <div className="restaurant__map-block">
                             <Map lat={restaurant.location.coordinates[1]} lng={restaurant.location.coordinates[0]}/>
                             <a href={`http://maps.google.com/maps/place/${restaurant.location.coordinates[1]},${restaurant.location.coordinates[0]}`} target="_blank">{restaurant.location.formattedAddress}</a>
                         </div>
+                    </div>
+                    <div className="restaurant__review-block">
+                        <header className="restaurant__review-header">
+                            <h2>Reviews</h2>
+                        </header>
+                        <ReviewList type="restaurant" accessedObj={{restaurantId: restaurant._id}}/>
                     </div>
                 </div>
             </main> : ''
