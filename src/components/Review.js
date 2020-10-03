@@ -13,13 +13,13 @@ export default ({type, reviewData, onDeleteReview}) => {
     const [displayActions, setDisplayActions] = useState(false);
     const [editingMode, setEditingMode] = useState(false);
     const [errors, setErrors] = useState(null);
-    const {credentials, handleLogout} = useContext(UserAuthContext);
+    const {isLoggedIn, credentials, handleLogout} = useContext(UserAuthContext);
     const history = useHistory();
     const toggleActions = () => {
         setDisplayActions(!displayActions);
     };
     const isModifiable = type === 'admin' ||
-        (credentials.userId &&
+        (isLoggedIn &&
             (Date.now() - strToDate(review.createdAt) <= 48 * 60 * 60 * 1000) &&
             review.creator._id === credentials.userId);
     const openEditingMode = () => {
@@ -79,7 +79,7 @@ export default ({type, reviewData, onDeleteReview}) => {
                     </div>
                     {editingMode ?
                         <ReviewForm updateReview={onUpdate} onReset={resetChanges} review={review} /> :
-                        <div className="review__text"><ReadMore text={review.text} numChar={100} readMoreText={'Read More'} /></div>
+                        <div className="review__text"><ReadMore text={review.text} key={review.text} numChar={100} readMoreText={'Read More'} /></div>
                     }
                     {(displayActions && isModifiable) ?
                         <div className="review__action-block">
