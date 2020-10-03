@@ -19,7 +19,7 @@
     margin: 0 auto;
 }
 
-.form__body--light, .user-review-list__container {
+.form__body--light {
     width: 60vw;
     display: flex;
     flex-direction: column;
@@ -36,7 +36,7 @@
     margin: 0.8rem 0;
     line-height: 1.8rem;
     font-weight: bolder;
-    padding: 0.2rem;
+    padding: 0.2rem 0.6rem;
     text-align: center;
 }
 

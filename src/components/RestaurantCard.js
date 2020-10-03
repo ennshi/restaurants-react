@@ -11,7 +11,7 @@ export default ({restaurant}) => {
                 <h4 className="restaurant-card__header">{restaurant.name}</h4>
                 <p className="restaurant-card__text">{restaurant.location.formattedAddress}</p>
                 <div className="restaurant-card__rating-block">
-                    <span className="restaurant-card__rating"><i className="fas fa-asterisk"></i>{restaurant.avgRating ? `${restaurant.avgRating}/5` : '-/5'}</span>
+                    <span className="restaurant-card__rating"><i className="fas fa-asterisk"></i>{restaurant.avgRating ? `${restaurant.avgRating.toFixed(1)}/5` : '-/5'}</span>
                     <span className="restaurant-card__reviews">{restaurant.reviews.length} reviews</span>
                 </div>
             </Link>

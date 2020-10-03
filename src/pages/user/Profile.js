@@ -6,7 +6,7 @@ import {UserAuthContext} from "../../contexts/UserAuth";
 import FormInput from "../../components/FormInput";
 import ProfilePhoto from "../../components/ProfilePhoto";
 import fetchData from "../../helpers/fetchData";
-import UserReviewList from "../../components/UserReviewList";
+import ReviewList from "../../components/ReviewList";
 
 const Profile = (props) => {
     const { credentials, handleLogout } = useContext(UserAuthContext);
@@ -14,6 +14,13 @@ const Profile = (props) => {
     const [userData, setUserData] = useState(null);
     const [displayReviews, setDisplayReviews] = useState(false);
     const history = useHistory();
+    const handleErrors = (fetchedData) => {
+        if(fetchedData.errors[0] === 'Authorization failed') {
+            handleLogout();
+            return history.push('/login', {errors: [fetchedData.errors[0]]});
+        }
+        setErrors(fetchedData.errors);
+    };
     useEffect(() => {
         const fetchingData = async () => {
             const fetchedData = await fetchData('http://localhost:8080/profile', {
@@ -27,11 +34,7 @@ const Profile = (props) => {
             if (!fetchedData.errors.length) {
                 return setUserData(fetchedData.response);
             }
-            if(fetchedData.errors[0] === 'Authorization failed') {
-                handleLogout();
-                return history.push('/login', {errors: [fetchedData.errors[0]]});
-            }
-            setErrors(fetchedData.errors);
+            handleErrors(fetchedData);
         };
         fetchingData();
     }, []);
@@ -45,14 +48,10 @@ const Profile = (props) => {
             },
             body: JSON.stringify(values)
         });
-        if (result.errors.length) {
-            if(result.errors[0] === 'Authorization failed') {
-                handleLogout();
-                return history.push('/login', {errors: [result.errors[0]]});
-            }
-            return setErrors(result.errors);
+        if (!result.errors.length) {
+            return setUserData({...userData, user: result.response});
         }
-        setUserData({...userData, user: result.response});
+        handleErrors(result);
     };
     const onDeleteProfile = async () => {
         if(window.confirm('Are you sure, you want to delete your profile?')) {
@@ -63,15 +62,11 @@ const Profile = (props) => {
                     'Authorization': `Bearer ${credentials.token}`
                 }
             });
-            if (result.errors.length) {
-                if(result.errors[0] === 'Authorization failed') {
-                    handleLogout();
-                    return history.push('/login', {errors: [result.errors[0]]});
-                }
-                return setErrors(result.errors);
+            if (!result.errors.length) {
+                handleLogout();
+                return history.push('/');
             }
-            handleLogout();
-            history.push('/');
+            handleErrors(result);
         }
     };
     const toggleReviews = () => {
@@ -87,7 +82,7 @@ const Profile = (props) => {
                     <ProfilePhoto url={userData.user.photoUrl}/>
                     <button className="btn btn--100 btn--red" onClick={toggleReviews}>{displayReviews ? 'My Info' : `My Reviews (${userData.reviews.length})`}</button>
                 </div>
-                    { displayReviews ? <UserReviewList /> :
+                    { displayReviews ? <ReviewList type='user' accessedObj={{userId: credentials.userId, token: credentials.token, handleErrors}}/> :
                         <Form
                             onSubmit={onSubmit}
                             initialValues={{username: userData.user.username, email: userData.user.email}}
