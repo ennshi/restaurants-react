@@ -2,6 +2,8 @@
     display: flex;
     background-color: #ffffff;
     width: 100%;
+    position: sticky;
+    top: 0;
 }
 
 .navbar__spacer {
@@ -54,9 +56,14 @@
 }
 
 @media only screen and (min-width: 620px) {
+    .navbar {
+        position: static;
+    }
+
     .navbar__menu-btn {
         display: none;
     }
+
     .navbar__item-list {
         display: flex;
     }
