@@ -1,3 +1,24 @@
+.heading__container {
+    font-size: 0.7rem;
+    text-align: center;
+    letter-spacing: 0.1rem;
+    padding: 1rem 0;
+    box-sizing: border-box;
+}
+
+.heading {
+    margin: 0;
+}
+
+.heading__container--light {
+    color: #ffffff;
+}
+
+.heading__container--accent {
+    background-color: var(--accent-color);
+    color: #ffffff;
+}
+
 .form__container {
     width: 100%;
     padding: 3rem 0;
