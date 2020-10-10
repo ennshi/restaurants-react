@@ -1,0 +1,15 @@
+.featured-restaurants__container {
+    background-color: #ffffff;
+    display: flex;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    padding: 1rem 0 1.5rem 0;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+@media only screen and (min-width: 60rem) {
+    .featured-restaurants__container {
+        justify-content: center;
+    }
+}
