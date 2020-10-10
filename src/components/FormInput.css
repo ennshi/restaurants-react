@@ -43,8 +43,13 @@
     outline: none;
 }
 
-@media only screen and (min-width: 900px) {
+
+.input--basic, .input--dark {
+    max-width: 13rem;
+}
+
+@media only screen and (max-width: 390px){
     .input--basic, .input--dark {
-        width: 13rem;
+        width: 11rem;
     }
 }
