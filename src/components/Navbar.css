@@ -12,7 +12,7 @@
 
 .navbar__logo {
     margin: 1rem;
-    padding: 0.5rem;
+    padding: 0.3rem;
     font-size: 1.6rem;
     letter-spacing: 0.1rem;
     font-weight: bold;
@@ -24,7 +24,7 @@
 }
 
 .navbar__item {
-    margin: 0.8rem 1.3rem;
+    padding: 1.5rem 1.3rem;
     font-size: 1rem;
     letter-spacing: 0.1rem;
     color: var(--main-color);
@@ -42,7 +42,7 @@
 }
 
 .navbar__item--active {
-    margin: 0.8rem 1.3rem;
+    padding: 1.5rem 1.3rem;
     font-size: 1rem;
     letter-spacing: 0.1rem;
 }
