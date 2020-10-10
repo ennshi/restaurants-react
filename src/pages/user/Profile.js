@@ -74,7 +74,9 @@ const Profile = (props) => {
     };
     return (
         <>
-        <header>Profile Info</header>
+        <header className="heading__container heading__container--light">
+            <h1 className="heading">Profile Info</h1>
+        </header>
         <div className="form__container form__container--profile">
             {userData ?
                 <>
