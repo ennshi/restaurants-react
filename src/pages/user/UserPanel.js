@@ -9,6 +9,7 @@ import SignUp from "./SignUp";
 import Navbar from "../../components/Navbar";
 import MobileNav from "../../components/MobileNav";
 import {UserAuthProvider} from "../../contexts/UserAuth";
+import Footer from "../../components/Footer";
 
 
 export default () => {
@@ -28,6 +29,7 @@ export default () => {
                 <Route path='/sign-up' component={SignUp} />
                 <Route path='/restaurant/:restaurantId' component={Restaurant} />
             </Switch>
+            <Footer/>
         </UserAuthProvider>
     );
 };
