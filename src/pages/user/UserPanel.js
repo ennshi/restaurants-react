@@ -10,6 +10,7 @@ import Navbar from "../../components/Navbar";
 import MobileNav from "../../components/MobileNav";
 import {UserAuthProvider} from "../../contexts/UserAuth";
 import Footer from "../../components/Footer";
+import NotFound from "./NotFound";
 
 
 export default () => {
@@ -28,6 +29,7 @@ export default () => {
                 <Route path='/login' component={Login} />
                 <Route path='/sign-up' component={SignUp} />
                 <Route path='/restaurant/:restaurantId' component={Restaurant} />
+                <Route component={NotFound} />
             </Switch>
             <Footer/>
         </UserAuthProvider>
