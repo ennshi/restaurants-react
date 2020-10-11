@@ -1,3 +1,24 @@
+.heading__container {
+    font-size: 0.7rem;
+    text-align: center;
+    letter-spacing: 0.1rem;
+    padding: 1rem 0;
+    box-sizing: border-box;
+}
+
+.heading {
+    margin: 0;
+}
+
+.heading__container--light {
+    color: #ffffff;
+}
+
+.heading__container--accent {
+    background-color: var(--accent-color);
+    color: #ffffff;
+}
+
 .form__container {
     width: 100%;
     padding: 3rem 0;
@@ -31,12 +52,11 @@
     border-radius: 0.2rem;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     font-family: 'Solway', serif;
-    font-size: 0.8rem;
+    font-size: 1rem;
     letter-spacing: 0.05rem;
     margin: 0.8rem 0;
-    line-height: 1.8rem;
     font-weight: bolder;
-    padding: 0.2rem 0.6rem;
+    padding: 0.6rem;
     text-align: center;
 }
 
@@ -115,7 +135,7 @@
     font-size: 0.7rem;
 }
 
-@media only screen and (min-width: 500px) {
+@media only screen and (min-width: 615px) {
     .form__container--profile {
         width: 85vw;
         border-radius: 10px;

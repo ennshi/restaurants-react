@@ -28,13 +28,13 @@
 
 .input--basic {
     border-radius: 0.2rem;
-    height: 1.8rem;
+    height: 2.1rem;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .input--dark {
     border-radius: 0.2rem;
-    height: 1.8rem;
+    height: 2.1rem;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     background-color: var(--additional-light);
 }
@@ -43,8 +43,13 @@
     outline: none;
 }
 
-@media only screen and (min-width: 900px) {
+
+.input--basic, .input--dark {
+    max-width: 13rem;
+}
+
+@media only screen and (max-width: 390px){
     .input--basic, .input--dark {
-        width: 13rem;
+        width: 11rem;
     }
 }

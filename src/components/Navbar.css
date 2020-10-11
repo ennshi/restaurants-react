@@ -2,6 +2,9 @@
     display: flex;
     background-color: #ffffff;
     width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 200;
 }
 
 .navbar__spacer {
@@ -10,7 +13,7 @@
 
 .navbar__logo {
     margin: 1rem;
-    padding: 0.5rem;
+    padding: 0.3rem;
     font-size: 1.6rem;
     letter-spacing: 0.1rem;
     font-weight: bold;
@@ -22,7 +25,7 @@
 }
 
 .navbar__item {
-    margin: 0.8rem 1.3rem;
+    padding: 1.5rem 1.3rem;
     font-size: 1rem;
     letter-spacing: 0.1rem;
     color: var(--main-color);
@@ -40,7 +43,7 @@
 }
 
 .navbar__item--active {
-    margin: 0.8rem 1.3rem;
+    padding: 1.5rem 1.3rem;
     font-size: 1rem;
     letter-spacing: 0.1rem;
 }
@@ -54,9 +57,14 @@
 }
 
 @media only screen and (min-width: 620px) {
+    .navbar {
+        position: static;
+    }
+
     .navbar__menu-btn {
         display: none;
     }
+
     .navbar__item-list {
         display: flex;
     }

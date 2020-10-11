@@ -44,8 +44,8 @@ export default () => {
     }, []);
     return ( restaurant ?
             <main className="restaurant__container">
-                <header className="restaurant__header">
-                    <h1>{restaurant.name}</h1>
+                <header className="heading__container heading__container--light">
+                    <h1 className="heading">{restaurant.name}</h1>
                 </header>
                 <div className="restaurant__body">
                     <img src={convertUrl(restaurant.photoUrl)} className="restaurant__image" alt="restaurant"/>

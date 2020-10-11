@@ -6,8 +6,8 @@ import Sorting from "./Sorting";
 export default ({restaurants, sort, sortHandler}) => {
     return (
         <>
-            <header>
-                <h2>Search Results</h2>
+            <header className="heading__container heading__container--light">
+                <h1 className="heading">Search Results</h1>
             </header>
             <Sorting
                 name="filter"
