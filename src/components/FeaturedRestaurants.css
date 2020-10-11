@@ -8,17 +8,19 @@
 }
 
 .featured-restaurants__wrapper {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 @media only screen and (min-width: 700px) {
     .featured-restaurants__container {
         flex: 1;
+        border-radius: 0 10px 10px 0;
     }
 
     .featured-restaurants__wrapper {
         display: flex;
+        margin: 1.5rem 2rem;
     }
 
     .heading__wrapper--featured {
@@ -30,5 +32,6 @@
     .heading__container--featured {
         display: flex;
         align-items: center;
+        border-radius: 10px 0 0 10px;
     }
 }
