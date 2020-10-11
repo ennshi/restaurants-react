@@ -1,5 +1,5 @@
 .restaurant-card__container {
-    max-width: 15rem;
+    max-width: 22rem;
     margin: 1rem;
     min-width: 10rem;
     text-align: center;
@@ -11,12 +11,14 @@
 }
 
 .restaurant-card__photo {
-    min-width: 10rem;
-    max-width: 15rem;
+    width: 85vw;
+    max-width: 22rem;
+    height: 12rem;
+    object-fit: cover;
 }
 
 .restaurant-card__header {
-    margin: 0.2rem;
+    margin: 0.4rem 0;
 }
 
 .restaurant-card__text {
@@ -30,6 +32,7 @@
     font-weight: bold;
     font-size: 0.9rem;
     padding: 0.3rem;
+    margin: 0 0.5rem;
 }
 
 .restaurant-card__rating i {
