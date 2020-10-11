@@ -1,3 +1,7 @@
+.main__container {
+    height: 60vh;
+}
+
 .heading__container {
     font-size: 0.7rem;
     text-align: center;
