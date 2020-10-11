@@ -2,14 +2,16 @@
     position: relative;
     text-align: center;
     display: block;
-    min-width: 12rem;
+    min-width: 13rem;
     background-color: #ffffff;
 }
 
 .featured-restaurant-card__photo {
     margin-top: 1rem;
-    height: 13rem;
-    width: 9rem;
+    height: 50vh;
+    width: 60vw;
+    max-height: 16rem;
+    max-width: 12rem;
     border-radius: 10px;
     object-fit: cover;
 }
@@ -24,12 +26,12 @@
     font-weight: bold;
     position: absolute;
     left: 2.3rem;
-    top: 11.5rem;
+    top: 15rem;
     font-size: 1.1rem;
 }
 
 .featured-restaurant-card__header {
-    margin: 0.2rem;
+    margin: 0.4rem;
     font-size: 1.1rem;
 }
 
@@ -40,15 +42,5 @@
 @media only screen and (min-width: 50rem) {
     .featured-restaurant-card__container {
         min-width: 15rem;
-    }
-
-    .featured-restaurant-card__photo {
-        height: 14rem;
-        width: 10rem;
-    }
-
-    .featured-restaurant-card__rating {
-        left: 2.7rem;
-        top: 13rem;
     }
 }
