@@ -1,28 +1,42 @@
-import React, {useContext, useEffect, useState} from "react";
-import {Form} from 'react-final-form';
+import React, {useContext, useEffect, useRef, useState} from "react";
 import { useHistory } from 'react-router-dom';
 import withUserAuth from "../../components/withUserAuth";
 import {UserAuthContext} from "../../contexts/UserAuth";
-import FormInput from "../../components/FormInput";
 import ProfilePhoto from "../../components/ProfilePhoto";
 import fetchData from "../../helpers/fetchData";
 import ReviewList from "../../components/ReviewList";
+import ProfileForm from "../../components/ProfileForm";
+import InfiniteScroll from "../../components/InfiniteScroll";
+import {InfiniteScrollItemsContext} from "../../contexts/InfiniteScrollItems";
 
-const Profile = (props) => {
+const Profile = () => {
     const { credentials, handleLogout } = useContext(UserAuthContext);
-    const [errors, setErrors] = useState(null);
+    const [userErrors, setUserErrors] = useState(null);
     const [userData, setUserData] = useState(null);
     const [displayReviews, setDisplayReviews] = useState(false);
+    const [reviewErrors, setReviewErrors] = useState(null);
     const history = useHistory();
-    const handleErrors = (fetchedData) => {
+    const {
+        items: reviews,
+        setItems: setReviews,
+        page,
+        totalNumber: totalNumberReviews,
+        setTotalNumber: setTotalNumberReviews,
+        isFetching: isFetchingReviews
+    } = useContext(InfiniteScrollItemsContext);
+
+    const handleErrors = ({fetchedData, type}) => {
         if(fetchedData.errors[0] === 'Authorization failed') {
             handleLogout();
             return history.push('/login', {errors: [fetchedData.errors[0]]});
         }
-        setErrors(fetchedData.errors);
+        if(type === 'user') {
+            return setUserErrors(fetchedData.errors);
+        }
+        setReviewErrors(fetchedData.errors);
     };
     useEffect(() => {
-        const fetchingData = async () => {
+        const fetchingUserData = async () => {
             const fetchedData = await fetchData('http://localhost:8080/profile', {
                 crossDomain: true,
                 method: 'GET',
@@ -34,11 +48,11 @@ const Profile = (props) => {
             if (!fetchedData.errors.length) {
                 return setUserData(fetchedData.response);
             }
-            handleErrors(fetchedData);
+            handleErrors({fetchedData, type: 'user'});
         };
-        fetchingData();
+        fetchingUserData();
     }, []);
-    const onSubmit = async (values) => {
+    const onSubmitProfile = async (values) => {
         const result = await fetchData('http://localhost:8080/profile', {
             crossDomain: true,
             method: 'PUT',
@@ -51,7 +65,7 @@ const Profile = (props) => {
         if (!result.errors.length) {
             return setUserData({...userData, user: result.response});
         }
-        handleErrors(result);
+        handleErrors({fetchedData: result, type: 'user'});
     };
     const onDeleteProfile = async () => {
         if(window.confirm('Are you sure, you want to delete your profile?')) {
@@ -66,8 +80,27 @@ const Profile = (props) => {
                 handleLogout();
                 return history.push('/');
             }
-            handleErrors(result);
+            handleErrors({fetchedData: result, type: 'user'});
         }
+    };
+    const fetchingReviews = async () => {
+        isFetchingReviews.current = true;
+        const headers = {
+            'Authorization': `Bearer ${credentials.token}`,
+            'Content-Type': 'application/json'
+        };
+        const fetchedData = await fetchData(`http://localhost:8080/reviews?filter=creator::${credentials.userId}&page=${page.current}`, {
+            crossDomain: true,
+            method: 'GET',
+            headers
+        });
+        isFetchingReviews.current = false;
+        if (!fetchedData.errors.length) {
+            page.current++;
+            !totalNumberReviews && setTotalNumberReviews(fetchedData.response.totalNumber);
+            return setReviews(prevVal => prevVal ? [...prevVal, ...fetchedData.response.reviews] : fetchedData.response.reviews);
+        }
+        handleErrors({fetchedData, type: 'reviews'});
     };
     const toggleReviews = () => {
         setDisplayReviews(!displayReviews);
@@ -84,64 +117,12 @@ const Profile = (props) => {
                     <ProfilePhoto url={userData.user.photoUrl}/>
                     <button className="btn btn--100 btn--red" onClick={toggleReviews}>{displayReviews ? 'My Info' : `My Reviews (${userData.reviews.length})`}</button>
                 </div>
-                    { displayReviews ? <ReviewList type='user' accessedObj={{userId: credentials.userId, token: credentials.token, handleErrors}}/> :
-                        <Form
-                            onSubmit={onSubmit}
-                            initialValues={{username: userData.user.username, email: userData.user.email}}
-                            render={(props) => {
-                                const {handleSubmit, pristine, submitting, hasValidationErrors} = props;
-                                const isDisabled = submitting || pristine || hasValidationErrors;
-                                return (
-                                    <div className="form__body--light">
-                                        <form onSubmit={handleSubmit}>
-                                            {errors ? <div className="form__error-block">
-                                                {errors.map((error, i) => <p className="form__error" key={i}>{error}</p>)}
-                                            </div> : ''}
-                                            <FormInput
-                                                name="username"
-                                                type="username"
-                                                label="Username"
-                                                placeholder=""
-                                                class="input--dark"
-                                                classLabel="input__label input__label--dark"
-                                            />
-                                            <FormInput
-                                                name="email"
-                                                type="email"
-                                                label="Email"
-                                                placeholder=""
-                                                class="input--dark"
-                                                classLabel="input__label input__label--dark"
-                                            />
-                                            <FormInput
-                                                name="password"
-                                                type="password"
-                                                label="Password"
-                                                placeholder=""
-                                                class="input--dark"
-                                                classLabel="input__label input__label--dark"
-                                            />
-                                            <FormInput
-                                                name="repeatedPassword"
-                                                type="password"
-                                                label="Repeat Password"
-                                                placeholder=""
-                                                class="input--dark"
-                                                classLabel="input__label input__label--dark"
-                                            />
-                                            <div className="btn__container">
-                                                <button type="submit" disabled={isDisabled}
-                                                        className={isDisabled ? "btn btn--100 btn--inactive" : "btn btn--100 btn--red"}>
-                                                    Save Changes
-                                                </button>
-                                            </div>
-                                        </form>
-                                        <button type="button" className="btn--link" onClick={onDeleteProfile}>Delete the
-                                            profile and related data
-                                        </button>
-                                    </div>);
-                            }}
-                        />
+                    { displayReviews ?
+                        <div className="user-review-list__container">
+                            <ReviewList type="user" reviews={reviews} errors={reviewErrors} setReviews={setReviews} />
+                            <InfiniteScroll fetchItems={fetchingReviews} />
+                        </div> :
+                        <ProfileForm userData={userData} onSubmit={onSubmitProfile} onDeleteProfile={onDeleteProfile} errors={userErrors}/>
                     }
                     </>: ''}
         </div>
