@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import { useHistory } from 'react-router-dom';
 import withUserAuth from "../../components/withUserAuth";
 import {UserAuthContext} from "../../contexts/UserAuth";
@@ -6,17 +6,24 @@ import ProfilePhoto from "../../components/ProfilePhoto";
 import fetchData from "../../helpers/fetchData";
 import ReviewList from "../../components/ReviewList";
 import ProfileForm from "../../components/ProfileForm";
+import InfiniteScroll from "../../components/InfiniteScroll";
+import {InfiniteScrollItemsContext} from "../../contexts/InfiniteScrollItems";
 
 const Profile = () => {
     const { credentials, handleLogout } = useContext(UserAuthContext);
     const [userErrors, setUserErrors] = useState(null);
     const [userData, setUserData] = useState(null);
     const [displayReviews, setDisplayReviews] = useState(false);
-
     const [reviewErrors, setReviewErrors] = useState(null);
-    const [reviews, setReviews] = useState(null);
-
     const history = useHistory();
+    const {
+        items: reviews,
+        setItems: setReviews,
+        page,
+        totalNumber: totalNumberReviews,
+        setTotalNumber: setTotalNumberReviews,
+        isFetching: isFetchingReviews
+    } = useContext(InfiniteScrollItemsContext);
 
     const handleErrors = ({fetchedData, type}) => {
         if(fetchedData.errors[0] === 'Authorization failed') {
@@ -76,19 +83,22 @@ const Profile = () => {
             handleErrors({fetchedData: result, type: 'user'});
         }
     };
-
     const fetchingReviews = async () => {
+        isFetchingReviews.current = true;
         const headers = {
             'Authorization': `Bearer ${credentials.token}`,
             'Content-Type': 'application/json'
         };
-        const fetchedData = await fetchData(`http://localhost:8080/reviews?filter=$creator::${credentials.userId}`, {
+        const fetchedData = await fetchData(`http://localhost:8080/reviews?filter=creator::${credentials.userId}&page=${page.current}`, {
             crossDomain: true,
             method: 'GET',
             headers
         });
+        isFetchingReviews.current = false;
         if (!fetchedData.errors.length) {
-            return setReviews(fetchedData.response.reviews);
+            page.current++;
+            !totalNumberReviews && setTotalNumberReviews(fetchedData.response.totalNumber);
+            return setReviews(prevVal => prevVal ? [...prevVal, ...fetchedData.response.reviews] : fetchedData.response.reviews);
         }
         handleErrors({fetchedData, type: 'reviews'});
     };
@@ -107,7 +117,11 @@ const Profile = () => {
                     <ProfilePhoto url={userData.user.photoUrl}/>
                     <button className="btn btn--100 btn--red" onClick={toggleReviews}>{displayReviews ? 'My Info' : `My Reviews (${userData.reviews.length})`}</button>
                 </div>
-                    { displayReviews ? <ReviewList type='user' reviews={reviews} errors={reviewErrors} setReviews={setReviews}/> :
+                    { displayReviews ?
+                        <div className="user-review-list__container">
+                            <ReviewList type="user" reviews={reviews} errors={reviewErrors} setReviews={setReviews} />
+                            <InfiniteScroll fetchItems={fetchingReviews} />
+                        </div> :
                         <ProfileForm userData={userData} onSubmit={onSubmitProfile} onDeleteProfile={onDeleteProfile} errors={userErrors}/>
                     }
                     </>: ''}
