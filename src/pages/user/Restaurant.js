@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {useParams, useHistory} from 'react-router-dom';
 import fetchData from "../../helpers/fetchData";
 import {convertUrl} from "../../helpers/pathConverters";
@@ -7,15 +7,28 @@ import Map from "../../components/Map";
 import ReviewList from "../../components/ReviewList";
 import ReviewForm from "../../components/ReviewForm";
 import {UserAuthContext} from "../../contexts/UserAuth";
+import InfiniteScroll from "../../components/InfiniteScroll";
+import {InfiniteScrollItemsContext} from "../../contexts/InfiniteScrollItems";
 
 export default () => {
     const {restaurantId} = useParams();
-    const [errors, setErrors] = useState(null);
+    const [restaurantErrors, setRestaurantErrors] = useState(null);
     const [restaurant, setRestaurant] = useState(null);
+    const {isLoggedIn} = useContext(UserAuthContext);
+
     const [showReviewForm, setShowReviewForm] = useState(false);
     const [newReview, setNewReview] = useState(null);
-    const {isLoggedIn} = useContext(UserAuthContext);
+    const [reviewErrors, setReviewErrors] = useState(null);
+    const {
+        items: reviews,
+        setItems: setReviews,
+        page,
+        totalNumber: totalNumberReviews,
+        setTotalNumber: setTotalNumberReviews,
+        isFetching: isFetchingReviews
+    } = useContext(InfiniteScrollItemsContext);
     const history = useHistory();
+
     const toggleShowReviewForm = () => {
         setShowReviewForm(!showReviewForm);
     };
@@ -38,10 +51,33 @@ export default () => {
             if (!fetchedData.errors.length) {
                 return setRestaurant({...fetchedData.response.restaurant, ...fetchedData.response.reviewsStat});
             }
-            setErrors(fetchedData.errors);
+            setRestaurantErrors(fetchedData.errors);
         };
         fetchingRestaurant();
     }, []);
+    useEffect(() => {
+        if(newReview) {
+            setReviews(prevState => [newReview, ...prevState]);
+        }
+    }, [newReview]);
+    const fetchingReviews = async () => {
+        isFetchingReviews.current = true;
+        const headers = {
+            'Content-Type': 'application/json'
+        };
+        const fetchedData = await fetchData(`http://localhost:8080/reviews?filter=restaurant::${restaurantId}&page=${page.current}`, {
+            crossDomain: true,
+            method: 'GET',
+            headers
+        });
+        isFetchingReviews.current = false;
+        if (!fetchedData.errors.length) {
+            page.current++;
+            !totalNumberReviews && setTotalNumberReviews(fetchedData.response.totalNumber);
+            return setReviews(prevVal => prevVal ? [...prevVal, ...fetchedData.response.reviews] : fetchedData.response.reviews);
+        }
+        setReviewErrors(fetchedData.errors);
+    };
     return ( restaurant ?
             <main className="restaurant__container">
                 <header className="heading__container heading__container--light">
@@ -74,7 +110,10 @@ export default () => {
                         <header className="restaurant__review-header">
                             <h2>Reviews</h2>
                         </header>
-                        <ReviewList type="restaurant" key={newReview} accessedObj={{restaurantId: restaurant._id, newReview}}/>
+                        <div className="restaurant-review-list__container">
+                            <ReviewList type="restaurant" reviews={reviews} errors={reviewErrors} setReviews={setReviews} />
+                            <InfiniteScroll fetchItems={fetchingReviews} />
+                        </div>
                     </div>
                 </div>
             </main> : ''
