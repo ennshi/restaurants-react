@@ -5,15 +5,20 @@ import {invalidImage} from "../helpers/formValidation";
 import fetchData from "../helpers/fetchData";
 import {UserAuthContext} from "../contexts/UserAuth";
 import {convertUrl} from "../helpers/pathConverters";
+import Skeleton from "react-loading-skeleton";
 
-export default props => {
+export default ({url, imgSize}) => {
     const { credentials, handleLogout } = useContext(UserAuthContext);
     const [errors, setErrors] = useState(null);
     const [photoUrl, setPhotoUrl] = useState('');
+    const [imgLoaded, setImgLoaded] = useState(false);
     const history = useHistory();
+    const showImg = () => {
+        setImgLoaded(true);
+    };
     useEffect(() => {
-        if(props.url) {
-            setPhotoUrl(convertUrl(props.url));
+        if(url) {
+            setPhotoUrl(convertUrl(url));
         }
     }, []);
     const onSubmit = async (ev) => {
@@ -44,7 +49,8 @@ export default props => {
     };
     return (
         <>
-            <img src={photoUrl} alt="user" className="profile-photo__image"/>
+            {!imgLoaded && <Skeleton width={imgSize} height={imgSize} />}
+            <img src={photoUrl} alt="user" className="profile-photo__image" onLoad={showImg}/>
             <form>
                 {errors ? <div className="form__error-block">
                     {errors.map((error, i) => <p className="form__error" key={i}>{error}</p>)}
