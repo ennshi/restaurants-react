@@ -66,7 +66,7 @@ export default () => {
             {filter &&
                 <>
                     <RestaurantList restaurants={restaurants} sort={sort} sortHandler={sortHandler}/>
-                    <InfiniteScroll fetchItems={() => fetchRestaurants('searchResults')} />
+                    <InfiniteScroll fetchItems={() => fetchRestaurants('searchResults')} type="restaurants"/>
                 </>}
             {featuredRestaurants.length ?
                 <FeaturedRestaurants restaurants={featuredRestaurants} /> :
