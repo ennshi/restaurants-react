@@ -112,7 +112,7 @@ export default () => {
                         </header>
                         <div className="restaurant-review-list__container">
                             <ReviewList type="restaurant" reviews={reviews} errors={reviewErrors} setReviews={setReviews} />
-                            <InfiniteScroll fetchItems={fetchingReviews} />
+                            <InfiniteScroll fetchItems={fetchingReviews} type="reviews"/>
                         </div>
                     </div>
                 </div>
