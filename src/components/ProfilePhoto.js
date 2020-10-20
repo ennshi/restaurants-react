@@ -45,7 +45,7 @@ export default ({url, imgSize}) => {
     };
     return (
         <>
-            <Image width={imgSize} height={imgSize} alt="user" src={photoUrl} classes="profile-photo__image" />
+            <Image width={imgSize} height={imgSize} alt="user" url={photoUrl} classes="profile-photo__image" />
             <form>
                 {errors ? <div className="form__error-block">
                     {errors.map((error, i) => <p className="form__error" key={i}>{error}</p>)}
