@@ -8,7 +8,7 @@ export default ({restaurant}) => {
     return (
         <div className="restaurant-card__container">
             <Link to={`restaurant/${restaurant._id}`}>
-                <Image alt={restaurant.name} url={convertUrl(restaurant.photoUrl)} classes="restaurant-card__photo"/>
+                <Image alt={restaurant.name} url={convertUrl(restaurant.photoUrl)} classes="restaurant-card__photo" height="12rem"/>
                 <h4 className="restaurant-card__header">{restaurant.name}</h4>
                 <p className="restaurant-card__text">{restaurant.location.formattedAddress}</p>
                 <div className="restaurant-card__rating-block">
