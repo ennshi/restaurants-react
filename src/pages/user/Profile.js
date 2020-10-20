@@ -107,7 +107,7 @@ const Profile = () => {
         isFetchingReviews.current = false;
         if (!fetchedData.errors.length) {
             page.current++;
-            !totalNumberReviews && setTotalNumberReviews(fetchedData.response.totalNumber);
+            setTotalNumberReviews(fetchedData.response.totalNumber);
             return setReviews(prevVal => prevVal ? [...prevVal, ...fetchedData.response.reviews] : fetchedData.response.reviews);
         }
         handleErrors({fetchedData, type: 'reviews'});

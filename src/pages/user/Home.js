@@ -40,7 +40,7 @@ export default () => {
         if (type === 'featured') {
             return setFeaturedRestaurants(fetchedData.response.restaurants);
         }
-        !totalNumberRestaurants && setTotalNumberRestaurants(fetchedData.response.totalNumber);
+        setTotalNumberRestaurants(fetchedData.response.totalNumber);
         page.current++;
         setRestaurants(prevState => prevState ? [...prevState, ...fetchedData.response.restaurants] : fetchedData.response.restaurants);
     };
