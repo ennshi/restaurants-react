@@ -1,6 +1,7 @@
 import React from 'react';
 import FeaturedRestaurantCard from "./FeaturedRestaurantCard";
 import './FeaturedRestaurants.css';
+import FeaturedRestaurantListLoader from "./loaders/FeaturedRestaurantListLoader";
 
 export default ({restaurants}) => {
     return (
@@ -11,7 +12,10 @@ export default ({restaurants}) => {
                 </div>
             </header>
             <div className="featured-restaurants__container">
-                {restaurants.map((restaurant, i) => <FeaturedRestaurantCard restaurant={restaurant} key={i}/>)}
+                {restaurants.length ?
+                    restaurants.map((restaurant, i) => <FeaturedRestaurantCard restaurant={restaurant} key={i}/>) :
+                    <FeaturedRestaurantListLoader />
+                }
             </div>
         </div>
     );

@@ -14,7 +14,7 @@ export default ({type, reviews, errors, setReviews}) => {
             }
             { reviews ?
                 (reviews.length ?
-                <div className="user-review-list__body">
+                <div className="review-list__body">
                     {reviews.map((review) => <Review type={type} reviewData={review} key={review._id} onDeleteReview={onDeleteReview}/>)}
                 </div> :
                 <div>No Reviews</div>) :

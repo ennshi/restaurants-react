@@ -5,15 +5,16 @@ import {invalidImage} from "../helpers/formValidation";
 import fetchData from "../helpers/fetchData";
 import {UserAuthContext} from "../contexts/UserAuth";
 import {convertUrl} from "../helpers/pathConverters";
+import Image from "./Image";
 
-export default props => {
+export default ({url, imgSize}) => {
     const { credentials, handleLogout } = useContext(UserAuthContext);
     const [errors, setErrors] = useState(null);
     const [photoUrl, setPhotoUrl] = useState('');
     const history = useHistory();
     useEffect(() => {
-        if(props.url) {
-            setPhotoUrl(convertUrl(props.url));
+        if(url) {
+            setPhotoUrl(convertUrl(url));
         }
     }, []);
     const onSubmit = async (ev) => {
@@ -44,7 +45,7 @@ export default props => {
     };
     return (
         <>
-            <img src={photoUrl} alt="user" className="profile-photo__image"/>
+            <Image width={imgSize} height={imgSize} alt="user" url={photoUrl} classes="profile-photo__image" />
             <form>
                 {errors ? <div className="form__error-block">
                     {errors.map((error, i) => <p className="form__error" key={i}>{error}</p>)}

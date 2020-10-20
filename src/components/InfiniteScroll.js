@@ -1,7 +1,9 @@
 import React, {useCallback, useContext, useEffect, useRef} from 'react';
 import {InfiniteScrollItemsContext} from "../contexts/InfiniteScrollItems";
+import ReviewListLoader from "./loaders/ReviewListLoader";
+import RestaurantListLoader from "./loaders/RestaurantListLoader";
 
-export default ({fetchItems}) => {
+export default ({fetchItems, type}) => {
     const loader = useRef(null);
     const {isFetching, nextItems} = useContext(InfiniteScrollItemsContext);
     const loadMore = useCallback((entries) => {
@@ -24,6 +26,9 @@ export default ({fetchItems}) => {
         return () => observer.unobserve(loader.current);
     }, [loader, loadMore]);
         return (
-            <div ref={loader}>{nextItems && 'Loading'}</div>
+            <div ref={loader} style={{width: '100%'}}>
+                {nextItems && type === 'reviews' && <ReviewListLoader/>}
+                {nextItems && type === 'restaurants' && <RestaurantListLoader/>}
+            </div>
         );
 };

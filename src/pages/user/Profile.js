@@ -8,6 +8,8 @@ import ReviewList from "../../components/ReviewList";
 import ProfileForm from "../../components/ProfileForm";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import {InfiniteScrollItemsContext} from "../../contexts/InfiniteScrollItems";
+import ProfileFormLoader from "../../components/loaders/ProfileFormLoader";
+import ProfilePhotoLoader from "../../components/loaders/ProfilePhotoLoader";
 
 const Profile = () => {
     const { credentials, handleLogout } = useContext(UserAuthContext);
@@ -15,6 +17,8 @@ const Profile = () => {
     const [userData, setUserData] = useState(null);
     const [displayReviews, setDisplayReviews] = useState(false);
     const [reviewErrors, setReviewErrors] = useState(null);
+    const [imgSize, setImgSize] = useState('25vw');
+    const [inputWidth, setInputWidth] = useState('11rem');
     const history = useHistory();
     const {
         items: reviews,
@@ -35,6 +39,12 @@ const Profile = () => {
         }
         setReviewErrors(fetchedData.errors);
     };
+    useEffect(() => {
+        if(window.innerWidth > 670) {
+            setImgSize('10rem');
+            setInputWidth('13rem');
+        }
+    }, []);
     useEffect(() => {
         const fetchingUserData = async () => {
             const fetchedData = await fetchData('http://localhost:8080/profile', {
@@ -97,7 +107,7 @@ const Profile = () => {
         isFetchingReviews.current = false;
         if (!fetchedData.errors.length) {
             page.current++;
-            !totalNumberReviews && setTotalNumberReviews(fetchedData.response.totalNumber);
+            setTotalNumberReviews(fetchedData.response.totalNumber);
             return setReviews(prevVal => prevVal ? [...prevVal, ...fetchedData.response.reviews] : fetchedData.response.reviews);
         }
         handleErrors({fetchedData, type: 'reviews'});
@@ -111,20 +121,28 @@ const Profile = () => {
             <h1 className="heading">Profile Info</h1>
         </header>
         <div className="form__container form__container--profile">
-            {userData ?
-                <>
-                <div className="profile-photo__container">
-                    <ProfilePhoto url={userData.user.photoUrl}/>
-                    <button className="btn btn--100 btn--red" onClick={toggleReviews}>{displayReviews ? 'My Info' : `My Reviews (${userData.reviews.length})`}</button>
-                </div>
-                    { displayReviews ?
-                        <div className="user-review-list__container">
-                            <ReviewList type="user" reviews={reviews} errors={reviewErrors} setReviews={setReviews} />
-                            <InfiniteScroll fetchItems={fetchingReviews} />
-                        </div> :
-                        <ProfileForm userData={userData} onSubmit={onSubmitProfile} onDeleteProfile={onDeleteProfile} errors={userErrors}/>
-                    }
-                    </>: ''}
+            {(userData || userErrors) ?
+                (userData && <div className="profile-photo__container">
+                    <ProfilePhoto url={userData.user.photoUrl} imgSize={imgSize}/>
+                    <button className="btn btn--100 btn--red"
+                            onClick={toggleReviews}>{displayReviews ? 'My Info' : `My Reviews (${userData.reviews.length})`}</button>
+                </div>) :
+                <ProfilePhotoLoader imgSize={imgSize} />
+            }
+            { displayReviews ?
+                <div className="user-review-list__container">
+                    <ReviewList type="user" reviews={reviews} errors={reviewErrors} setReviews={setReviews} />
+                    <InfiniteScroll fetchItems={fetchingReviews} type="reviews"/>
+                </div> :
+                ((userData || userErrors) ?
+                    <ProfileForm userData={userData}
+                                 onSubmit={onSubmitProfile}
+                                 onDeleteProfile={onDeleteProfile}
+                                 errors={userErrors}
+                    /> :
+                    <ProfileFormLoader inputWidth={inputWidth} />
+                )
+            }
         </div>
         </>
     );

@@ -139,6 +139,10 @@
     font-size: 0.7rem;
 }
 
+.hidden {
+    display: none;
+}
+
 @media only screen and (min-width: 615px) {
     .form__container--profile {
         width: 85vw;

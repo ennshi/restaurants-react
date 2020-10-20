@@ -40,7 +40,7 @@ export default () => {
         if (type === 'featured') {
             return setFeaturedRestaurants(fetchedData.response.restaurants);
         }
-        !totalNumberRestaurants && setTotalNumberRestaurants(fetchedData.response.totalNumber);
+        setTotalNumberRestaurants(fetchedData.response.totalNumber);
         page.current++;
         setRestaurants(prevState => prevState ? [...prevState, ...fetchedData.response.restaurants] : fetchedData.response.restaurants);
     };
@@ -66,11 +66,10 @@ export default () => {
             {filter &&
                 <>
                     <RestaurantList restaurants={restaurants} sort={sort} sortHandler={sortHandler}/>
-                    <InfiniteScroll fetchItems={() => fetchRestaurants('searchResults')} />
-                </>}
-            {featuredRestaurants.length ?
-                <FeaturedRestaurants restaurants={featuredRestaurants} /> :
-                null}
+                    <InfiniteScroll fetchItems={() => fetchRestaurants('searchResults')} type="restaurants"/>
+                </>
+            }
+            <FeaturedRestaurants restaurants={featuredRestaurants} />
         </>
     );
 };
