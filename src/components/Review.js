@@ -7,6 +7,7 @@ import fetchData from "../helpers/fetchData";
 import {useHistory} from "react-router-dom";
 import {UserAuthContext} from "../contexts/UserAuth";
 import {convertUrl} from "../helpers/pathConverters";
+import Image from "./Image";
 
 export default ({type, reviewData, onDeleteReview}) => {
     const [review, setReview] = useState(reviewData);
@@ -55,8 +56,8 @@ export default ({type, reviewData, onDeleteReview}) => {
     };
     return (
             <div className="review__container">
-                {type === 'user' ? '' :
-                    <img src={convertUrl(review.creator.photoUrl)} className="review__photo" alt="user"/>
+                {(type !== 'user') &&
+                    <Image url={convertUrl(review.creator.photoUrl)} width="3rem" height="3rem" classes="review__photo" alt="user" />
                 }
                 <div className="review__body">
                     <div className="review__header">
