@@ -10,6 +10,7 @@ import {UserAuthContext} from "../../contexts/UserAuth";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import {InfiniteScrollItemsContext} from "../../contexts/InfiniteScrollItems";
 import Image from "../../components/Image";
+import RestaurantLoader from "../../components/loaders/RestaurantLoader";
 
 export default () => {
     const {restaurantId} = useParams();
@@ -122,6 +123,7 @@ export default () => {
                         </div>
                     </div>
                 </div>
-            </main> : ''
+            </main> :
+            <RestaurantLoader width={imgWidth} />
     );
 };
