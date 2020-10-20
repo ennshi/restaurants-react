@@ -9,16 +9,18 @@ import ReviewForm from "../../components/ReviewForm";
 import {UserAuthContext} from "../../contexts/UserAuth";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import {InfiniteScrollItemsContext} from "../../contexts/InfiniteScrollItems";
+import Image from "../../components/Image";
 
 export default () => {
     const {restaurantId} = useParams();
     const [restaurantErrors, setRestaurantErrors] = useState(null);
     const [restaurant, setRestaurant] = useState(null);
     const {isLoggedIn} = useContext(UserAuthContext);
-
     const [showReviewForm, setShowReviewForm] = useState(false);
     const [newReview, setNewReview] = useState(null);
     const [reviewErrors, setReviewErrors] = useState(null);
+    const [imgWidth, setImgWidth] = useState('100vw');
+    const history = useHistory();
     const {
         items: reviews,
         setItems: setReviews,
@@ -27,7 +29,6 @@ export default () => {
         setTotalNumber: setTotalNumberReviews,
         isFetching: isFetchingReviews
     } = useContext(InfiniteScrollItemsContext);
-    const history = useHistory();
 
     const toggleShowReviewForm = () => {
         setShowReviewForm(!showReviewForm);
@@ -39,6 +40,11 @@ export default () => {
         setShowReviewForm(false);
         setNewReview(review);
     };
+    useEffect(() => {
+        if(window.innerWidth >= 705) {
+            setImgWidth('35rem');
+        }
+    }, []);
     useEffect(() => {
         const fetchingRestaurant = async () => {
             const fetchedData = await fetchData(`http://localhost:8080/restaurant/${restaurantId}`, {
@@ -84,7 +90,7 @@ export default () => {
                     <h1 className="heading">{restaurant.name}</h1>
                 </header>
                 <div className="restaurant__body">
-                    <img src={convertUrl(restaurant.photoUrl)} className="restaurant__image" alt="restaurant"/>
+                    <Image url={convertUrl(restaurant.photoUrl)} classes="restaurant__image" alt={restaurant.name} width={imgWidth} height="50vh"/>
                     <div className="restaurant__description">
                         {restaurant.description}
                     </div>
