@@ -104,7 +104,7 @@ const Restaurant = (props) => {
                         </div>
                         <div className="restaurant__map-block">
                             <Map lat={restaurant.location.coordinates[1]} lng={restaurant.location.coordinates[0]}/>
-                            <a href={`http://maps.google.com/maps/place/${restaurant.location.coordinates[1]},${restaurant.location.coordinates[0]}`} target="_blank">{restaurant.location.formattedAddress}</a>
+                            <a href={`http://maps.google.com/maps/place/${restaurant.location.coordinates[1]},${restaurant.location.coordinates[0]}`} target="_blank" rel="noreferrer noopener">{restaurant.location.formattedAddress}</a>
                         </div>
                     </div>
                     {showReviewForm &&
