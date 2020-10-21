@@ -1,11 +1,9 @@
-import React, {useCallback, useContext, useEffect, useRef} from 'react';
-import {InfiniteScrollItemsContext} from "../contexts/InfiniteScrollItems";
+import React, {useCallback, useEffect, useRef} from 'react';
 import ReviewListLoader from "./loaders/ReviewListLoader";
 import RestaurantListLoader from "./loaders/RestaurantListLoader";
 
-export default ({fetchItems, type}) => {
+export default ({fetchItems, type, isFetching, nextItems}) => {
     const loader = useRef(null);
-    const {isFetching, nextItems} = useContext(InfiniteScrollItemsContext);
     const loadMore = useCallback((entries) => {
         const target = entries[0];
         if (target.isIntersecting && nextItems) {
@@ -17,7 +15,7 @@ export default ({fetchItems, type}) => {
         const options = {
             root: null,
             rootMargin: '0px',
-            threshold: 0.25
+            threshold: 0.1
         };
         const observer = new IntersectionObserver(loadMore, options);
         if (loader && loader.current) {

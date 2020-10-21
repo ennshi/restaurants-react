@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useParams, useHistory} from 'react-router-dom';
 import fetchData from "../../helpers/fetchData";
 import {convertUrl} from "../../helpers/pathConverters";
@@ -8,11 +8,11 @@ import ReviewList from "../../components/ReviewList";
 import ReviewForm from "../../components/ReviewForm";
 import {UserAuthContext} from "../../contexts/UserAuth";
 import InfiniteScroll from "../../components/InfiniteScroll";
-import {InfiniteScrollItemsContext} from "../../contexts/InfiniteScrollItems";
 import Image from "../../components/Image";
 import RestaurantLoader from "../../components/loaders/RestaurantLoader";
+import {withInfiniteScroll} from "../../components/withInfiniteScroll";
 
-export default () => {
+const Restaurant = (props) => {
     const {restaurantId} = useParams();
     const [restaurantErrors, setRestaurantErrors] = useState(null);
     const [restaurant, setRestaurant] = useState(null);
@@ -28,8 +28,9 @@ export default () => {
         page,
         totalNumber: totalNumberReviews,
         setTotalNumber: setTotalNumberReviews,
-        isFetching: isFetchingReviews
-    } = useContext(InfiniteScrollItemsContext);
+        isFetching: isFetchingReviews,
+        nextItems
+    } = props;
 
     const toggleShowReviewForm = () => {
         setShowReviewForm(!showReviewForm);
@@ -80,7 +81,7 @@ export default () => {
         isFetchingReviews.current = false;
         if (!fetchedData.errors.length) {
             page.current++;
-            setTotalNumberReviews(fetchedData.response.totalNumber);
+            !totalNumberReviews && setTotalNumberReviews(fetchedData.response.totalNumber);
             return setReviews(prevVal => prevVal ? [...prevVal, ...fetchedData.response.reviews] : fetchedData.response.reviews);
         }
         setReviewErrors(fetchedData.errors);
@@ -119,7 +120,7 @@ export default () => {
                         </header>
                         <div className="restaurant-review-list__container">
                             <ReviewList type="restaurant" reviews={reviews} errors={reviewErrors} setReviews={setReviews} />
-                            <InfiniteScroll fetchItems={fetchingReviews} type="reviews"/>
+                            <InfiniteScroll fetchItems={fetchingReviews} type="reviews" isFetching={isFetchingReviews} nextItems={nextItems}/>
                         </div>
                     </div>
                 </div>
@@ -127,3 +128,5 @@ export default () => {
             <RestaurantLoader width={imgWidth} />
     );
 };
+
+export default withInfiniteScroll(Restaurant);
