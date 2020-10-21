@@ -11,6 +11,7 @@ import {
     validPassword
 } from "../../helpers/formValidation";
 import fetchData from "../../helpers/fetchData";
+import {formNormalization} from "../../helpers/formNormalization";
 
 export default () => {
     const [errors, setErrors] = useState(null);
@@ -20,7 +21,7 @@ export default () => {
             crossDomain: true,
             method: 'POST',
             headers: {'Content-Type':'application/json'},
-            body: JSON.stringify(values)
+            body: JSON.stringify(formNormalization(values))
         });
         if(!fetchedData.errors.length) {
             return history.push('/login');
