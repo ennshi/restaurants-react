@@ -1,12 +1,12 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import RestaurantSearchForm from "../../components/RestaurantSearchForm";
 import fetchData from "../../helpers/fetchData";
 import RestaurantList from "../../components/RestaurantList";
 import FeaturedRestaurants from "../../components/FeaturedRestaurants";
 import InfiniteScroll from "../../components/InfiniteScroll";
-import {InfiniteScrollItemsContext} from "../../contexts/InfiniteScrollItems";
+import {withInfiniteScroll} from "../../components/withInfiniteScroll";
 
-export default () => {
+const Home = (props) => {
     const [errors, setErrors] = useState(null);
     const [featuredRestaurants, setFeaturedRestaurants] = useState([]);
     const [filter, setFilter] = useState('');
@@ -18,8 +18,9 @@ export default () => {
         page,
         totalNumber: totalNumberRestaurants,
         setTotalNumber: setTotalNumberRestaurants,
-        isFetching: isFetchingRestaurants
-    } = useContext(InfiniteScrollItemsContext);
+        isFetching: isFetchingRestaurants,
+        nextItems
+    } = props;
 
     const fetchRestaurants = async ({type}) => {
         if (type === 'searchResults') {
@@ -40,7 +41,7 @@ export default () => {
         if (type === 'featured') {
             return setFeaturedRestaurants(fetchedData.response.restaurants);
         }
-        setTotalNumberRestaurants(fetchedData.response.totalNumber);
+        !totalNumberRestaurants && setTotalNumberRestaurants(fetchedData.response.totalNumber);
         page.current++;
         setRestaurants(prevState => prevState ? [...prevState, ...fetchedData.response.restaurants] : fetchedData.response.restaurants);
     };
@@ -50,6 +51,7 @@ export default () => {
     useEffect(() => {
         setNextRestaurants(true);
         if(restaurants) {
+            setTotalNumberRestaurants(null);
             setRestaurants(prevState => null);
             page.current = 1;
         }
@@ -66,10 +68,12 @@ export default () => {
             {filter &&
                 <>
                     <RestaurantList restaurants={restaurants} sort={sort} sortHandler={sortHandler}/>
-                    <InfiniteScroll fetchItems={() => fetchRestaurants('searchResults')} type="restaurants"/>
+                    <InfiniteScroll fetchItems={() => fetchRestaurants('searchResults')} type="restaurants" isFetching={isFetchingRestaurants} nextItems={nextItems}/>
                 </>
             }
             <FeaturedRestaurants restaurants={featuredRestaurants} />
         </>
     );
 };
+
+export default withInfiniteScroll(Home);

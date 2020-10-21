@@ -11,8 +11,6 @@ import MobileNav from "../../components/MobileNav";
 import {UserAuthProvider} from "../../contexts/UserAuth";
 import Footer from "../../components/Footer";
 import NotFound from "./NotFound";
-import {InfiniteScrollItemsProvider} from "../../contexts/InfiniteScrollItems";
-
 
 export default () => {
     const [menuDisplayed, setMenuDisplay] = useState(false);
@@ -25,23 +23,11 @@ export default () => {
             <Navbar toggleMenu={toggleMenu} menuDisplayed={menuDisplayed}/>
             {mobileNavigation}
             <Switch>
-                <Route path='/' exact render={() => (
-                    <InfiniteScrollItemsProvider>
-                        <Home />
-                    </InfiniteScrollItemsProvider>
-                )} />
-                <Route path='/profile' render={() => (
-                    <InfiniteScrollItemsProvider>
-                        <Profile />
-                    </InfiniteScrollItemsProvider>
-                )} />
+                <Route path='/' exact component={Home}/>
+                <Route path='/profile' component={Profile} />
                 <Route path='/login' component={Login} />
                 <Route path='/sign-up' component={SignUp} />
-                <Route path='/restaurant/:restaurantId' render={() => (
-                    <InfiniteScrollItemsProvider>
-                        <Restaurant />
-                    </InfiniteScrollItemsProvider>
-                )} />
+                <Route path='/restaurant/:restaurantId' component={Restaurant} />
                 <Route component={NotFound} />
             </Switch>
             <Footer/>

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { useHistory } from 'react-router-dom';
 import withUserAuth from "../../components/withUserAuth";
 import {UserAuthContext} from "../../contexts/UserAuth";
@@ -7,11 +7,11 @@ import fetchData from "../../helpers/fetchData";
 import ReviewList from "../../components/ReviewList";
 import ProfileForm from "../../components/ProfileForm";
 import InfiniteScroll from "../../components/InfiniteScroll";
-import {InfiniteScrollItemsContext} from "../../contexts/InfiniteScrollItems";
 import ProfileFormLoader from "../../components/loaders/ProfileFormLoader";
 import ProfilePhotoLoader from "../../components/loaders/ProfilePhotoLoader";
+import {withInfiniteScroll} from "../../components/withInfiniteScroll";
 
-const Profile = () => {
+const Profile = (props) => {
     const { credentials, handleLogout } = useContext(UserAuthContext);
     const [userErrors, setUserErrors] = useState(null);
     const [userData, setUserData] = useState(null);
@@ -26,9 +26,9 @@ const Profile = () => {
         page,
         totalNumber: totalNumberReviews,
         setTotalNumber: setTotalNumberReviews,
-        isFetching: isFetchingReviews
-    } = useContext(InfiniteScrollItemsContext);
-
+        isFetching: isFetchingReviews,
+        nextItems
+    } = props;
     const handleErrors = ({fetchedData, type}) => {
         if(fetchedData.errors[0] === 'Authorization failed') {
             handleLogout();
@@ -107,7 +107,7 @@ const Profile = () => {
         isFetchingReviews.current = false;
         if (!fetchedData.errors.length) {
             page.current++;
-            setTotalNumberReviews(fetchedData.response.totalNumber);
+            !totalNumberReviews && setTotalNumberReviews(fetchedData.response.totalNumber);
             return setReviews(prevVal => prevVal ? [...prevVal, ...fetchedData.response.reviews] : fetchedData.response.reviews);
         }
         handleErrors({fetchedData, type: 'reviews'});
@@ -132,7 +132,7 @@ const Profile = () => {
             { displayReviews ?
                 <div className="user-review-list__container">
                     <ReviewList type="user" reviews={reviews} errors={reviewErrors} setReviews={setReviews} />
-                    <InfiniteScroll fetchItems={fetchingReviews} type="reviews"/>
+                    <InfiniteScroll fetchItems={fetchingReviews} type="reviews" isFetching={isFetchingReviews} nextItems={nextItems}/>
                 </div> :
                 ((userData || userErrors) ?
                     <ProfileForm userData={userData}
@@ -148,4 +148,4 @@ const Profile = () => {
     );
 };
 
-export default withUserAuth(Profile);
+export default withUserAuth(withInfiniteScroll(Profile));
