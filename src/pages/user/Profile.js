@@ -10,6 +10,7 @@ import InfiniteScroll from "../../components/InfiniteScroll";
 import ProfileFormLoader from "../../components/loaders/ProfileFormLoader";
 import ProfilePhotoLoader from "../../components/loaders/ProfilePhotoLoader";
 import {withInfiniteScroll} from "../../components/withInfiniteScroll";
+import {formNormalization} from "../../helpers/formNormalization";
 
 const Profile = (props) => {
     const { credentials, handleLogout } = useContext(UserAuthContext);
@@ -70,7 +71,7 @@ const Profile = (props) => {
                 'Authorization': `Bearer ${credentials.token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(values)
+            body: JSON.stringify(formNormalization(values))
         });
         if (!result.errors.length) {
             return setUserData({...userData, user: result.response});

@@ -5,6 +5,7 @@ import {Link, useHistory} from "react-router-dom";
 import {required} from "../../helpers/formValidation";
 import fetchData from "../../helpers/fetchData";
 import {UserAuthContext} from "../../contexts/UserAuth";
+import {formNormalization} from "../../helpers/formNormalization";
 
 export default props => {
     const [errors, setErrors] = useState(() => {
@@ -20,7 +21,7 @@ export default props => {
             crossDomain: true,
             method: 'POST',
             headers: {'Content-Type':'application/json'},
-            body: JSON.stringify(values)
+            body: JSON.stringify(formNormalization(values))
         });
         if(!fetchedData.errors.length) {
             const {token, userId} = fetchedData.response;
