@@ -1,6 +1,7 @@
 import React from 'react';
 import FormInput from "./FormInput";
 import {Form} from "react-final-form";
+import Error from "./Error";
 
 export default ({onSubmit, userData, errors, onDeleteProfile}) => {
     return (userData ?
@@ -61,11 +62,6 @@ export default ({onSubmit, userData, errors, onDeleteProfile}) => {
                         </div>);
                 }}
             /> :
-            (errors ?
-                <div className="form__error-block">
-                    {errors.map((error, i) => <p className="form__error" key={i}>{error}</p>)}
-                </div> :
-                null
-            )
+            (errors && <Error errors={errors} />)
     );
 }

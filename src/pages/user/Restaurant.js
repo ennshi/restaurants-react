@@ -11,6 +11,7 @@ import InfiniteScroll from "../../components/InfiniteScroll";
 import Image from "../../components/Image";
 import RestaurantLoader from "../../components/loaders/RestaurantLoader";
 import {withInfiniteScroll} from "../../components/withInfiniteScroll";
+import Error from "../../components/Error";
 
 const Restaurant = (props) => {
     const {restaurantId} = useParams();
@@ -86,43 +87,47 @@ const Restaurant = (props) => {
         }
         setReviewErrors(fetchedData.errors);
     };
-    return ( restaurant ?
+    return (
+        (restaurant || restaurantErrors) ?
             <main className="restaurant__container">
                 <header className="heading__container heading__container--light">
-                    <h1 className="heading">{restaurant.name}</h1>
+                    <h1 className="heading">{restaurant ? restaurant.name : 'Error'}</h1>
                 </header>
                 <div className="restaurant__body">
-                    <Image url={convertUrl(restaurant.photoUrl)} classes="restaurant__image" alt={restaurant.name} width={imgWidth} height="50vh"/>
-                    <div className="restaurant__description">
-                        {restaurant.description}
-                    </div>
-                    <div className="restaurant__additional-info">
-                        <div className="restaurant__stat">
-                            <span className="restaurant__rating"><i className="fas fa-asterisk"></i> {restaurant.numReviews ? restaurant.rating : '-'}/5</span>
-                            <span className="restaurant__reviews">{restaurant.numReviews} reviews</span>
-                            { !showReviewForm && <button className="btn btn--red" onClick={addReviewClick}>Add Review</button> }
+                    {restaurant && <>
+                        <Image url={convertUrl(restaurant.photoUrl)} classes="restaurant__image" alt={restaurant.name} width={imgWidth} height="50vh"/>
+                        <div className="restaurant__description">
+                            {restaurant.description}
                         </div>
-                        <div className="restaurant__map-block">
-                            <Map lat={restaurant.location.coordinates[1]} lng={restaurant.location.coordinates[0]}/>
-                            <a href={`http://maps.google.com/maps/place/${restaurant.location.coordinates[1]},${restaurant.location.coordinates[0]}`} target="_blank" rel="noreferrer noopener">{restaurant.location.formattedAddress}</a>
+                        <div className="restaurant__additional-info">
+                            <div className="restaurant__stat">
+                                <span className="restaurant__rating"><i className="fas fa-asterisk"></i> {restaurant.numReviews ? restaurant.rating : '-'}/5</span>
+                                <span className="restaurant__reviews">{restaurant.numReviews} reviews</span>
+                                { !showReviewForm && <button className="btn btn--red" onClick={addReviewClick}>Add Review</button> }
+                            </div>
+                            <div className="restaurant__map-block">
+                                <Map lat={restaurant.location.coordinates[1]} lng={restaurant.location.coordinates[0]}/>
+                                <a href={`http://maps.google.com/maps/place/${restaurant.location.coordinates[1]},${restaurant.location.coordinates[0]}`} target="_blank" rel="noreferrer noopener">{restaurant.location.formattedAddress}</a>
+                            </div>
                         </div>
-                    </div>
-                    {showReviewForm &&
-                        <div className="restaurant__review-form">
-                            <h3>New Review</h3>
-                            <ReviewForm restaurantId={restaurantId} addReview={addReview}
-                                        onReset={toggleShowReviewForm}/>
+                        {showReviewForm &&
+                            <div className="restaurant__review-form">
+                                <h3>New Review</h3>
+                                <ReviewForm restaurantId={restaurantId} addReview={addReview}
+                                            onReset={toggleShowReviewForm}/>
+                            </div>
+                        }
+                        <div className="restaurant__review-block">
+                            <header className="restaurant__review-header">
+                                <h2>Reviews</h2>
+                            </header>
+                            <div className="restaurant-review-list__container">
+                                <ReviewList type="restaurant" reviews={reviews} errors={reviewErrors} setReviews={setReviews} />
+                                <InfiniteScroll fetchItems={fetchingReviews} type="reviews" isFetching={isFetchingReviews} nextItems={nextItems}/>
+                            </div>
                         </div>
-                    }
-                    <div className="restaurant__review-block">
-                        <header className="restaurant__review-header">
-                            <h2>Reviews</h2>
-                        </header>
-                        <div className="restaurant-review-list__container">
-                            <ReviewList type="restaurant" reviews={reviews} errors={reviewErrors} setReviews={setReviews} />
-                            <InfiniteScroll fetchItems={fetchingReviews} type="reviews" isFetching={isFetchingReviews} nextItems={nextItems}/>
-                        </div>
-                    </div>
+                    </>}
+                    {restaurantErrors && <Error errors={restaurantErrors} />}
                 </div>
             </main> :
             <RestaurantLoader width={imgWidth} />

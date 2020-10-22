@@ -3,6 +3,7 @@ import {Form} from 'react-final-form';
 import FormInput from './FormInput';
 import {required} from '../helpers/formValidation';
 import './RestaurantSearchForm.css';
+import Error from "./Error";
 
 export default ({submitHandler, errors}) => {
     return (
@@ -10,15 +11,13 @@ export default ({submitHandler, errors}) => {
             <header className="restaurant-search-form__header">
                 <h2>Looking for a place to have dinner?</h2>
             </header>
+            {errors && <Error errors={errors} />}
             <Form
             onSubmit={submitHandler}
             render={(props) => {
                 const {handleSubmit, pristine, submitting, hasValidationErrors} = props;
                 const isDisabled = submitting || pristine || hasValidationErrors;
                 return (<form onSubmit={handleSubmit}>
-                        {errors ? <div className="form__error-block">
-                            {errors.map((error, i) => <p className="form__error" key={i}>{error}</p>)}
-                        </div> : ''}
                         <FormInput
                             name="filter"
                             type="text"
