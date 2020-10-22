@@ -67,7 +67,7 @@ const Home = (props) => {
             <RestaurantSearchForm submitHandler={searchHandler} errors={errors}/>
             {filter &&
                 <>
-                    <RestaurantList restaurants={restaurants} sort={sort} sortHandler={sortHandler}/>
+                    <RestaurantList restaurants={restaurants} sort={sort} sortHandler={sortHandler} totalNumber={totalNumberRestaurants}/>
                     <InfiniteScroll fetchItems={() => fetchRestaurants('searchResults')} type="restaurants" isFetching={isFetchingRestaurants} nextItems={nextItems}/>
                 </>
             }
