@@ -31,6 +31,11 @@
     font-weight: bold;
 }
 
+.review__name a {
+    text-decoration: none;
+    color: var(--main-color);
+}
+
 .review__date {
     font-size: 0.6rem;
     letter-spacing: 0.05rem;
