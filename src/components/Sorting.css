@@ -2,9 +2,7 @@
     width: 100%;
     display: flex;
     justify-content: flex-end;
-}
-
-.sorting__container--light {
+    align-items: center;
     background-color: #ffffff;
 }
 
