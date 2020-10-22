@@ -4,7 +4,7 @@ import {strToDate, strToDDMMYYYY} from "../helpers/dateConverters";
 import ReadMore from "./ReadMore";
 import ReviewForm from "./ReviewForm";
 import fetchData from "../helpers/fetchData";
-import {useHistory} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {UserAuthContext} from "../contexts/UserAuth";
 import {convertUrl} from "../helpers/pathConverters";
 import Image from "./Image";
@@ -65,7 +65,10 @@ export default ({type, reviewData, onDeleteReview}) => {
                             {errors ? <div className="form__error-block">
                                 {errors.map((error, i) => <p className="form__error" key={i}>{error}</p>)}
                             </div> : ''}
-                            <span className="review__name">{type === 'user' ? review.restaurant.name : review.creator.username}</span>
+                            <span className="review__name">{type === 'user' ?
+                                <Link to={`restaurant/${review.restaurant._id}`} target="_blank" rel="noreferrer noopener">{review.restaurant.name}</Link> :
+                                review.creator.username}
+                            </span>
                             { editingMode ? '' : <span>{review.rating}/5</span> }
                             <span className="review__date">{strToDDMMYYYY(review.updatedAt)}</span>
                         </div>
