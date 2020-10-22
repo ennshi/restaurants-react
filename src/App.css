@@ -143,6 +143,13 @@
     display: none;
 }
 
+.text--small-blue {
+    color: var(--main-color);
+    font-family: 'Solway', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.05rem;
+}
+
 @media only screen and (min-width: 615px) {
     .form__container--profile {
         width: 85vw;

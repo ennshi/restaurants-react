@@ -132,7 +132,7 @@ const Profile = (props) => {
             }
             { displayReviews ?
                 <div className="user-review-list__container">
-                    <ReviewList type="user" reviews={reviews} errors={reviewErrors} setReviews={setReviews} />
+                    <ReviewList type="user" reviews={reviews} errors={reviewErrors} setReviews={setReviews} totalNumber={totalNumberReviews}/>
                     <InfiniteScroll fetchItems={fetchingReviews} type="reviews" isFetching={isFetchingReviews} nextItems={nextItems}/>
                 </div> :
                 ((userData || userErrors) ?

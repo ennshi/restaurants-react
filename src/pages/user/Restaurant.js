@@ -66,6 +66,7 @@ const Restaurant = (props) => {
     }, []);
     useEffect(() => {
         if(newReview) {
+            setTotalNumberReviews(prev => prev + 1);
             setReviews(prevState => [newReview, ...prevState]);
         }
     }, [newReview]);
@@ -122,7 +123,7 @@ const Restaurant = (props) => {
                                 <h2>Reviews</h2>
                             </header>
                             <div className="restaurant-review-list__container">
-                                <ReviewList type="restaurant" reviews={reviews} errors={reviewErrors} setReviews={setReviews} />
+                                <ReviewList type="restaurant" reviews={reviews} errors={reviewErrors} setReviews={setReviews} totalNumber={totalNumberReviews} setTotalNumber={setTotalNumberReviews}/>
                                 <InfiniteScroll fetchItems={fetchingReviews} type="reviews" isFetching={isFetchingReviews} nextItems={nextItems}/>
                             </div>
                         </div>
