@@ -2,6 +2,7 @@ import React from 'react';
 import RestaurantCard from './RestaurantCard';
 import './RestaurantList.css';
 import Sorting from '../common/Sorting';
+import InfoMessage from "../common/InfoMessage";
 
 export default ({restaurants, sort, sortHandler, totalNumber}) => {
     return (
@@ -28,7 +29,7 @@ export default ({restaurants, sort, sortHandler, totalNumber}) => {
                 {restaurants ?
                     (restaurants.length ?
                         restaurants.map((restaurant, i) => <RestaurantCard restaurant={restaurant} key={i}/>) :
-                        <h4>No Restaurants Found</h4>) :
+                        <InfoMessage message="No Restaurants Found" />) :
                     null
                 }
             </div>
