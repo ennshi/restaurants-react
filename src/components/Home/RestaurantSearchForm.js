@@ -3,7 +3,7 @@ import {Form} from 'react-final-form';
 import FormInput from '../common/FormInput';
 import {required} from '../../helpers/formValidation';
 import './RestaurantSearchForm.css';
-import Error from "../common/Error";
+import Error from '../common/Error';
 
 export default ({submitHandler, errors}) => {
     return (

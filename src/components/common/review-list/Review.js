@@ -1,13 +1,13 @@
 import React, {useContext, useState} from 'react';
+import {Link, useHistory} from 'react-router-dom';
 import './Review.css';
-import {strToDate, strToDDMMYYYY} from "../../../helpers/dateConverters";
-import ReadMore from "../../common/ReadMore";
-import ReviewForm from "./ReviewForm";
-import fetchData from "../../../helpers/fetchData";
-import {Link, useHistory} from "react-router-dom";
-import {UserAuthContext} from "../../../contexts/UserAuth";
-import {convertUrl} from "../../../helpers/pathConverters";
-import Image from "../../common/Image";
+import {strToDate, strToDDMMYYYY} from '../../../helpers/dateConverters';
+import ReadMore from '../../common/ReadMore';
+import ReviewForm from './ReviewForm';
+import fetchData from '../../../helpers/fetchData';
+import {UserAuthContext} from '../../../contexts/UserAuth';
+import {convertUrl} from '../../../helpers/pathConverters';
+import Image from '../../common/Image';
 
 export default ({type, reviewData, onDeleteReview}) => {
     const [review, setReview] = useState(reviewData);

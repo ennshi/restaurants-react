@@ -1,5 +1,5 @@
 import React from 'react';
-import FeaturedRestaurantCard from "./FeaturedRestaurantCard";
+import FeaturedRestaurantCard from './FeaturedRestaurantCard';
 import './FeaturedRestaurants.css';
 import FeaturedRestaurantListLoader from "./loaders/FeaturedRestaurantListLoader";
 

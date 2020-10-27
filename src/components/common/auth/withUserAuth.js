@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { Redirect } from "react-router-dom";
-import { UserAuthContext } from "../../../contexts/UserAuth";
+import { Redirect } from 'react-router-dom';
+import { UserAuthContext } from '../../../contexts/UserAuth';
 
 const withUserAuth = ComposedComponent => {
     return (props) => {

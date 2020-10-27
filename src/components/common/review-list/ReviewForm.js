@@ -1,9 +1,9 @@
 import React, {useContext, useState} from 'react';
-import {Field, Form} from "react-final-form";
+import {Field, Form} from 'react-final-form';
 import {useHistory} from 'react-router-dom';
-import {composeValidators, maxLength, minLength, required} from "../../../helpers/formValidation";
-import fetchData from "../../../helpers/fetchData";
-import {UserAuthContext} from "../../../contexts/UserAuth";
+import {composeValidators, maxLength, minLength, required} from '../../../helpers/formValidation';
+import fetchData from '../../../helpers/fetchData';
+import {UserAuthContext} from '../../../contexts/UserAuth';
 import './ReviewForm.css';
 
 export default ({updateReview, addReview, onReset, review, restaurantId}) => {

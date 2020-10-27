@@ -1,7 +1,7 @@
-import React, {useState} from "react";
-import {Form} from "react-final-form";
-import FormInput from "../../components/common/FormInput";
-import {Link, useHistory} from "react-router-dom";
+import React, {useState} from 'react';
+import {Link, useHistory} from 'react-router-dom';
+import {Form} from 'react-final-form';
+import FormInput from '../../components/common/FormInput';
 import {
     composeValidators,
     maxLength,
@@ -9,9 +9,9 @@ import {
     required,
     validEmail,
     validPassword
-} from "../../helpers/formValidation";
-import fetchData from "../../helpers/fetchData";
-import {formNormalization} from "../../helpers/formNormalization";
+} from '../../helpers/formValidation';
+import fetchData from '../../helpers/fetchData';
+import {formNormalization} from '../../helpers/formNormalization';
 
 export default () => {
     const [errors, setErrors] = useState(null);

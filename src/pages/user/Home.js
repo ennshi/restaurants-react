@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
-import RestaurantSearchForm from "../../components/Home/RestaurantSearchForm";
-import fetchData from "../../helpers/fetchData";
-import RestaurantList from "../../components/Home/RestaurantList";
-import FeaturedRestaurants from "../../components/Home/FeaturedRestaurants";
-import InfiniteScroll from "../../components/common/infinite-scroll/InfiniteScroll";
-import {withInfiniteScroll} from "../../components/common/infinite-scroll/withInfiniteScroll";
+import React, {useEffect, useState} from 'react';
+import RestaurantSearchForm from '../../components/Home/RestaurantSearchForm';
+import fetchData from '../../helpers/fetchData';
+import RestaurantList from '../../components/Home/RestaurantList';
+import FeaturedRestaurants from '../../components/Home/FeaturedRestaurants';
+import InfiniteScroll from '../../components/common/infinite-scroll/InfiniteScroll';
+import {withInfiniteScroll} from '../../components/common/infinite-scroll/withInfiniteScroll';
 
 const Home = (props) => {
     const [errors, setErrors] = useState(null);

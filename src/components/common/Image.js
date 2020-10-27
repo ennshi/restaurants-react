@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Skeleton from "react-loading-skeleton";
+import Skeleton from 'react-loading-skeleton';
 
 export default ({classes, alt, url, width, height}) => {
     const [imgLoaded, setImgLoaded] = useState(false);

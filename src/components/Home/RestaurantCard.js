@@ -1,8 +1,8 @@
 import React from 'react';
-import './RestaurantCard.css';
-import {convertUrl} from "../../helpers/pathConverters";
 import {Link} from 'react-router-dom';
-import Image from "../common/Image";
+import './RestaurantCard.css';
+import {convertUrl} from '../../helpers/pathConverters';
+import Image from '../common/Image';
 
 export default ({restaurant}) => {
     return (
