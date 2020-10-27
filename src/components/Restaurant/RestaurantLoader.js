@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../pages/user/Restaurant.css';
+import './Restaurant.css';
 import Skeleton from "react-loading-skeleton";
 
 export default ({width}) => {

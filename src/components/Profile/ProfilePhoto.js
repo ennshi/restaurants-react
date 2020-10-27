@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import './ProfilePhoto.css';
-import {invalidImage} from "../helpers/formValidation";
-import fetchData from "../helpers/fetchData";
-import {UserAuthContext} from "../contexts/UserAuth";
-import {convertUrl} from "../helpers/pathConverters";
-import Image from "./Image";
+import {invalidImage} from "../../helpers/formValidation";
+import fetchData from "../../helpers/fetchData";
+import {UserAuthContext} from "../../contexts/UserAuth";
+import {convertUrl} from "../../helpers/pathConverters";
+import Image from "../common/Image";
 
 export default ({url, imgSize}) => {
     const { credentials, handleLogout } = useContext(UserAuthContext);

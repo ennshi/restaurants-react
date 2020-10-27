@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef} from 'react';
-import ReviewListLoader from "./loaders/ReviewListLoader";
-import RestaurantListLoader from "./loaders/RestaurantListLoader";
+import ReviewListLoader from "../review-list/ReviewListLoader";
+import RestaurantListLoader from "../../Home/loaders/RestaurantListLoader";
 
 export default ({fetchItems, type, isFetching, nextItems}) => {
     const loader = useRef(null);

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../ReviewList.css';
+import './ReviewList.css';
 import Skeleton from "react-loading-skeleton";
 
 export default () => {

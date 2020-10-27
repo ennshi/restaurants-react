@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {Form} from 'react-final-form';
-import FormInput from "../../components/FormInput";
+import FormInput from "../../components/common/FormInput";
 import {Link, useHistory} from "react-router-dom";
 import {required} from "../../helpers/formValidation";
 import fetchData from "../../helpers/fetchData";

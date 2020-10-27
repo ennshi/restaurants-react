@@ -1,6 +1,6 @@
 import React from 'react';
+import Skeleton from 'react-loading-skeleton';
 import '../FeaturedRestaurantCard.css'
-import Skeleton from "react-loading-skeleton";
 
 export default () => {
     return (Array(4).fill(1).map((el, i) => (
