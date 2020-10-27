@@ -1,6 +1,7 @@
 import React from 'react';
 import Review from './Review';
 import './ReviewList.css';
+import InfoMessage from "../InfoMessage";
 
 export default ({type, reviews, errors, setReviews, totalNumber, setTotalNumber}) => {
     const onDeleteReview = (id) => {
@@ -19,7 +20,7 @@ export default ({type, reviews, errors, setReviews, totalNumber, setTotalNumber}
                     <span className="text--small-blue" style={{width: '100%', textAlign: 'right', margin: "0 3rem 1rem 0"}}>{totalNumber} reviews</span>
                     {reviews.map((review) => <Review type={type} reviewData={review} key={review._id} onDeleteReview={onDeleteReview}/>)}
                 </div> :
-                <div>No Reviews</div>) :
+                <InfoMessage message="No Reviews" />) :
                 null
             }
         </>
