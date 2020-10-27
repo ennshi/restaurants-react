@@ -1,7 +1,7 @@
-import React from "react";
-import RestaurantCard from "./RestaurantCard";
+import React from 'react';
+import RestaurantCard from './RestaurantCard';
 import './RestaurantList.css';
-import Sorting from "./Sorting";
+import Sorting from '../common/Sorting';
 
 export default ({restaurants, sort, sortHandler, totalNumber}) => {
     return (

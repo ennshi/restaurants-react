@@ -1,17 +1,17 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {useParams, useHistory} from 'react-router-dom';
-import fetchData from "../../helpers/fetchData";
-import {convertUrl} from "../../helpers/pathConverters";
-import './Restaurant.css';
-import Map from "../../components/Map";
-import ReviewList from "../../components/ReviewList";
-import ReviewForm from "../../components/ReviewForm";
-import {UserAuthContext} from "../../contexts/UserAuth";
-import InfiniteScroll from "../../components/InfiniteScroll";
-import Image from "../../components/Image";
-import RestaurantLoader from "../../components/loaders/RestaurantLoader";
-import {withInfiniteScroll} from "../../components/withInfiniteScroll";
-import Error from "../../components/Error";
+import fetchData from '../../helpers/fetchData';
+import {convertUrl} from '../../helpers/pathConverters';
+import '../../components/Restaurant/Restaurant.css';
+import Map from '../../components/Restaurant/Map';
+import ReviewList from '../../components/common/review-list/ReviewList';
+import ReviewForm from '../../components/common/review-list/ReviewForm';
+import {UserAuthContext} from '../../contexts/UserAuth';
+import InfiniteScroll from '../../components/common/infinite-scroll/InfiniteScroll';
+import Image from '../../components/common/Image';
+import RestaurantLoader from '../../components/Restaurant/RestaurantLoader';
+import {withInfiniteScroll} from '../../components/common/infinite-scroll/withInfiniteScroll';
+import Error from '../../components/common/Error';
 
 const Restaurant = (props) => {
     const {restaurantId} = useParams();

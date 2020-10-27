@@ -1,16 +1,15 @@
-import React, {useState} from "react";
-import {Route, Switch} from "react-router-dom";
-
+import React, {useState} from 'react';
+import {Route, Switch} from 'react-router-dom';
 import Home from './Home';
 import Profile from './Profile';
 import Login from './Login';
 import Restaurant from './Restaurant';
-import SignUp from "./SignUp";
-import Navbar from "../../components/Navbar";
-import MobileNav from "../../components/MobileNav";
-import {UserAuthProvider} from "../../contexts/UserAuth";
-import Footer from "../../components/Footer";
-import NotFound from "./NotFound";
+import SignUp from './SignUp';
+import Navbar from '../../components/UserPanel/Navbar';
+import MobileNav from '../../components/UserPanel/MobileNav';
+import {UserAuthProvider} from '../../contexts/UserAuth';
+import Footer from '../../components/UserPanel/Footer';
+import NotFound from './NotFound';
 
 export default () => {
     const [menuDisplayed, setMenuDisplay] = useState(false);

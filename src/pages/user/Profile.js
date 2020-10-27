@@ -1,16 +1,16 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from 'react';
 import { useHistory } from 'react-router-dom';
-import withUserAuth from "../../components/withUserAuth";
-import {UserAuthContext} from "../../contexts/UserAuth";
-import ProfilePhoto from "../../components/ProfilePhoto";
-import fetchData from "../../helpers/fetchData";
-import ReviewList from "../../components/ReviewList";
-import ProfileForm from "../../components/ProfileForm";
-import InfiniteScroll from "../../components/InfiniteScroll";
-import ProfileFormLoader from "../../components/loaders/ProfileFormLoader";
-import ProfilePhotoLoader from "../../components/loaders/ProfilePhotoLoader";
-import {withInfiniteScroll} from "../../components/withInfiniteScroll";
-import {formNormalization} from "../../helpers/formNormalization";
+import withUserAuth from '../../components/common/auth/withUserAuth';
+import {UserAuthContext} from '../../contexts/UserAuth';
+import ProfilePhoto from '../../components/Profile/ProfilePhoto';
+import fetchData from '../../helpers/fetchData';
+import ReviewList from '../../components/common/review-list/ReviewList';
+import ProfileForm from '../../components/Profile/ProfileForm';
+import InfiniteScroll from '../../components/common/infinite-scroll/InfiniteScroll';
+import ProfileFormLoader from '../../components/Profile/loaders/ProfileFormLoader';
+import ProfilePhotoLoader from '../../components/Profile/loaders/ProfilePhotoLoader';
+import {withInfiniteScroll} from '../../components/common/infinite-scroll/withInfiniteScroll';
+import {formNormalization} from '../../helpers/formNormalization';
 
 const Profile = (props) => {
     const { credentials, handleLogout } = useContext(UserAuthContext);

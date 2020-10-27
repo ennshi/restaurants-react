@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import './Navbar.css';
-import {UserAuthContext} from "../contexts/UserAuth";
+import {UserAuthContext} from '../../contexts/UserAuth';
 
 export default (props) => {
     const {isLoggedIn, handleLogout} = useContext(UserAuthContext);

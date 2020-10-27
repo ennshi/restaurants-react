@@ -1,9 +1,7 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-
-import AdminPanel from "./pages/admin/AdminPanel";
-import UserPanel from "./pages/user/UserPanel";
-
+import AdminPanel from './pages/admin/AdminPanel';
+import UserPanel from './pages/user/UserPanel';
 import './App.css';
 
 const App = () => {

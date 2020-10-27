@@ -1,6 +1,6 @@
 import React from 'react';
-import '../ReviewList.css';
-import Skeleton from "react-loading-skeleton";
+import Skeleton from 'react-loading-skeleton';
+import './ReviewList.css';
 
 export default () => {
     return (

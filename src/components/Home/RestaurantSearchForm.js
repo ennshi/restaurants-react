@@ -1,9 +1,9 @@
 import React from 'react';
 import {Form} from 'react-final-form';
-import FormInput from './FormInput';
-import {required} from '../helpers/formValidation';
+import FormInput from '../common/FormInput';
+import {required} from '../../helpers/formValidation';
 import './RestaurantSearchForm.css';
-import Error from "./Error";
+import Error from '../common/Error';
 
 export default ({submitHandler, errors}) => {
     return (

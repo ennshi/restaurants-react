@@ -1,11 +1,11 @@
 import React, {useContext, useState} from 'react';
+import {Link, useHistory} from 'react-router-dom';
 import {Form} from 'react-final-form';
-import FormInput from "../../components/FormInput";
-import {Link, useHistory} from "react-router-dom";
-import {required} from "../../helpers/formValidation";
-import fetchData from "../../helpers/fetchData";
-import {UserAuthContext} from "../../contexts/UserAuth";
-import {formNormalization} from "../../helpers/formNormalization";
+import FormInput from '../../components/common/FormInput';
+import {required} from '../../helpers/formValidation';
+import fetchData from '../../helpers/fetchData';
+import {UserAuthContext} from '../../contexts/UserAuth';
+import {formNormalization} from '../../helpers/formNormalization';
 
 export default props => {
     const [errors, setErrors] = useState(() => {

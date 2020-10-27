@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import './MobileNav.css';
 import {Link, useHistory} from "react-router-dom";
-import {UserAuthContext} from "../contexts/UserAuth";
+import {UserAuthContext} from "../../contexts/UserAuth";
 
 export default (props) => {
     const { isLoggedIn, handleLogout } = useContext(UserAuthContext);

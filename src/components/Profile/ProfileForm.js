@@ -1,7 +1,7 @@
 import React from 'react';
-import FormInput from "./FormInput";
-import {Form} from "react-final-form";
-import Error from "./Error";
+import {Form} from 'react-final-form';
+import FormInput from '../common/FormInput';
+import Error from '../common/Error';
 
 export default ({onSubmit, userData, errors, onDeleteProfile}) => {
     return (userData ?
