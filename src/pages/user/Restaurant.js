@@ -37,7 +37,7 @@ const Restaurant = (props) => {
         setShowReviewForm(!showReviewForm);
     };
     const addReviewClick = () => {
-        return !isLoggedIn ? history.push('/login') : toggleShowReviewForm();
+        return !isLoggedIn ? history.push('/login', {errors: ['Please log in the system.']}) : toggleShowReviewForm();
     };
     const addReview = (review) => {
         setShowReviewForm(false);
