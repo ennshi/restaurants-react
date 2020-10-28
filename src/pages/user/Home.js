@@ -10,7 +10,7 @@ const Home = (props) => {
     const [errors, setErrors] = useState(null);
     const [featuredRestaurants, setFeaturedRestaurants] = useState([]);
     const [filter, setFilter] = useState('');
-    const [sort, setSort] = useState('name::asc');
+    const [sort, setSort] = useState('avgRating::desc');
     const {
         items: restaurants,
         setItems: setRestaurants,
