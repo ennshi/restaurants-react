@@ -17,7 +17,7 @@ export default ({restaurants, sort, sortHandler, totalNumber}) => {
                         name="filter"
                         options={[
                             {title: 'By Rating', value: 'avgRating::desc'},
-                            {title: 'From Newest', value: 'createdAt::desc'},
+                            {title: 'By Newest', value: 'createdAt::desc'},
                             {title: 'By Name', value: 'name::asc'}
                         ]}
                         initialValue={sort}
