@@ -12,17 +12,21 @@ export default ({fetchItems, type, isFetching, nextItems}) => {
     }, [isFetching.current, nextItems]);
 
     useEffect(() => {
+        const loaderEl = loader.current;
         const options = {
             root: null,
             rootMargin: '0px',
             threshold: 0.1
         };
         const observer = new IntersectionObserver(loadMore, options);
-        if (loader && loader.current) {
-            observer.observe(loader.current);
+        if (loaderEl) {
+            observer.observe(loaderEl);
         }
-        return () => observer.unobserve(loader.current);
-    }, [loader, loadMore]);
+        if(!nextItems) {
+            observer.unobserve(loaderEl);
+        }
+        return () => observer.unobserve(loaderEl);
+    }, [loadMore]);
         return (
             <div ref={loader} style={{width: '100%'}}>
                 {nextItems && type === 'reviews' && <ReviewListLoader/>}
