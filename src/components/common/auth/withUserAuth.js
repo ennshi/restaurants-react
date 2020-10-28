@@ -6,7 +6,13 @@ const withUserAuth = ComposedComponent => {
     return (props) => {
         const { isLoggedIn } = useContext(UserAuthContext);
         if(!isLoggedIn) {
-            return <Redirect to={'/login'} />;
+            return <Redirect to={
+                {
+                    pathname: '/login',
+                    state: {
+                        errors: ['Please log in the system.']
+                    }
+                }} />;
         }
         return <ComposedComponent {...props} />
     };
