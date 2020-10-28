@@ -24,7 +24,7 @@ export default () => {
             body: JSON.stringify(formNormalization(values))
         });
         if(!fetchedData.errors.length) {
-            return history.push('/login');
+            return history.push('/login', {errors: ['Please log in the system.']});
         }
         setErrors(fetchedData.errors);
     };
