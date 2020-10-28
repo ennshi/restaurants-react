@@ -89,7 +89,7 @@ const Profile = (props) => {
             });
             if (!result.errors.length) {
                 handleLogout();
-                return history.push('/');
+                return history.push('/login', {errors: ['Account successfully deleted.']});
             }
             handleErrors({fetchedData: result, type: 'user'});
         }
