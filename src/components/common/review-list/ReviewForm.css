@@ -27,9 +27,10 @@
 }
 
 .review-form__textarea {
+    padding: 0.3rem 0.2rem;
     color: var(--main-color);
-    max-width: 18rem;
-    height: 3rem;
+    max-width: 25rem;
+    height: 4.5rem;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border: 1px solid var(--additional-light);
     border-radius: 5px;
