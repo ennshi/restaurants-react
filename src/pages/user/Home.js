@@ -21,12 +21,11 @@ const Home = (props) => {
         isFetching: isFetchingRestaurants,
         nextItems
     } = props;
-
     const fetchRestaurants = async ({type}) => {
         if (type === 'searchResults') {
             isFetchingRestaurants.current = true;
         }
-        const query = type === 'featured' ? 'filter=featured::true' : `filter=${filter}&sort=${sort}&page=${page}`;
+        const query = type === 'featured' ? 'filter=featured::true' : `filter=${filter}&sort=${sort}&page=${page.current}`;
         const fetchedData = await fetchData(`http://localhost:8080/restaurant?${query}`, {
             crossDomain: true,
             method: 'GET',
