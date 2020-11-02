@@ -5,6 +5,7 @@
     justify-content: space-around;
     margin-bottom: 1rem;
     padding-left: 0.5rem;
+    box-sizing: border-box;
 }
 
 .review__body {
