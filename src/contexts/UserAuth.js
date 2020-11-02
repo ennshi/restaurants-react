@@ -5,7 +5,6 @@ export const UserAuthContext = React.createContext({});
 export const UserAuthProvider = (props) => {
     const [isLoggedIn, setLogIn] = useState(false);
     const checkLogin = () => {
-        console.log('Check login');
         if(localStorage.getItem('token') && localStorage.getItem('expiration')) {
             const storeId = localStorage.getItem('user');
             const storeExp = +localStorage.getItem('expiration');
