@@ -33,7 +33,7 @@ const Home = (props) => {
         setNextRestaurants(true);
         if(restaurants) {
             setTotalNumberRestaurants(null);
-            setRestaurants(prevState => null);
+            setRestaurants(null);
             page.current = 1;
         }
     }, [sort, filter]);
@@ -49,7 +49,7 @@ const Home = (props) => {
             {filter &&
                 <>
                     <RestaurantList restaurants={restaurants} sort={sort} sortHandler={sortHandler} totalNumber={totalNumberRestaurants}/>
-                    <InfiniteScroll fetchItems={fetchRestaurants} type="restaurants" isFetching={isFetchingRestaurants} nextItems={nextItems}/>
+                    <InfiniteScroll fetchItems={fetchRestaurants} key={filter} type="restaurants" isFetching={isFetchingRestaurants} nextItems={nextItems}/>
                 </>
             }
             <FeaturedRestaurants restaurants={featuredRestaurants} />
