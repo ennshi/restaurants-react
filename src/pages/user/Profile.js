@@ -13,11 +13,10 @@ import {withInfiniteScroll} from '../../components/common/infinite-scroll/withIn
 import {formNormalization} from '../../helpers/formNormalization';
 import Header from "../../components/common/Header";
 import {REVIEWS_URL, USER_PROFILE_URL} from "../../constants/urls";
+import useFetchDataDidMount from "../../hooks/useFetchDataDidMount";
 
 const Profile = (props) => {
-    const { credentials, handleLogout } = useContext(UserAuthContext);
-    const [userErrors, setUserErrors] = useState(null);
-    const [userData, setUserData] = useState(null);
+    const { credentials, handleLogout, checkAuthErrors } = useContext(UserAuthContext);
     const [displayReviews, setDisplayReviews] = useState(false);
     const [imgSize, setImgSize] = useState('25vw');
     const [inputWidth, setInputWidth] = useState('11rem');
@@ -31,13 +30,16 @@ const Profile = (props) => {
         itemErrors: reviewErrors,
         fetchItems
     } = props;
+    const [userData, userErrors, setUserData, setUserErrors] = useFetchDataDidMount({
+        initialValue: null,
+        url: USER_PROFILE_URL,
+        itemType: 'user',
+        token: credentials.token
+    });
     const reviewsUrl = `${REVIEWS_URL}?filter=creator::${credentials.userId}`;
     const fetchReviews = () => (fetchItems(reviewsUrl, 'reviews'));
     const handleErrors = (fetchedData) => {
-        if(fetchedData.errors[0] === 'Authorization failed') {
-            handleLogout();
-            return history.push('/login', {errors: [fetchedData.errors[0]]});
-        }
+        checkAuthErrors(fetchedData);
         return setUserErrors(fetchedData.errors);
     };
     useEffect(() => {
@@ -45,20 +47,6 @@ const Profile = (props) => {
             setImgSize('10rem');
             setInputWidth('13rem');
         }
-    }, []);
-    useEffect(() => {
-        const fetchingUserData = async () => {
-            const fetchedData = await fetchData({
-                url: USER_PROFILE_URL,
-                method: 'GET',
-                token: credentials.token
-            });
-            if (!fetchedData.errors.length) {
-                return setUserData(fetchedData.response);
-            }
-            handleErrors(fetchedData);
-        };
-        fetchingUserData();
     }, []);
     const onSubmitProfile = async (values) => {
         const result = await fetchData({
@@ -68,7 +56,7 @@ const Profile = (props) => {
             data: JSON.stringify(formNormalization(values))
         });
         if (!result.errors.length) {
-            return setUserData({...userData, user: result.response});
+            return setUserData({...userData, ...result.response});
         }
         handleErrors(result);
     };
@@ -96,7 +84,7 @@ const Profile = (props) => {
                 {(userData || userErrors) ?
                     (userData &&
                         <section className="profile-photo__container">
-                            <ProfilePhoto url={userData.user.photoUrl} imgSize={imgSize}/>
+                            <ProfilePhoto url={userData.photoUrl} imgSize={imgSize}/>
                             <button className="btn btn--100 btn--red"
                                 onClick={toggleReviews}>{displayReviews ? 'My Info' : `My Reviews (${userData.reviews.length})`}</button>
                         </section>) :

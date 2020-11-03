@@ -7,7 +7,7 @@ export default ({onSubmit, userData, errors, onDeleteProfile}) => {
     return (userData ?
             <Form
                 onSubmit={onSubmit}
-                initialValues={{username: userData.user.username, email: userData.user.email}}
+                initialValues={{username: userData.username, email: userData.email}}
                 render={(props) => {
                     const {handleSubmit, pristine, submitting, hasValidationErrors} = props;
                     const isDisabled = submitting || pristine || hasValidationErrors;
