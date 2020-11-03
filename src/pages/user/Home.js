@@ -8,7 +8,7 @@ import {withInfiniteScroll} from '../../components/common/infinite-scroll/withIn
 import {RESTAURANT_URL} from '../../constants/urls';
 
 const Home = (props) => {
-    const [errors, setErrors] = useState(null);
+    const [featuredErrors, setErrors] = useState(null);
     const [featuredRestaurants, setFeaturedRestaurants] = useState([]);
     const [filter, setFilter] = useState('');
     const [sort, setSort] = useState('avgRating::desc');
@@ -20,30 +20,24 @@ const Home = (props) => {
         totalNumber: totalNumberRestaurants,
         setTotalNumber: setTotalNumberRestaurants,
         isFetching: isFetchingRestaurants,
-        nextItems
+        nextItems,
+        fetchItems,
+        itemErrors: searchErrors
     } = props;
-    const fetchRestaurants = async ({type}) => {
-        if (type === 'searchResults') {
-            isFetchingRestaurants.current = true;
-        }
-        const query = type === 'featured' ? 'filter=featured::true' : `filter=${filter}&sort=${sort}&page=${page.current}`;
+    const restaurantsUrl = `${RESTAURANT_URL}?filter=${filter}&sort=${sort}`;
+    const fetchRestaurants = () => (fetchItems(restaurantsUrl, 'restaurants'));
+    const fetchFeaturedRestaurants = async () => {
         const fetchedData = await fetchData({
-            url: `${RESTAURANT_URL}?${query}`,
+            url: `${RESTAURANT_URL}?filter=featured::true`,
             method: 'GET'
         });
-        isFetchingRestaurants.current = false;
         if (fetchedData.errors.length) {
             return setErrors(fetchedData.errors);
         }
-        if (type === 'featured') {
-            return setFeaturedRestaurants(fetchedData.response.restaurants);
-        }
-        !totalNumberRestaurants && setTotalNumberRestaurants(fetchedData.response.totalNumber);
-        page.current++;
-        setRestaurants(prevState => prevState ? [...prevState, ...fetchedData.response.restaurants] : fetchedData.response.restaurants);
+        setFeaturedRestaurants(fetchedData.response.restaurants);
     };
     useEffect(() => {
-        fetchRestaurants({type: 'featured'});
+        fetchFeaturedRestaurants();
     }, []);
     useEffect(() => {
         setNextRestaurants(true);
@@ -61,11 +55,11 @@ const Home = (props) => {
     };
     return (
         <main>
-            <RestaurantSearchForm submitHandler={searchHandler} errors={errors}/>
+            <RestaurantSearchForm submitHandler={searchHandler} errors={featuredErrors || searchErrors}/>
             {filter &&
                 <>
                     <RestaurantList restaurants={restaurants} sort={sort} sortHandler={sortHandler} totalNumber={totalNumberRestaurants}/>
-                    <InfiniteScroll fetchItems={() => fetchRestaurants('searchResults')} type="restaurants" isFetching={isFetchingRestaurants} nextItems={nextItems}/>
+                    <InfiniteScroll fetchItems={fetchRestaurants} type="restaurants" isFetching={isFetchingRestaurants} nextItems={nextItems}/>
                 </>
             }
             <FeaturedRestaurants restaurants={featuredRestaurants} />
