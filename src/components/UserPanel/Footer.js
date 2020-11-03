@@ -21,8 +21,8 @@ export default () => {
                 </li>
             </ul>
             <div className="footer__social-media-list">
-                <a href="/" className="footer__social-media-item"><i className="fab fa-facebook"></i></a>
-                <a href="/" className="footer__social-media-item"><i className="fab fa-telegram"></i></a>
+                <a href="/" className="footer__social-media-item" aria-label="Facebook"><i className="fab fa-facebook"></i></a>
+                <a href="/" className="footer__social-media-item" aria-label="Telegram"><i className="fab fa-telegram"></i></a>
             </div>
         </footer>
     );
