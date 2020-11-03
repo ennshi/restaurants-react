@@ -8,6 +8,7 @@ import {UserAuthContext} from '../../contexts/UserAuth';
 import {formNormalization} from '../../helpers/formNormalization';
 import Header from "../../components/common/Header";
 import Error from "../../components/common/Error";
+import {USER_LOGIN_URL} from "../../constants/urls";
 
 export default props => {
     const [errors, setErrors] = useState(() => {
@@ -19,11 +20,10 @@ export default props => {
     const { handleLogin } = useContext(UserAuthContext);
     const history = useHistory();
     const onSubmit = async values => {
-        const fetchedData = await fetchData('http://localhost:8080/auth/login', {
-            crossDomain: true,
+        const fetchedData = await fetchData({
+            url: USER_LOGIN_URL,
             method: 'POST',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify(formNormalization(values))
+            data: JSON.stringify(formNormalization(values))
         });
         if(!fetchedData.errors.length) {
             const {token, userId} = fetchedData.response;

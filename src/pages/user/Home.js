@@ -5,6 +5,7 @@ import RestaurantList from '../../components/Home/RestaurantList';
 import FeaturedRestaurants from '../../components/Home/FeaturedRestaurants';
 import InfiniteScroll from '../../components/common/infinite-scroll/InfiniteScroll';
 import {withInfiniteScroll} from '../../components/common/infinite-scroll/withInfiniteScroll';
+import {RESTAURANT_URL} from '../../constants/urls';
 
 const Home = (props) => {
     const [errors, setErrors] = useState(null);
@@ -26,12 +27,9 @@ const Home = (props) => {
             isFetchingRestaurants.current = true;
         }
         const query = type === 'featured' ? 'filter=featured::true' : `filter=${filter}&sort=${sort}&page=${page.current}`;
-        const fetchedData = await fetchData(`http://localhost:8080/restaurant?${query}`, {
-            crossDomain: true,
-            method: 'GET',
-            headers: {
-                'Content-Type':'application/json'
-            }
+        const fetchedData = await fetchData({
+            url: `${RESTAURANT_URL}?${query}`,
+            method: 'GET'
         });
         isFetchingRestaurants.current = false;
         if (fetchedData.errors.length) {

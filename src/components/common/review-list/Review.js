@@ -9,6 +9,7 @@ import {UserAuthContext} from '../../../contexts/UserAuth';
 import {convertUrl} from '../../../helpers/pathConverters';
 import Image from '../../common/Image';
 import Error from "../Error";
+import {REVIEWS_URL} from "../../../constants/urls";
 
 export default ({type, reviewData, onDeleteReview}) => {
     const [review, setReview] = useState(reviewData);
@@ -38,12 +39,10 @@ export default ({type, reviewData, onDeleteReview}) => {
     const onDelete = async () => {
         setDisplayActions(false);
         if(window.confirm('Are you sure, you want to delete this review?')) {
-            const result = await fetchData(`http://localhost:8080/reviews/${reviewData._id}`, {
-                crossDomain: true,
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${credentials.token}`
-                }
+            const result = await fetchData({
+                url: `${REVIEWS_URL}/${reviewData._id}`,
+                token: credentials.token,
+                method: 'DELETE'
             });
             if (result.errors.length) {
                 if (result.errors[0] === 'Authorization failed') {

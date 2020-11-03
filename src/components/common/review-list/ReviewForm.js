@@ -6,6 +6,7 @@ import fetchData from '../../../helpers/fetchData';
 import {UserAuthContext} from '../../../contexts/UserAuth';
 import './ReviewForm.css';
 import Error from "../Error";
+import {REVIEWS_URL} from "../../../constants/urls";
 
 export default ({updateReview, addReview, onReset, review, restaurantId}) => {
     const {credentials, handleLogout} = useContext(UserAuthContext);
@@ -14,14 +15,11 @@ export default ({updateReview, addReview, onReset, review, restaurantId}) => {
     const onSubmit = async (values) => {
         const method = updateReview ? 'PUT' : 'POST';
         const body = updateReview ? JSON.stringify({...values}) : JSON.stringify({...values, restaurant: restaurantId});
-        const result = await fetchData(`http://localhost:8080/reviews/${review ? review._id : ''}`, {
-            crossDomain: true,
-            headers: {
-                'Authorization': `Bearer ${credentials.token}`,
-                'Content-Type': 'application/json'
-            },
+        const result = await fetchData({
+            url: `${REVIEWS_URL}/${review ? review._id : ''}`,
             method,
-            body
+            token: credentials.token,
+            data: body
         });
         if (result.errors.length) {
             if (result.errors[0] === 'Authorization failed') {
