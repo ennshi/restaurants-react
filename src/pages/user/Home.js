@@ -62,7 +62,7 @@ const Home = (props) => {
         setSort(value);
     };
     return (
-        <>
+        <main>
             <RestaurantSearchForm submitHandler={searchHandler} errors={errors}/>
             {filter &&
                 <>
@@ -71,7 +71,7 @@ const Home = (props) => {
                 </>
             }
             <FeaturedRestaurants restaurants={featuredRestaurants} />
-        </>
+        </main>
     );
 };
 
