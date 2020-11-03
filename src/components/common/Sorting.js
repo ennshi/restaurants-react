@@ -10,7 +10,9 @@ export default ({name, options, initialValue, sortHandler, classes}) => {
            <select name={name}
                    className="sorting__select"
                    value={initialValue}
-                   onChange={(e) => changeHandler(e)}>
+                   onChange={(e) => changeHandler(e)}
+                   aria-label="Sort"
+           >
                {options.map((option, i) => <option value={option.value} key={i}>{option.title}</option>)}
            </select>
        </form>
