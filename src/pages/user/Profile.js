@@ -11,6 +11,7 @@ import ProfileFormLoader from '../../components/Profile/loaders/ProfileFormLoade
 import ProfilePhotoLoader from '../../components/Profile/loaders/ProfilePhotoLoader';
 import {withInfiniteScroll} from '../../components/common/infinite-scroll/withInfiniteScroll';
 import {formNormalization} from '../../helpers/formNormalization';
+import Header from "../../components/common/Header";
 
 const Profile = (props) => {
     const { credentials, handleLogout } = useContext(UserAuthContext);
@@ -117,35 +118,34 @@ const Profile = (props) => {
         setDisplayReviews(!displayReviews);
     };
     return (
-        <>
-        <header className="heading__container heading__container--light">
-            <h1 className="heading">Profile Info</h1>
-        </header>
-        <div className="form__container form__container--profile">
-            {(userData || userErrors) ?
-                (userData && <div className="profile-photo__container">
-                    <ProfilePhoto url={userData.user.photoUrl} imgSize={imgSize}/>
-                    <button className="btn btn--100 btn--red"
-                            onClick={toggleReviews}>{displayReviews ? 'My Info' : `My Reviews (${userData.reviews.length})`}</button>
-                </div>) :
-                <ProfilePhotoLoader imgSize={imgSize} />
-            }
-            { displayReviews ?
-                <div className="user-review-list__container">
-                    <ReviewList type="user" reviews={reviews} errors={reviewErrors} setReviews={setReviews} totalNumber={totalNumberReviews}/>
-                    <InfiniteScroll fetchItems={fetchingReviews} type="reviews" isFetching={isFetchingReviews} nextItems={nextItems}/>
-                </div> :
-                ((userData || userErrors) ?
-                    <ProfileForm userData={userData}
-                                 onSubmit={onSubmitProfile}
-                                 onDeleteProfile={onDeleteProfile}
-                                 errors={userErrors}
-                    /> :
-                    <ProfileFormLoader inputWidth={inputWidth} />
-                )
-            }
-        </div>
-        </>
+        <main>
+            <Header title="Profile" level={1} classContainer="light" />
+            <section className="form__container form__container--profile">
+                {(userData || userErrors) ?
+                    (userData &&
+                        <section className="profile-photo__container">
+                            <ProfilePhoto url={userData.user.photoUrl} imgSize={imgSize}/>
+                            <button className="btn btn--100 btn--red"
+                                onClick={toggleReviews}>{displayReviews ? 'My Info' : `My Reviews (${userData.reviews.length})`}</button>
+                        </section>) :
+                    <ProfilePhotoLoader imgSize={imgSize} />
+                }
+                {displayReviews ?
+                    <section className="user-review-list__container">
+                        <ReviewList type="user" reviews={reviews} errors={reviewErrors} setReviews={setReviews} totalNumber={totalNumberReviews}/>
+                        <InfiniteScroll fetchItems={fetchingReviews} type="reviews" isFetching={isFetchingReviews} nextItems={nextItems}/>
+                    </section> :
+                    ((userData || userErrors) ?
+                        <ProfileForm userData={userData}
+                                     onSubmit={onSubmitProfile}
+                                     onDeleteProfile={onDeleteProfile}
+                                     errors={userErrors}
+                        /> :
+                        <ProfileFormLoader inputWidth={inputWidth} />
+                    )
+                }
+            </section>
+        </main>
     );
 };
 

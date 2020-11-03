@@ -1,11 +1,10 @@
 import React from 'react';
+import Header from "../../components/common/Header";
 
 export default () => {
     return (
         <main className="main__container">
-            <header className="heading__container heading__container--light">
-                <h1 className="heading">Page Not Found</h1>
-            </header>
+            <Header title="Page Not Found" level={1} classContainer={'light'} />
         </main>
     );
 }

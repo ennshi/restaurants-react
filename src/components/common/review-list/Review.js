@@ -8,6 +8,7 @@ import fetchData from '../../../helpers/fetchData';
 import {UserAuthContext} from '../../../contexts/UserAuth';
 import {convertUrl} from '../../../helpers/pathConverters';
 import Image from '../../common/Image';
+import Error from "../Error";
 
 export default ({type, reviewData, onDeleteReview}) => {
     const [review, setReview] = useState(reviewData);
@@ -55,16 +56,14 @@ export default ({type, reviewData, onDeleteReview}) => {
         }
     };
     return (
-            <div className="review__container">
+            <article className="review__container">
                 {(type !== 'user') &&
                     <Image url={convertUrl(review.creator.photoUrl)} width="3rem" height="3rem" classes="review__photo" alt="user" />
                 }
                 <div className="review__body">
                     <div className="review__header">
                         <div className="review__subheader">
-                            {errors ? <div className="form__error-block">
-                                {errors.map((error, i) => <p className="form__error" key={i}>{error}</p>)}
-                            </div> : ''}
+                            <Error errors={errors} />
                             <span className="review__name">{type === 'user' ?
                                 <Link to={`restaurant/${review.restaurant._id}`} target="_blank" rel="noreferrer noopener">{review.restaurant.name}</Link> :
                                 review.creator.username}
@@ -94,6 +93,6 @@ export default ({type, reviewData, onDeleteReview}) => {
                         </div> : ''
                     }
                 </div>
-            </div>
+            </article>
     );
 };

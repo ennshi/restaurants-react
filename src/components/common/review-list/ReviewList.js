@@ -2,6 +2,7 @@ import React from 'react';
 import Review from './Review';
 import './ReviewList.css';
 import InfoMessage from "../InfoMessage";
+import Error from "../Error";
 
 export default ({type, reviews, errors, setReviews, totalNumber, setTotalNumber}) => {
     const onDeleteReview = (id) => {
@@ -10,10 +11,7 @@ export default ({type, reviews, errors, setReviews, totalNumber, setTotalNumber}
     };
     return (
         <>
-            { errors ? <div className="form__error-block">
-                {errors.map((error, i) => <p className="form__error" key={i}>{error}</p>)}
-                </div> : ''
-            }
+            <Error errors={errors} />
             { reviews ?
                 (reviews.length ?
                 <div className="review-list__body">

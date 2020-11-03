@@ -12,6 +12,7 @@ import Image from '../../components/common/Image';
 import RestaurantLoader from '../../components/Restaurant/RestaurantLoader';
 import {withInfiniteScroll} from '../../components/common/infinite-scroll/withInfiniteScroll';
 import Error from '../../components/common/Error';
+import Header from "../../components/common/Header";
 
 const Restaurant = (props) => {
     const {restaurantId} = useParams();
@@ -91,34 +92,31 @@ const Restaurant = (props) => {
     return (
         (restaurant || restaurantErrors) ?
             <main className="restaurant__container">
-                <header className="heading__container heading__container--light">
-                    <h1 className="heading">{restaurant ? restaurant.name : 'Error'}</h1>
-                </header>
-                <div className="restaurant__body">
+                <Header classContainer={'light'} level={1} title={restaurant ? restaurant.name : 'Error'}/>
+                <section className="restaurant__body">
                     {restaurant && <>
                         <Image url={convertUrl(restaurant.photoUrl)} classes="restaurant__image" alt={restaurant.name} width={imgWidth} height="50vh"/>
-                        <div className="restaurant__description">
+                        <section className="restaurant__description">
                             {restaurant.description}
-                        </div>
-                        <div className="restaurant__additional-info">
-                            <div className="restaurant__stat">
+                        </section>
+                        <section className="restaurant__additional-info">
+                            <section className="restaurant__stat">
                                 <span className="restaurant__rating"><i className="fas fa-asterisk"></i> {restaurant.numReviews ? restaurant.rating : '-'}/5</span>
                                 <span className="restaurant__reviews">{restaurant.numReviews} reviews</span>
                                 { !showReviewForm && <button className="btn btn--red" onClick={addReviewClick}>Add Review</button> }
-                            </div>
-                            <div className="restaurant__map-block">
+                            </section>
+                            <section className="restaurant__map-block">
                                 <Map lat={restaurant.location.coordinates[1]} lng={restaurant.location.coordinates[0]}/>
                                 <a href={`http://maps.google.com/maps/place/${restaurant.location.coordinates[1]},${restaurant.location.coordinates[0]}`} target="_blank" rel="noreferrer noopener">{restaurant.location.formattedAddress}</a>
-                            </div>
-                        </div>
+                            </section>
+                        </section>
                         {showReviewForm &&
-                            <div className="restaurant__review-form">
+                            <section className="restaurant__review-form">
                                 <h3>New Review</h3>
-                                <ReviewForm restaurantId={restaurantId} addReview={addReview}
-                                            onReset={toggleShowReviewForm}/>
-                            </div>
+                                <ReviewForm restaurantId={restaurantId} addReview={addReview} onReset={toggleShowReviewForm}/>
+                            </section>
                         }
-                        <div className="restaurant__review-block">
+                        <section className="restaurant__review-block">
                             <header className="restaurant__review-header">
                                 <h2>Reviews</h2>
                             </header>
@@ -126,10 +124,10 @@ const Restaurant = (props) => {
                                 <ReviewList type="restaurant" reviews={reviews} errors={reviewErrors} setReviews={setReviews} totalNumber={totalNumberReviews} setTotalNumber={setTotalNumberReviews}/>
                                 <InfiniteScroll fetchItems={fetchingReviews} type="reviews" isFetching={isFetchingReviews} nextItems={nextItems}/>
                             </div>
-                        </div>
+                        </section>
                     </>}
-                    {restaurantErrors && <Error errors={restaurantErrors} />}
-                </div>
+                    <Error errors={restaurantErrors} />
+                </section>
             </main> :
             <RestaurantLoader width={imgWidth} />
     );
