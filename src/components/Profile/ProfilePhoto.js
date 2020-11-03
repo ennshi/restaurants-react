@@ -6,6 +6,7 @@ import fetchData from '../../helpers/fetchData';
 import {UserAuthContext} from '../../contexts/UserAuth';
 import {convertUrl} from '../../helpers/pathConverters';
 import Image from '../common/Image';
+import Error from "../common/Error";
 
 export default ({url, imgSize}) => {
     const { credentials, handleLogout } = useContext(UserAuthContext);
@@ -47,13 +48,11 @@ export default ({url, imgSize}) => {
         <>
             <Image width={imgSize} height={imgSize} alt="user" url={photoUrl} classes="profile-photo__image" />
             <form>
-                {errors ? <div className="form__error-block">
-                    {errors.map((error, i) => <p className="form__error" key={i}>{error}</p>)}
-                </div> : ''}
-              <label className="btn--link">
-                  <input  name="avatar" type="file" onChange={(ev) => onSubmit(ev)}/>
-                  Change Photo
-              </label>
+                <Error errors={errors} />
+                <label className="btn--link">
+                    <input  name="avatar" type="file" onChange={(ev) => onSubmit(ev)}/>
+                    Change Photo
+                </label>
             </form>
         </>
     );
