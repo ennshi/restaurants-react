@@ -1,15 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import RestaurantSearchForm from '../../components/Home/RestaurantSearchForm';
-import fetchData from '../../helpers/fetchData';
 import RestaurantList from '../../components/Home/RestaurantList';
 import FeaturedRestaurants from '../../components/Home/FeaturedRestaurants';
 import InfiniteScroll from '../../components/common/infinite-scroll/InfiniteScroll';
 import {withInfiniteScroll} from '../../components/common/infinite-scroll/withInfiniteScroll';
 import {RESTAURANT_URL} from '../../constants/urls';
+import useFetchDataDidMount from "../../hooks/useFetchDataDidMount";
 
 const Home = (props) => {
-    const [featuredErrors, setErrors] = useState(null);
-    const [featuredRestaurants, setFeaturedRestaurants] = useState([]);
     const [filter, setFilter] = useState('');
     const [sort, setSort] = useState('avgRating::desc');
     const {
@@ -24,21 +22,13 @@ const Home = (props) => {
         fetchItems,
         itemErrors: searchErrors
     } = props;
+    const [featuredRestaurants, featuredErrors] = useFetchDataDidMount({
+        url: `${RESTAURANT_URL}?filter=featured::true`,
+        initialValue: [],
+        itemType: 'restaurants'
+    });
     const restaurantsUrl = `${RESTAURANT_URL}?filter=${filter}&sort=${sort}`;
     const fetchRestaurants = () => (fetchItems(restaurantsUrl, 'restaurants'));
-    const fetchFeaturedRestaurants = async () => {
-        const fetchedData = await fetchData({
-            url: `${RESTAURANT_URL}?filter=featured::true`,
-            method: 'GET'
-        });
-        if (fetchedData.errors.length) {
-            return setErrors(fetchedData.errors);
-        }
-        setFeaturedRestaurants(fetchedData.response.restaurants);
-    };
-    useEffect(() => {
-        fetchFeaturedRestaurants();
-    }, []);
     useEffect(() => {
         setNextRestaurants(true);
         if(restaurants) {

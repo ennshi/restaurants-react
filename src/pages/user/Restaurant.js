@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {useParams, useHistory} from 'react-router-dom';
-import fetchData from '../../helpers/fetchData';
 import {convertUrl} from '../../helpers/pathConverters';
 import '../../components/Restaurant/Restaurant.css';
 import Map from '../../components/Restaurant/Map';
@@ -14,16 +13,20 @@ import {withInfiniteScroll} from '../../components/common/infinite-scroll/withIn
 import Error from '../../components/common/Error';
 import Header from "../../components/common/Header";
 import {RESTAURANT_URL, REVIEWS_URL} from "../../constants/urls";
+import useFetchDataDidMount from "../../hooks/useFetchDataDidMount";
 
 const Restaurant = (props) => {
     const {restaurantId} = useParams();
-    const [restaurantErrors, setRestaurantErrors] = useState(null);
-    const [restaurant, setRestaurant] = useState(null);
     const {isLoggedIn} = useContext(UserAuthContext);
     const [showReviewForm, setShowReviewForm] = useState(false);
     const [newReview, setNewReview] = useState(null);
     const [imgWidth, setImgWidth] = useState('100vw');
     const history = useHistory();
+    const [restaurant, restaurantErrors] = useFetchDataDidMount({
+        initialValue: null,
+        url: `${RESTAURANT_URL}/${restaurantId}`,
+        itemType: 'restaurant'
+    });
     const {
         items: reviews,
         setItems: setReviews,
@@ -50,19 +53,6 @@ const Restaurant = (props) => {
         if(window.innerWidth >= 705) {
             setImgWidth('35rem');
         }
-    }, []);
-    useEffect(() => {
-        const fetchingRestaurant = async () => {
-            const fetchedData = await fetchData({
-                url: `${RESTAURANT_URL}/${restaurantId}`,
-                method: 'GET'
-            });
-            if (!fetchedData.errors.length) {
-                return setRestaurant({...fetchedData.response.restaurant, ...fetchedData.response.reviewsStat});
-            }
-            setRestaurantErrors(fetchedData.errors);
-        };
-        fetchingRestaurant();
     }, []);
     useEffect(() => {
         if(newReview) {
