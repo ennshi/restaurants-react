@@ -24,8 +24,7 @@ export default ({submitHandler, errors}) => {
                             class="input--basic"
                             validate={required}
                             hideError={true}
-                            label="Search"
-                            classLabel="input__label--not-visible"
+                            ariaLabel="Search"
                         />
                         <div className="btn__container">
                             <button type="submit" disabled={isDisabled} className={isDisabled ? "btn btn--100 btn--inactive" : "btn btn--100 btn--red"}>
