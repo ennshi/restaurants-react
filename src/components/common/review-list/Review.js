@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import './Review.css';
 import {strToDate, strToDDMMYYYY} from '../../../helpers/dateConverters';
 import ReadMore from '../../common/ReadMore';
@@ -16,8 +16,7 @@ export default ({type, reviewData, onDeleteReview}) => {
     const [displayActions, setDisplayActions] = useState(false);
     const [editingMode, setEditingMode] = useState(false);
     const [errors, setErrors] = useState(null);
-    const {isLoggedIn, credentials, handleLogout} = useContext(UserAuthContext);
-    const history = useHistory();
+    const {isLoggedIn, credentials, checkAuthErrors} = useContext(UserAuthContext);
     const toggleActions = () => {
         setDisplayActions(!displayActions);
     };
@@ -45,10 +44,7 @@ export default ({type, reviewData, onDeleteReview}) => {
                 method: 'DELETE'
             });
             if (result.errors.length) {
-                if (result.errors[0] === 'Authorization failed') {
-                    handleLogout();
-                    return history.push('/login', {errors: [result.errors[0]]});
-                }
+                checkAuthErrors(result);
                 return setErrors(result.errors);
             }
             onDeleteReview(reviewData._id);

@@ -1,6 +1,5 @@
 import React, {useContext, useState} from 'react';
 import {Field, Form} from 'react-final-form';
-import {useHistory} from 'react-router-dom';
 import {composeValidators, maxLength, minLength, required} from '../../../helpers/formValidation';
 import fetchData from '../../../helpers/fetchData';
 import {UserAuthContext} from '../../../contexts/UserAuth';
@@ -9,9 +8,8 @@ import Error from "../Error";
 import {REVIEWS_URL} from "../../../constants/urls";
 
 export default ({updateReview, addReview, onReset, review, restaurantId}) => {
-    const {credentials, handleLogout} = useContext(UserAuthContext);
+    const {credentials, checkAuthErrors} = useContext(UserAuthContext);
     const [errors, setErrors] = useState(null);
-    const history = useHistory();
     const onSubmit = async (values) => {
         const method = updateReview ? 'PUT' : 'POST';
         const body = updateReview ? JSON.stringify({...values}) : JSON.stringify({...values, restaurant: restaurantId});
@@ -22,10 +20,7 @@ export default ({updateReview, addReview, onReset, review, restaurantId}) => {
             data: body
         });
         if (result.errors.length) {
-            if (result.errors[0] === 'Authorization failed') {
-                handleLogout();
-                return history.push('/login', {errors: [result.errors[0]]});
-            }
+            checkAuthErrors(result);
             return setErrors(result.errors);
         }
         if(updateReview) {

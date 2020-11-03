@@ -1,5 +1,4 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {useHistory} from 'react-router-dom';
 import './ProfilePhoto.css';
 import {invalidImage} from '../../helpers/formValidation';
 import fetchData from '../../helpers/fetchData';
@@ -10,10 +9,9 @@ import Error from "../common/Error";
 import {USER_AVATAR_URL} from "../../constants/urls";
 
 export default ({url, imgSize}) => {
-    const { credentials, handleLogout } = useContext(UserAuthContext);
+    const { credentials, checkAuthErrors } = useContext(UserAuthContext);
     const [errors, setErrors] = useState(null);
     const [photoUrl, setPhotoUrl] = useState('');
-    const history = useHistory();
     useEffect(() => {
         if(url) {
             setPhotoUrl(convertUrl(url));
@@ -36,10 +34,7 @@ export default ({url, imgSize}) => {
             data: fData
         });
         if (result.errors.length) {
-            if(result.errors[0] === 'Authorization failed') {
-                handleLogout();
-                return history.push('/login', {errors: [result.errors[0]]});
-            }
+            checkAuthErrors(result);
             return setErrors(result.errors);
         }
         setPhotoUrl(convertUrl(result.response.photoUrl));
