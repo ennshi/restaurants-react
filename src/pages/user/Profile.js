@@ -6,38 +6,35 @@ import ProfilePhoto from '../../components/Profile/ProfilePhoto';
 import fetchData from '../../helpers/fetchData';
 import ReviewList from '../../components/common/review-list/ReviewList';
 import ProfileForm from '../../components/Profile/ProfileForm';
-import InfiniteScroll from '../../components/common/infinite-scroll/InfiniteScroll';
 import ProfileFormLoader from '../../components/Profile/loaders/ProfileFormLoader';
 import ProfilePhotoLoader from '../../components/Profile/loaders/ProfilePhotoLoader';
-import {withInfiniteScroll} from '../../components/common/infinite-scroll/withInfiniteScroll';
+import useInfiniteScroll from '../../hooks/infinite-scroll/useInfiniteScroll';
 import {formNormalization} from '../../helpers/formNormalization';
 import Header from "../../components/common/Header";
 import {REVIEWS_URL, USER_PROFILE_URL} from "../../constants/urls";
 import useFetchDataDidMount from "../../hooks/useFetchDataDidMount";
+import ReviewListLoader from "../../components/common/review-list/ReviewListLoader";
 
-const Profile = (props) => {
+const Profile = () => {
     const { credentials, handleLogout, checkAuthErrors } = useContext(UserAuthContext);
     const [displayReviews, setDisplayReviews] = useState(false);
     const [imgSize, setImgSize] = useState('25vw');
     const [inputWidth, setInputWidth] = useState('11rem');
     const history = useHistory();
+    const reviewsUrl = `${REVIEWS_URL}?filter=creator::${credentials.userId}`;
     const {
         items: reviews,
         setItems: setReviews,
         totalNumber: totalNumberReviews,
-        isFetching: isFetchingReviews,
-        nextItems,
         itemErrors: reviewErrors,
-        fetchItems
-    } = props;
+        LoadingComponent
+    } = useInfiniteScroll(reviewsUrl, 'reviews');
     const [userData, userErrors, setUserData, setUserErrors] = useFetchDataDidMount({
         initialValue: null,
         url: USER_PROFILE_URL,
         itemType: 'user',
         token: credentials.token
     });
-    const reviewsUrl = `${REVIEWS_URL}?filter=creator::${credentials.userId}`;
-    const fetchReviews = () => (fetchItems(reviewsUrl, 'reviews'));
     const handleErrors = (fetchedData) => {
         checkAuthErrors(fetchedData);
         return setUserErrors(fetchedData.errors);
@@ -93,7 +90,7 @@ const Profile = (props) => {
                 {displayReviews ?
                     <section className="user-review-list__container">
                         <ReviewList type="user" reviews={reviews} errors={reviewErrors} setReviews={setReviews} totalNumber={totalNumberReviews}/>
-                        <InfiniteScroll fetchItems={fetchReviews} type="reviews" isFetching={isFetchingReviews} nextItems={nextItems}/>
+                        <LoadingComponent loader={ReviewListLoader}/>
                     </section> :
                     ((userData || userErrors) ?
                         <ProfileForm userData={userData}
@@ -109,4 +106,4 @@ const Profile = (props) => {
     );
 };
 
-export default withUserAuth(withInfiniteScroll(Profile));
+export default withUserAuth(Profile);
