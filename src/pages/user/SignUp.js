@@ -14,16 +14,16 @@ import fetchData from '../../helpers/fetchData';
 import {formNormalization} from '../../helpers/formNormalization';
 import Error from "../../components/common/Error";
 import Header from "../../components/common/Header";
+import {USER_PROFILE_URL} from "../../constants/urls";
 
 export default () => {
     const [errors, setErrors] = useState(null);
     const history = useHistory();
     const onSubmit = async values => {
-        const fetchedData = await fetchData('http://localhost:8080/profile', {
-            crossDomain: true,
+        const fetchedData = await fetchData({
+            url: USER_PROFILE_URL,
             method: 'POST',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify(formNormalization(values))
+            data: JSON.stringify(formNormalization(values))
         });
         if(!fetchedData.errors.length) {
             return history.push('/login', {errors: ['Please log in the system.']});

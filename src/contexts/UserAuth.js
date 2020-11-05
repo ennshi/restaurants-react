@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
+import { useHistory } from 'react-router-dom';
 
 export const UserAuthContext = React.createContext({});
 
 export const UserAuthProvider = (props) => {
     const [isLoggedIn, setLogIn] = useState(false);
+    const history = useHistory();
     const checkLogin = () => {
         if(localStorage.getItem('token') && localStorage.getItem('expiration')) {
             const storeId = localStorage.getItem('user');
@@ -50,8 +52,14 @@ export const UserAuthProvider = (props) => {
             token: ''
         });
     };
+    const checkAuthErrors = (fetchedData) => {
+        if(fetchedData.errors[0] === 'Authorization failed') {
+            handleLogout();
+            return history.push('/login', {errors: [fetchedData.errors[0]]});
+        }
+    };
     return (
-        <UserAuthContext.Provider value={{isLoggedIn, credentials, handleLogin, handleLogout}}>
+        <UserAuthContext.Provider value={{isLoggedIn, credentials, handleLogin, handleLogout, checkAuthErrors}}>
             {props.children}
         </UserAuthContext.Provider>
     );

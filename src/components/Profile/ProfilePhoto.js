@@ -1,5 +1,4 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {useHistory} from 'react-router-dom';
 import './ProfilePhoto.css';
 import {invalidImage} from '../../helpers/formValidation';
 import fetchData from '../../helpers/fetchData';
@@ -7,12 +6,12 @@ import {UserAuthContext} from '../../contexts/UserAuth';
 import {convertUrl} from '../../helpers/pathConverters';
 import Image from '../common/Image';
 import Error from "../common/Error";
+import {USER_AVATAR_URL} from "../../constants/urls";
 
 export default ({url, imgSize}) => {
-    const { credentials, handleLogout } = useContext(UserAuthContext);
+    const { credentials, checkAuthErrors } = useContext(UserAuthContext);
     const [errors, setErrors] = useState(null);
     const [photoUrl, setPhotoUrl] = useState('');
-    const history = useHistory();
     useEffect(() => {
         if(url) {
             setPhotoUrl(convertUrl(url));
@@ -27,19 +26,15 @@ export default ({url, imgSize}) => {
         setErrors(null);
         const fData = new FormData();
         fData.append('avatar', img);
-        const result = await fetchData('http://localhost:8080/profile/avatar', {
-            crossDomain: true,
+        const result = await fetchData({
+            url: `${USER_AVATAR_URL}`,
             method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${credentials.token}`
-            },
-            body: fData
+            token: credentials.token,
+            dataType: 'form-data',
+            data: fData
         });
         if (result.errors.length) {
-            if(result.errors[0] === 'Authorization failed') {
-                handleLogout();
-                return history.push('/login', {errors: [result.errors[0]]});
-            }
+            checkAuthErrors(result);
             return setErrors(result.errors);
         }
         setPhotoUrl(convertUrl(result.response.photoUrl));

@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import './Review.css';
 import {strToDate, strToDDMMYYYY} from '../../../helpers/dateConverters';
 import ReadMore from '../../common/ReadMore';
@@ -9,14 +9,14 @@ import {UserAuthContext} from '../../../contexts/UserAuth';
 import {convertUrl} from '../../../helpers/pathConverters';
 import Image from '../../common/Image';
 import Error from "../Error";
+import {REVIEWS_URL} from "../../../constants/urls";
 
 export default ({type, reviewData, onDeleteReview}) => {
     const [review, setReview] = useState(reviewData);
     const [displayActions, setDisplayActions] = useState(false);
     const [editingMode, setEditingMode] = useState(false);
     const [errors, setErrors] = useState(null);
-    const {isLoggedIn, credentials, handleLogout} = useContext(UserAuthContext);
-    const history = useHistory();
+    const {isLoggedIn, credentials, checkAuthErrors} = useContext(UserAuthContext);
     const toggleActions = () => {
         setDisplayActions(!displayActions);
     };
@@ -38,18 +38,13 @@ export default ({type, reviewData, onDeleteReview}) => {
     const onDelete = async () => {
         setDisplayActions(false);
         if(window.confirm('Are you sure, you want to delete this review?')) {
-            const result = await fetchData(`http://localhost:8080/reviews/${reviewData._id}`, {
-                crossDomain: true,
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${credentials.token}`
-                }
+            const result = await fetchData({
+                url: `${REVIEWS_URL}/${reviewData._id}`,
+                token: credentials.token,
+                method: 'DELETE'
             });
             if (result.errors.length) {
-                if (result.errors[0] === 'Authorization failed') {
-                    handleLogout();
-                    return history.push('/login', {errors: [result.errors[0]]});
-                }
+                checkAuthErrors(result);
                 return setErrors(result.errors);
             }
             onDeleteReview(reviewData._id);
