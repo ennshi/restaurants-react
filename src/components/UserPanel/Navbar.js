@@ -3,7 +3,7 @@ import {Link, useHistory} from 'react-router-dom';
 import './Navbar.css';
 import {UserAuthContext} from '../../contexts/UserAuth';
 
-export default (props) => {
+export default ({menuDisplayed, toggleMenu}) => {
     const {isLoggedIn, handleLogout} = useContext(UserAuthContext);
     const history = useHistory();
     const currentRoute = history.location.pathname.toLowerCase();
@@ -17,8 +17,8 @@ export default (props) => {
                 <Link to={'/'}>WhereToEat</Link>
             </div>
             <div className="navbar__spacer"></div>
-            <button onClick={props.toggleMenu} className="navbar__menu-btn">
-                {props.menuDisplayed ? <i className="fas fa-times"></i> : <i className="fas fa-bars"></i>}
+            <button onClick={toggleMenu} className="navbar__menu-btn" aria-label={menuDisplayed ? 'Close' : 'Show navigation'}>
+                {menuDisplayed ? <i className="fas fa-times"></i> : <i className="fas fa-bars"></i>}
             </button>
             <ul className="navbar__item-list">
                 <li className={currentRoute === '/' ? "navbar__item--active" : "navbar__item"}>
