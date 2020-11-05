@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {useParams, useHistory} from 'react-router-dom';
-import {convertUrl} from '../../helpers/pathConverters';
+import convertUrl from '../../helpers/pathConverter';
 import '../../components/Restaurant/Restaurant.css';
 import Map from '../../components/Restaurant/Map';
 import ReviewList from '../../components/common/review-list/ReviewList';
