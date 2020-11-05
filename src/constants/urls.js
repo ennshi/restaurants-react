@@ -7,6 +7,7 @@ const USER_LOGIN_URL = `${URL_BASE}/auth/login`;
 const USER_AVATAR_URL = `${USER_PROFILE_URL}/avatar`;
 
 module.exports = {
+    URL_BASE,
     USER_PROFILE_URL,
     RESTAURANT_URL,
     REVIEWS_URL,
