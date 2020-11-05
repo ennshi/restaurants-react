@@ -67,7 +67,7 @@ export default ({type, reviewData, onDeleteReview}) => {
                             <span className="review__date">{strToDDMMYYYY(review.updatedAt)}</span>
                         </div>
                         { isModifiable ?
-                            <button onClick={toggleActions} className="btn--arrow">
+                            <button onClick={toggleActions} className="btn--arrow" aria-label={displayActions ? 'Close' : 'Show actions'}>
                                 { displayActions ?
                                     <i className="fas fa-angle-up"></i> :
                                     <i className="fas fa-angle-down"></i>
