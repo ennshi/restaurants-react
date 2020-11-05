@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import fetchData from "../helpers/fetchData";
 import {UserAuthContext} from "../contexts/UserAuth";
 
