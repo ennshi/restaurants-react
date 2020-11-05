@@ -2,39 +2,31 @@ import React, {useEffect, useState} from 'react';
 import RestaurantSearchForm from '../../components/Home/RestaurantSearchForm';
 import RestaurantList from '../../components/Home/RestaurantList';
 import FeaturedRestaurants from '../../components/Home/FeaturedRestaurants';
-import InfiniteScroll from '../../components/common/infinite-scroll/InfiniteScroll';
-import {withInfiniteScroll} from '../../components/common/infinite-scroll/withInfiniteScroll';
 import {RESTAURANT_URL} from '../../constants/urls';
 import useFetchDataDidMount from "../../hooks/useFetchDataDidMount";
+import useInfiniteScroll from "../../hooks/infinite-scroll/useInfiniteScroll";
+import RestaurantListLoader from "../../components/Home/loaders/RestaurantListLoader";
 
-const Home = (props) => {
+const Home = () => {
     const [filter, setFilter] = useState('');
     const [sort, setSort] = useState('avgRating::desc');
+    const [restaurantsUrl, setRestaurantsUrl] = useState('');
     const {
         items: restaurants,
-        setItems: setRestaurants,
-        setNextItems: setNextRestaurants,
-        page,
         totalNumber: totalNumberRestaurants,
-        setTotalNumber: setTotalNumberRestaurants,
-        isFetching: isFetchingRestaurants,
-        nextItems,
-        fetchItems,
-        itemErrors: searchErrors
-    } = props;
+        itemErrors: searchErrors,
+        resetItems,
+        LoadingComponent
+    } = useInfiniteScroll(restaurantsUrl, 'restaurants');
     const [featuredRestaurants, featuredErrors] = useFetchDataDidMount({
         url: `${RESTAURANT_URL}?filter=featured::true`,
         initialValue: [],
         itemType: 'restaurants'
     });
-    const restaurantsUrl = `${RESTAURANT_URL}?filter=${filter}&sort=${sort}`;
-    const fetchRestaurants = () => (fetchItems(restaurantsUrl, 'restaurants'));
     useEffect(() => {
-        setNextRestaurants(true);
-        if(restaurants) {
-            setTotalNumberRestaurants(null);
-            setRestaurants(null);
-            page.current = 1;
+        if(sort && filter) {
+            restaurants && resetItems();
+            setRestaurantsUrl(`${RESTAURANT_URL}?filter=${filter}&sort=${sort}`);
         }
     }, [sort, filter]);
     const searchHandler = (value) => {
@@ -49,7 +41,7 @@ const Home = (props) => {
             {filter &&
                 <>
                     <RestaurantList restaurants={restaurants} sort={sort} sortHandler={sortHandler} totalNumber={totalNumberRestaurants}/>
-                    <InfiniteScroll fetchItems={fetchRestaurants} key={filter} type="restaurants" isFetching={isFetchingRestaurants} nextItems={nextItems}/>
+                    <LoadingComponent loader={RestaurantListLoader}/>
                 </>
             }
             <FeaturedRestaurants restaurants={featuredRestaurants} />
@@ -57,4 +49,4 @@ const Home = (props) => {
     );
 };
 
-export default withInfiniteScroll(Home);
+export default Home;
