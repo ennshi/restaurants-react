@@ -5,7 +5,7 @@ import '../RestaurantList.css'
 export default () => {
     const size = '22rem';
     return (
-        <div className="restaurant-list__container">
+        <div className="restaurant-list__container" style={{marginTop: '-1.2rem'}}>
             {Array(4).fill(1).map((el, i) => (
                 <div key={i} style={{width: size, margin: '1rem'}}>
                     <Skeleton width={size} height={'12rem'}/>
