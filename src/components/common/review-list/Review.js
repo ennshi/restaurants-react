@@ -8,8 +8,9 @@ import fetchData from '../../../helpers/fetchData';
 import {UserAuthContext} from '../../../contexts/UserAuth';
 import convertUrl from '../../../helpers/pathConverter';
 import Image from '../../common/Image';
-import Error from "../Error";
-import {REVIEWS_URL} from "../../../constants/urls";
+import Error from '../Error';
+import {REVIEWS_URL} from '../../../constants/urls';
+import {MODIFIABLE_PERIOD} from '../../../constants/time';
 
 export default ({type, reviewData, onDeleteReview}) => {
     const [review, setReview] = useState(reviewData);
@@ -22,7 +23,7 @@ export default ({type, reviewData, onDeleteReview}) => {
     };
     const isModifiable = type === 'admin' ||
         (isLoggedIn &&
-            (Date.now() - strToDate(review.createdAt) <= 48 * 60 * 60 * 1000) &&
+            (Date.now() - strToDate(review.createdAt) <= MODIFIABLE_PERIOD) &&
             review.creator._id === credentials.userId);
     const openEditingMode = () => {
         setDisplayActions(false);
@@ -63,29 +64,27 @@ export default ({type, reviewData, onDeleteReview}) => {
                                 <Link to={`restaurant/${review.restaurant._id}`} target="_blank" rel="noreferrer noopener">{review.restaurant.name}</Link> :
                                 review.creator.username}
                             </span>
-                            { editingMode ? '' : <span>{review.rating}/5</span> }
+                            { !editingMode && <span>{review.rating}/5</span> }
                             <span className="review__date">{strToDDMMYYYY(review.updatedAt)}</span>
                         </div>
-                        { isModifiable ?
-                            <button onClick={toggleActions} className="btn--arrow" aria-label={displayActions ? 'Close' : 'Show actions'}>
-                                { displayActions ?
-                                    <i className="fas fa-angle-up"></i> :
-                                    <i className="fas fa-angle-down"></i>
-                                }
-                            </button> : ''
-                        }
+                        <button onClick={toggleActions} className="btn--arrow" aria-label={displayActions ? 'Close' : 'Show actions'}>
+                            { displayActions ?
+                                <i className="fas fa-angle-up"></i> :
+                                <i className="fas fa-angle-down"></i>
+                            }
+                        </button>
                     </div>
                     {editingMode ?
                         <ReviewForm updateReview={onUpdate} onReset={resetChanges} review={review} /> :
                         <div className="review__text"><ReadMore text={review.text} key={review.text} numChar={100} readMoreText={'Read More'} /></div>
                     }
-                    {(displayActions && isModifiable) ?
+                    {displayActions &&
                         <div className="review__action-block">
                             <ul>
-                                <li className="review__action-item" onClick={openEditingMode}>Change</li>
+                                {isModifiable && !editingMode && <li className="review__action-item" onClick={openEditingMode}>Change</li>}
                                 <li className="review__action-item" onClick={onDelete}>Delete</li>
                             </ul>
-                        </div> : ''
+                        </div>
                     }
                 </div>
             </article>
