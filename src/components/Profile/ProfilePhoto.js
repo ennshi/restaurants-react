@@ -3,7 +3,7 @@ import './ProfilePhoto.css';
 import {invalidImage} from '../../helpers/formValidation';
 import fetchData from '../../helpers/fetchData';
 import {UserAuthContext} from '../../contexts/UserAuth';
-import {convertUrl} from '../../helpers/pathConverters';
+import convertUrl from '../../helpers/pathConverter';
 import Image from '../common/Image';
 import Error from "../common/Error";
 import {USER_AVATAR_URL} from "../../constants/urls";

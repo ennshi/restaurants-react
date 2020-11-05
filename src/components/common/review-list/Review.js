@@ -6,7 +6,7 @@ import ReadMore from '../../common/ReadMore';
 import ReviewForm from './ReviewForm';
 import fetchData from '../../../helpers/fetchData';
 import {UserAuthContext} from '../../../contexts/UserAuth';
-import {convertUrl} from '../../../helpers/pathConverters';
+import convertUrl from '../../../helpers/pathConverter';
 import Image from '../../common/Image';
 import Error from "../Error";
 import {REVIEWS_URL} from "../../../constants/urls";
