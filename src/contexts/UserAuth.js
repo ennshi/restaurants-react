@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
+import {KEEP_LOGGED_IN} from '../constants/time';
 
 export const UserAuthContext = React.createContext({});
 
@@ -32,7 +33,7 @@ export const UserAuthProvider = (props) => {
     const [credentials, setCredentials] = useState(() => checkLogin());
     const handleLogin = ({token, userId}) => {
         localStorage.clear();
-        const expTime = Date.now() + 3600*1000;
+        const expTime = KEEP_LOGGED_IN;
         localStorage.setItem('token', token);
         localStorage.setItem('user', userId);
         localStorage.setItem('expiration', `${expTime}`);
