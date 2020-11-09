@@ -1,9 +1,7 @@
 import React, {useCallback, useEffect, useRef} from 'react';
-import ReviewListLoader from '../review-list/ReviewListLoader';
-import RestaurantListLoader from '../../Home/loaders/RestaurantListLoader';
 
-export default ({fetchItems, type, isFetching, nextItems}) => {
-    const loader = useRef(null);
+export default ({fetchItems, isFetching, nextItems, loader}) => {
+    const loaderWrapper = useRef(null);
     const loadMore = useCallback((entries) => {
         const target = entries[0];
         if (target.isIntersecting && nextItems) {
@@ -12,7 +10,7 @@ export default ({fetchItems, type, isFetching, nextItems}) => {
     }, [isFetching.current, nextItems]);
 
     useEffect(() => {
-        const loaderEl = loader.current;
+        const loaderEl = loaderWrapper.current;
         const options = {
             root: null,
             rootMargin: '0px',
@@ -28,9 +26,8 @@ export default ({fetchItems, type, isFetching, nextItems}) => {
         return () => observer.unobserve(loaderEl);
     }, [loadMore]);
         return (
-            <div ref={loader} style={{width: '100%'}}>
-                {nextItems && type === 'reviews' && <ReviewListLoader/>}
-                {nextItems && type === 'restaurants' && <RestaurantListLoader/>}
+            <div ref={loaderWrapper} style={{width: '100%'}}>
+                {nextItems && loader()}
             </div>
         );
 };

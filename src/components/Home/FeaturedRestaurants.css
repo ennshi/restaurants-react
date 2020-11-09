@@ -16,6 +16,22 @@
     .featured-restaurants__container {
         flex: 1;
         border-radius: 0 10px 10px 0;
+        scrollbar-color: var(--main-color) var(--secondary-color--lighter);
+        scrollbar-width: thin;
+    }
+
+    .featured-restaurants__container::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .featured-restaurants__container::-webkit-scrollbar-track {
+        box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 0 0 10px 0;
+    }
+
+    .featured-restaurants__container::-webkit-scrollbar-thumb {
+        background: var(--main-color);
+        border-radius: 10px;
     }
 
     .featured-restaurants__wrapper {

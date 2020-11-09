@@ -5,13 +5,26 @@
 .heading__container {
     font-size: 0.7rem;
     text-align: center;
-    letter-spacing: 0.1rem;
+    letter-spacing: 0.2rem;
     padding: 1rem 0;
     box-sizing: border-box;
 }
 
 .heading {
     margin: 0;
+}
+
+.heading--lighter {
+    font-weight: normal;
+}
+
+.heading--larger {
+    font-size: 1.2rem;
+    letter-spacing: 0.15rem;
+}
+
+.heading--large {
+    font-size: 1.5rem;
 }
 
 .heading__container--light {
@@ -25,13 +38,14 @@
 
 .form__container {
     width: 100%;
-    padding: 3rem 0;
+    padding: 1rem 0 3rem 0;
 }
 
 .form__container--dark {
     width: 100%;
     background-color: var(--main-color);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -101,6 +115,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
+    cursor: pointer;
 }
 
 .btn--link:hover {

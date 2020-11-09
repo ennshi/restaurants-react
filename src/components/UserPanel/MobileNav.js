@@ -13,7 +13,7 @@ export default (props) => {
         history.push('/');
     };
     return ReactDOM.createPortal(
-        <div className="side-drawer" onClick={props.toggleMenu}>
+        <section className="side-drawer" onClick={props.toggleMenu}>
             <ul className="side-drawer__item-list">
                 <li className="side-drawer__item">
                     <Link to={'/'}>Restaurants</Link>
@@ -27,6 +27,6 @@ export default (props) => {
                     { isLoggedIn ? <a href="/" onClick={onLogout}>Logout</a> : <Link to={'/login'}>Login</Link> }
                 </li>
             </ul>
-        </div>,
+        </section>,
     document.getElementById('modal-root'));
 };

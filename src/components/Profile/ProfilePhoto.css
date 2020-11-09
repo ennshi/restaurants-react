@@ -13,5 +13,5 @@ input[type="file"] {
     max-width: 25vw;
     max-height: 10rem;
     object-fit: cover;
-    margin-bottom: 1rem;
+    margin: 2rem 0 1rem 0;
 }

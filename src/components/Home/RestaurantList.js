@@ -3,15 +3,14 @@ import RestaurantCard from './RestaurantCard';
 import './RestaurantList.css';
 import Sorting from '../common/Sorting';
 import InfoMessage from "../common/InfoMessage";
+import Header from "../common/Header";
 
 export default ({restaurants, sort, sortHandler, totalNumber}) => {
     return (
-        <>
-            <header className="heading__container heading__container--light">
-                <h1 className="heading">Search Results</h1>
-            </header>
+        <section>
+            <Header title="Search Results" level={2} classContainer="light" classHeading="large"/>
             {(restaurants && restaurants.length) ?
-                <div className="sorting__container--100">
+                <section className="sorting__container--100">
                     <span className="text--small-blue">{totalNumber} restaurants</span>
                     <Sorting
                         name="filter"
@@ -23,16 +22,16 @@ export default ({restaurants, sort, sortHandler, totalNumber}) => {
                         initialValue={sort}
                         sortHandler={sortHandler}
                     />
-                </div> : ''
+                </section> : ''
             }
-            <div className="restaurant-list__container">
+            <section className="restaurant-list__container">
                 {restaurants ?
                     (restaurants.length ?
                         restaurants.map((restaurant, i) => <RestaurantCard restaurant={restaurant} key={i}/>) :
                         <InfoMessage message="No Restaurants Found" />) :
                     null
                 }
-            </div>
-        </>
+            </section>
+        </section>
     )
 };

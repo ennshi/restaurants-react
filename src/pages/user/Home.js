@@ -1,59 +1,32 @@
 import React, {useEffect, useState} from 'react';
 import RestaurantSearchForm from '../../components/Home/RestaurantSearchForm';
-import fetchData from '../../helpers/fetchData';
 import RestaurantList from '../../components/Home/RestaurantList';
 import FeaturedRestaurants from '../../components/Home/FeaturedRestaurants';
-import InfiniteScroll from '../../components/common/infinite-scroll/InfiniteScroll';
-import {withInfiniteScroll} from '../../components/common/infinite-scroll/withInfiniteScroll';
+import {RESTAURANT_URL} from '../../constants/urls';
+import useFetchDataDidMount from "../../hooks/useFetchDataDidMount";
+import useInfiniteScroll from "../../hooks/infinite-scroll/useInfiniteScroll";
+import RestaurantListLoader from "../../components/Home/loaders/RestaurantListLoader";
 
-const Home = (props) => {
-    const [errors, setErrors] = useState(null);
-    const [featuredRestaurants, setFeaturedRestaurants] = useState([]);
+const Home = () => {
     const [filter, setFilter] = useState('');
     const [sort, setSort] = useState('avgRating::desc');
+    const [restaurantsUrl, setRestaurantsUrl] = useState('');
     const {
         items: restaurants,
-        setItems: setRestaurants,
-        setNextItems: setNextRestaurants,
-        page,
         totalNumber: totalNumberRestaurants,
-        setTotalNumber: setTotalNumberRestaurants,
-        isFetching: isFetchingRestaurants,
-        nextItems
-    } = props;
-
-    const fetchRestaurants = async ({type}) => {
-        if (type === 'searchResults') {
-            isFetchingRestaurants.current = true;
-        }
-        const query = type === 'featured' ? 'filter=featured::true' : `filter=${filter}&sort=${sort}&page=${page}`;
-        const fetchedData = await fetchData(`http://localhost:8080/restaurant?${query}`, {
-            crossDomain: true,
-            method: 'GET',
-            headers: {
-                'Content-Type':'application/json'
-            }
-        });
-        isFetchingRestaurants.current = false;
-        if (fetchedData.errors.length) {
-            return setErrors(fetchedData.errors);
-        }
-        if (type === 'featured') {
-            return setFeaturedRestaurants(fetchedData.response.restaurants);
-        }
-        !totalNumberRestaurants && setTotalNumberRestaurants(fetchedData.response.totalNumber);
-        page.current++;
-        setRestaurants(prevState => prevState ? [...prevState, ...fetchedData.response.restaurants] : fetchedData.response.restaurants);
-    };
+        itemErrors: searchErrors,
+        resetItems,
+        LoadingComponent
+    } = useInfiniteScroll(restaurantsUrl, 'restaurants');
+    const [featuredRestaurants, featuredErrors] = useFetchDataDidMount({
+        url: `${RESTAURANT_URL}?filter=featured::true`,
+        initialValue: [],
+        itemType: 'restaurants'
+    });
     useEffect(() => {
-        fetchRestaurants({type: 'featured'});
-    }, []);
-    useEffect(() => {
-        setNextRestaurants(true);
-        if(restaurants) {
-            setTotalNumberRestaurants(null);
-            setRestaurants(prevState => null);
-            page.current = 1;
+        if(sort && filter) {
+            restaurants && resetItems();
+            setRestaurantsUrl(`${RESTAURANT_URL}?filter=${filter}&sort=${sort}`);
         }
     }, [sort, filter]);
     const searchHandler = (value) => {
@@ -63,17 +36,17 @@ const Home = (props) => {
         setSort(value);
     };
     return (
-        <>
-            <RestaurantSearchForm submitHandler={searchHandler} errors={errors}/>
+        <main>
+            <RestaurantSearchForm submitHandler={searchHandler} errors={featuredErrors || searchErrors}/>
             {filter &&
                 <>
                     <RestaurantList restaurants={restaurants} sort={sort} sortHandler={sortHandler} totalNumber={totalNumberRestaurants}/>
-                    <InfiniteScroll fetchItems={() => fetchRestaurants('searchResults')} type="restaurants" isFetching={isFetchingRestaurants} nextItems={nextItems}/>
+                    <LoadingComponent loader={RestaurantListLoader}/>
                 </>
             }
             <FeaturedRestaurants restaurants={featuredRestaurants} />
-        </>
+        </main>
     );
 };
 
-export default withInfiniteScroll(Home);
+export default Home;

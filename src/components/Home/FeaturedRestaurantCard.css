@@ -22,12 +22,19 @@
 }
 
 .featured-restaurant-card__rating {
-    color: var(--accent-color);
+    background-color: rgba(255,255,255,.8);
+    padding: 0.2rem 0.4rem 0.25rem 0.2rem;
+    border-radius: 5px;
+    color: var(--main-color);
     font-weight: bold;
     position: absolute;
-    left: 2.3rem;
-    top: 15rem;
+    left: 1.2rem;
+    top: 14.6rem;
     font-size: 1.1rem;
+}
+
+.featured-restaurant-card__rating i {
+    color: var(--accent-color);
 }
 
 .featured-restaurant-card__header {
@@ -42,5 +49,8 @@
 @media only screen and (min-width: 50rem) {
     .featured-restaurant-card__container {
         min-width: 15rem;
+    }
+    .featured-restaurant-card__rating {
+        left: 2.2rem;
     }
 }

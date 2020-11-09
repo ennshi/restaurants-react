@@ -18,6 +18,10 @@
     color: var(--main-color);
 }
 
+.input__label--not-visible {
+    visibility: hidden;
+}
+
 .input__error {
     max-width: 200px;
     color: var(--accent-color);
@@ -42,7 +46,6 @@
 .input--basic:focus {
     outline: none;
 }
-
 
 .input--basic, .input--dark {
     max-width: 13rem;

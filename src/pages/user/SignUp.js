@@ -12,16 +12,18 @@ import {
 } from '../../helpers/formValidation';
 import fetchData from '../../helpers/fetchData';
 import {formNormalization} from '../../helpers/formNormalization';
+import Error from "../../components/common/Error";
+import Header from "../../components/common/Header";
+import {USER_PROFILE_URL} from "../../constants/urls";
 
 export default () => {
     const [errors, setErrors] = useState(null);
     const history = useHistory();
     const onSubmit = async values => {
-        const fetchedData = await fetchData('http://localhost:8080/profile', {
-            crossDomain: true,
+        const fetchedData = await fetchData({
+            url: USER_PROFILE_URL,
             method: 'POST',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify(formNormalization(values))
+            data: JSON.stringify(formNormalization(values))
         });
         if(!fetchedData.errors.length) {
             return history.push('/login', {errors: ['Please log in the system.']});
@@ -29,7 +31,9 @@ export default () => {
         setErrors(fetchedData.errors);
     };
     return (
-            <div className="form__container form__container--dark">
+            <main className="form__container form__container--dark">
+                <Header title="Sign up" level={1} classContainer="light" classHeading="lighter" />
+                <Error errors={errors} />
                 <Form
                     onSubmit={onSubmit}
                     validate={(values) => {
@@ -43,9 +47,6 @@ export default () => {
                         const {handleSubmit, pristine, submitting, hasValidationErrors} = props;
                         const isDisabled = submitting || pristine || hasValidationErrors;
                         return (<form onSubmit={handleSubmit}>
-                            {errors ? <div className="form__error-block">
-                                {errors.map((error, i) => <p className="form__error" key={i}>{error}</p>)}
-                            </div> : ''}
                             <FormInput
                                 name="username"
                                 type="text"
@@ -92,6 +93,6 @@ export default () => {
                             </div>
                         </form>);
                     }}/>
-            </div>
+            </main>
     );
 };

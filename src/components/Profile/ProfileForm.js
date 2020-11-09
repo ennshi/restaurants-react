@@ -7,16 +7,14 @@ export default ({onSubmit, userData, errors, onDeleteProfile}) => {
     return (userData ?
             <Form
                 onSubmit={onSubmit}
-                initialValues={{username: userData.user.username, email: userData.user.email}}
+                initialValues={{username: userData.username, email: userData.email}}
                 render={(props) => {
                     const {handleSubmit, pristine, submitting, hasValidationErrors} = props;
                     const isDisabled = submitting || pristine || hasValidationErrors;
                     return (
-                        <div className="form__body--light">
+                        <section className="form__body--light">
+                            <Error errors={errors} />
                             <form onSubmit={handleSubmit}>
-                                {errors ? <div className="form__error-block">
-                                    {errors.map((error, i) => <p className="form__error" key={i}>{error}</p>)}
-                                </div> : ''}
                                 <FormInput
                                     name="username"
                                     type="username"
@@ -59,7 +57,7 @@ export default ({onSubmit, userData, errors, onDeleteProfile}) => {
                             <button type="button" className="btn--link" onClick={onDeleteProfile}>Delete the
                                 profile and related data
                             </button>
-                        </div>);
+                        </section>);
                 }}
             /> :
             (errors && <Error errors={errors} />)
