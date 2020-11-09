@@ -1,0 +1,40 @@
+.restaurant-card__container {
+    max-width: 22rem;
+    margin: 1rem;
+    min-width: 10rem;
+    text-align: center;
+}
+
+.restaurant-card__container a {
+    text-decoration: none;
+    color: var(--main-color);
+}
+
+.restaurant-card__photo {
+    width: 85vw;
+    max-width: 22rem;
+    height: 12rem;
+    object-fit: cover;
+}
+
+.restaurant-card__header {
+    margin: 0.4rem 0;
+}
+
+.restaurant-card__text {
+    margin: 0.2rem;
+    font-size: 0.8rem;
+}
+
+.restaurant-card__rating-block {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 0.3rem;
+    margin: 0 0.5rem;
+}
+
+.restaurant-card__rating i {
+    color: var(--accent-color);
+}
