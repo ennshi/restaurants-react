@@ -1,5 +1,5 @@
 const DEV_URL_BASE = 'http://localhost:8080';
-const URL_BASE = DEV_URL_BASE;
+const URL_BASE = 'https://ennshi-restaurants-nodejs.herokuapp.com';
 const USER_PROFILE_URL = `${URL_BASE}/profile`;
 const RESTAURANT_URL = `${URL_BASE}/restaurant`;
 const REVIEWS_URL = `${URL_BASE}/reviews`;
