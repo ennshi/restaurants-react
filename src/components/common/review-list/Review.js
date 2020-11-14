@@ -21,6 +21,7 @@ export default ({type, reviewData, onDeleteReview}) => {
     const toggleActions = () => {
         setDisplayActions(!displayActions);
     };
+    const isRemovable = type === 'admin' || (isLoggedIn && review.creator._id === credentials.userId);
     const isModifiable = type === 'admin' ||
         (isLoggedIn &&
             (Date.now() - strToDate(review.createdAt) <= MODIFIABLE_PERIOD) &&
@@ -67,12 +68,12 @@ export default ({type, reviewData, onDeleteReview}) => {
                             { !editingMode && <span>{review.rating}/5</span> }
                             <span className="review__date">{strToDDMMYYYY(review.updatedAt)}</span>
                         </div>
-                        <button onClick={toggleActions} className="btn--arrow" aria-label={displayActions ? 'Close' : 'Show actions'}>
+                        { isRemovable && <button onClick={toggleActions} className="btn--arrow" aria-label={displayActions ? 'Close' : 'Show actions'}>
                             { displayActions ?
                                 <i className="fas fa-angle-up"></i> :
                                 <i className="fas fa-angle-down"></i>
                             }
-                        </button>
+                        </button> }
                     </div>
                     {editingMode ?
                         <ReviewForm updateReview={onUpdate} onReset={resetChanges} review={review} /> :
